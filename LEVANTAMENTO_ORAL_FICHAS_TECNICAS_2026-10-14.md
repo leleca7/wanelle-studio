@@ -25,9 +25,10 @@
   - demais ingredientes e rendimento não lembrados.
   - Não fazer média com o lote de 9 ovos; medir ambos em teste e decidir qual será padronizado.
 - **Creme branco/recheio e decoração:**
-  - leite condensado: **~3 embalagens** (peso líquido/unidade NÃO informado);
-  - creme de leite: **~2 embalagens** (peso líquido/unidade NÃO informado);
+  - leite condensado: **3 caixas de 395 g**, integralmente utilizadas no creme desta torta; total de **1.185 g** (gramatura informada depois);
+  - creme de leite: **2 caixas de 200 g**, integralmente utilizadas no creme desta torta; total de **400 g** (gramatura informada depois);
   - abacaxi fresco: **2 unidades**, divididas entre recheio e decoração (fração de cada uso NÃO informada);
+  - creme preparado: **1.585 g de ingredientes antes do fogo** (sem abacaxi); **sem sobra do creme** após a montagem, conforme confirmação posterior da confeiteira. Cozimento evapora parte da água, mas não reduz o custo dos ingredientes utilizados;
   - preparo lembrado: creme branco/neutro feito de leite condensado e creme de leite; abacaxi cozido incorporado ao creme;
   - coco ralado: **~200 g destinados à cobertura**;
   - chantininho: **~1 litro**, conforme denominação oral; confirmar se se refere a chantilly líquido/creme a bater utilizado para produzir chantininho, produto pronto ou outra preparação;
@@ -79,3 +80,17 @@
 
 ## Próxima medição recomendada
 Para a **torta de abacaxi com coco, Ø20×10 cm**, pesar a próxima produção completa em cada etapa e guardar notas/fotos; começar pela massa, esclarecer se o lote de 9 ovos rende mais de uma forma, depois pesagem do recheio, montagem, decoração e peso/altura finais.
+
+
+## Apuração ilustrativa do creme e do coco — pesquisa narrada de 14/10/2026
+
+| Referência de SKU pesquisado | Preço cotado | Valor protegido por embalagem | Consumo assumido no exemplar | Subtotal protegido |
+|---|---:|---:|---:|---:|
+| Leite condensado Moça, caixa 395 g, Americanas (cotação a confirmar) | R$ 8,92 | R$ 10,00 | 3 caixas | R$ 30,00 |
+| Creme de leite Nestlé 200 g, Atacadão (marca realmente usada não informada) | R$ 6,98 | R$ 8,00 | 2 caixas | R$ 16,00 |
+| Coco ralado Do Coco 100 g, Atacadão (marca realmente usada não informada) | R$ 5,53 | R$ 6,50 | 200 g | R$ 13,00 |
+| **Subtotal de cenário** | | | | **R$ 59,00** |
+
+**Status:** projeção NÃO validada, NÃO é cesta de compras de mercado único e NÃO é preço de venda. A estimativa usa marcas comerciais pesquisadas, não confirma as marcas efetivamente empregadas na receita. Política: aplicar margem de proteção de 10% e arredondar valor de CADA embalagem para cima ao R$ 0,50 antes de multiplicar. O coco de 200 g foi descrito para cobertura; confirmar se de fato foram usados todos os 200 g no bolo. O leite condensado citado nas Americanas exige checagem de anúncio.
+
+**Fruta:** 2 abacaxis foram divididos entre recheio e decoração, mas sem peso total, preço exato ou rendimento. Referência de pesquisa protegida para abacaxi inteiro: R$ 6,50 por kg, sujeita a confirmação. Resto da ficha técnica e preço final dependem de massa realmente utilizada, frutas, chantininho, calda, embalagem, mão de obra e despesas.
