@@ -1,0 +1,142 @@
+[
+  {
+    "id": "chocolate",
+    "name": "Torta de Chocolate",
+    "subtitle": "Chocolate e chantilly",
+    "category": "Clássicas",
+    "desc": "Cobertura de chocolate, detalhes em chantilly e delicadas raspas de chocolate. Recheio e tamanho disponíveis sob consulta.",
+    "images": [
+      "assets/media/nova-chocolate-frontal.webp",
+      "assets/media/nova-chocolate-superior.webp",
+      "assets/media/nova-chocolate-preparo.webp",
+      "assets/media/foto-aac251dc1ec45b.webp",
+      "assets/media/foto-5c8b0724bfd5ab.webp",
+      "assets/media/foto-e467ee712863b2.webp"
+    ]
+  },
+  {
+    "id": "chocolate-raspas",
+    "name": "Torta de Chocolate com Raspas",
+    "subtitle": "Chocolate intenso e acabamento artesanal",
+    "category": "Clássicas",
+    "desc": "Criação da Wanelle com cobertura de chocolate, chantilly e raspas decorativas. Fotos reais como inspiração; sabores, tamanho e preço definidos após orçamento.",
+    "images": [
+      "assets/media/wanelle-chocolate-raspas-frontal.webp",
+      "assets/media/wanelle-chocolate-raspas-perfil.webp",
+      "assets/media/wanelle-chocolate-raspas-superior.webp"
+    ]
+  },
+  {
+    "id": "morango",
+    "name": "Torta de Morango",
+    "subtitle": "Morango com wafer",
+    "category": "Frutadas",
+    "desc": "Torta decorada com morangos, cobertura clara e acabamento lateral com wafer. Recheio e tamanho sob consulta.",
+    "images": [
+      "assets/media/foto-c01ef23f279de8.webp",
+      "assets/media/foto-0aef1dab6b0ac8.webp"
+    ]
+  },
+  {
+    "id": "abacaxi",
+    "name": "Torta de Abacaxi",
+    "subtitle": "Abacaxi e coco",
+    "category": "Frutadas",
+    "desc": "Finalização com abacaxi, decoração em chantilly e laterais claras com textura de coco. Recheio e tamanho sob consulta.",
+    "images": [
+      "assets/media/nova-abacaxi-frontal.webp",
+      "assets/media/foto-a57d8eabf5ae22.webp",
+      "assets/media/foto-61439d86808619.webp",
+      "assets/media/foto-5777e0d49b72de.webp"
+    ]
+  },
+  {
+    "id": "kiwi",
+    "name": "Torta de Frutas",
+    "subtitle": "Kiwi e uvas",
+    "category": "Frutadas",
+    "desc": "Decoração artesanal com kiwi e uvas sobre cobertura clara. Uma inspiração para celebrações. Recheio e tamanho sob consulta.",
+    "images": [
+      "assets/media/foto-f999ef06c816e0.webp",
+      "assets/media/foto-01b232349ee752.webp",
+      "assets/media/foto-2e939a72f2163a.webp"
+    ]
+  },
+  {
+    "id": "formatura",
+    "name": "Torta de Formatura",
+    "subtitle": "Azul, branco e topo de formatura",
+    "category": "Temáticas",
+    "desc": "Criação de formatura da Wanelle em azul e branco, com decoração personalizada. As imagens são inspirações visuais; tamanhos, recheios e valores são definidos no orçamento.",
+    "images": [
+      "assets/media/wanelle-formatura-nova-frente.webp",
+      "assets/media/wanelle-formatura-nova-superior.webp"
+    ]
+  },
+  {
+    "id": "ellen",
+    "name": "Torta Temática",
+    "subtitle": "Diário da Ellen",
+    "category": "Temáticas",
+    "desc": "Exemplo real de torta personalizada para aniversário, com acabamento rosa, detalhes amarelos e decoração temática. Personalizações sob consulta.",
+    "images": [
+      "assets/media/foto-80a5346b079ec6.webp",
+      "assets/media/foto-89a2130e301f2f.webp",
+      "assets/media/foto-e9c24721ca97a2.webp"
+    ]
+  },
+  {
+    "id": "rosa",
+    "name": "Torta Rosa Delicada",
+    "subtitle": "Rosa, branco e acabamento artesanal",
+    "category": "Temáticas",
+    "desc": "Inspiração com confeitos e detalhes em rosa e branco. O visual pode ser adaptado para sua comemoração. Sabores, recheios e valores sob consulta.",
+    "images": [
+      "assets/media/nova-rosa-close.webp",
+      "assets/media/nova-rosa-ambiente.webp"
+    ]
+  },
+  {
+    "id": "heroi",
+    "name": "Torta Super-Herói",
+    "subtitle": "Vermelho e preto",
+    "category": "Temáticas",
+    "desc": "Criação com acabamento em vermelho e preto e detalhes temáticos. Referência visual para uma encomenda personalizada; valor sob consulta.",
+    "images": [
+      "assets/media/nova-heroi-close.webp",
+      "assets/media/nova-heroi-ambiente.webp"
+    ]
+  },
+  {
+    "id": "infantil",
+    "name": "Torta Infantil",
+    "subtitle": "Personagens e cores alegres",
+    "category": "Temáticas",
+    "desc": "Registro de uma criação infantil da Wanelle, com personagens e cores alegres. Outros estilos e temas podem ser solicitados.",
+    "images": [
+      "assets/media/wanelle-infantil-nova.webp"
+    ]
+  },
+  {
+    "id": "boteco",
+    "name": "Torta Tema Boteco",
+    "subtitle": "Branco, dourado e decoração personalizada",
+    "category": "Temáticas",
+    "desc": "Torta personalizada com acabamento em branco e dourado e decoração temática de boteco. Uma inspiração visual; sabores, tamanho e valores definidos no orçamento.",
+    "images": [
+      "assets/media/wanelle-boteco-principal.webp",
+      "assets/media/wanelle-boteco-detalhe.webp"
+    ]
+  },
+  {
+    "id": "administracao",
+    "name": "Torta de Formatura Administração",
+    "subtitle": "Formatura em azul e branco",
+    "category": "Temáticas",
+    "desc": "Torta de formatura com detalhes azuis e brancos e acabamento artesanal. Imagens apenas como referência visual, sem preço ou receita previamente definidos.",
+    "images": [
+      "assets/media/wanelle-formatura-administracao-frontal.webp",
+      "assets/media/wanelle-formatura-administracao-perspectiva.webp"
+    ]
+  }
+]
