@@ -4,6 +4,7 @@
  const $=s=>document.querySelector(s);
  const safe=value=>String(value||'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[ch]));
  let sending=false;
+ $('#client-size-cm')?.addEventListener('change',e=>{const input=$('#client-servings');const defaults={'18':16,'20':22,'25':32};if(!input.value&&defaults[e.target.value])input.value=defaults[e.target.value];});
  $('#order-form').addEventListener('submit',async e=>{
    e.preventDefault();if(sending||!e.target.reportValidity())return;
    const btn=$('#save-client-request');const previousText=btn.textContent;

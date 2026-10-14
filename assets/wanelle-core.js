@@ -12,7 +12,7 @@
     { id:"chocolate", name:"Torta de Chocolate", photo:"assets/media/nova-chocolate-frontal.webp" },
     { id:"chocolate-raspas", name:"Torta de Chocolate com Raspas", photo:"assets/media/wanelle-chocolate-raspas-frontal.webp" },
     { id:"morango", name:"Torta de Morango", photo:"assets/media/foto-c01ef23f279de8.webp" },
-    { id:"abacaxi", name:"Torta de Abacaxi", photo:"assets/media/nova-abacaxi-frontal.webp" },
+    { id:"abacaxi", name:"Torta de Abacaxi com Coco", photo:"assets/media/nova-abacaxi-frontal.webp" },
     { id:"kiwi", name:"Torta de Frutas", photo:"assets/media/foto-f999ef06c816e0.webp" },
     { id:"formatura", name:"Torta de Formatura", photo:"assets/media/wanelle-formatura-nova-frente.webp" },
     { id:"ellen", name:"Torta Temática", photo:"assets/media/foto-80a5346b079ec6.webp" },
@@ -77,14 +77,18 @@
   function getLocal() { try {const s=JSON.parse(localStorage.getItem(KEY)); if(s && Array.isArray(s.orders)&&Array.isArray(s.recipes)&&Array.isArray(s.ingredients)&&s.settings){s.settings={...settingsSeed,...s.settings};return s;}} catch(e){} const s=seed();saveLocal(s);return s; }
   function saveLocal(s) { localStorage.setItem(KEY,JSON.stringify(s)); window.dispatchEvent(new Event('wanelle-data-updated')); }
   const config = global.WANELLE_CONFIG || {};
-  const live = Boolean(config.supabaseUrl && config.supabaseAnonKey);
   const demoAllowed = ['file:'].includes(location.protocol) || ['localhost','127.0.0.1'].includes(location.hostname);
-  let remoteClient;
-  function client() {
-    if(!live) return null;
-    if(!global.supabase?.createClient) throw Error('Biblioteca de conexão não carregou. Verifique sua internet.');
-    if(!remoteClient) remoteClient=global.supabase.createClient(config.supabaseUrl,config.supabaseAnonKey);
-    return remoteClient;
+  const live = Boolean(config.backend === 'neon' && !demoAllowed);
+  const apiPath = config.apiPath || '/api/wanelle';
+  async function api(action, {method='GET',body}={}) {
+    const response=await fetch(apiPath+'?action='+encodeURIComponent(action),{
+      method,credentials:'same-origin',cache:'no-store',
+      headers:body?{'Content-Type':'application/json'}:{},
+      body:body?JSON.stringify(body):undefined
+    });
+    let result;try{result=await response.json();}catch{throw Error('A conexão com o sistema está indisponível.');}
+    if(!response.ok)throw Error(result.error||'Não foi possível completar a operação.');
+    return result;
   }
   function money(n) { return (Number(n)||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); }
   function n(v) {return Math.max(0,Number(v)||0);}
@@ -223,39 +227,33 @@
   function itemDescription(order,state){return (order.items||[]).map(item=>{const r=state.recipes.find(r=>r.id===item.recipeId);const p=products.find(p=>p.id===item.referenceId);return `${item.qty||1}× ${r?.name|| (p?'Sob medida (inspiração: '+p.name+')':'Torta sob medida')}`;}).join(' • ') || 'Torta personalizada';}
   async function publicSubmit(o) {
     const publicOrder={id:id(),customer:String(o.customer||'').trim(),phone:String(o.phone||'').trim(),eventDate:o.eventDate,occasion:o.occasion||'',servings:Math.max(1,Math.round(n(o.servings)||20)),items:o.items||[],method:o.method||'Retirada',neighborhood:o.neighborhood||'',custom:!!o.custom,flavor:o.flavor||'',filling:o.filling||'',decoration:o.decoration||'',notes:o.notes||'',status:'novo',createdAt:new Date().toISOString(),source:o.source||'site',salePrice:null,quoteSnapshot:null,deliveryCost:0,fillingLayers:Math.max(1,Math.min(10,Math.round(n(o.fillingLayers)||2))),decorationLevel:o.decorationLevel||'simples',sizeCm:o.sizeCm? n(o.sizeCm):null,laborMode:'auto',stageMinutes:{},extraMaterialsCost:0,otherOrderCost:0,provisionalApproved:false,actualRecorded:false,actualStageMinutes:{},actualExtraCost:0};
-    if(live){const {error}=await client().from('orders').insert(publicOrder);if(error)throw error;}
+    if(live){ const saved=await api('submit',{method:'POST',body:publicOrder});return {...publicOrder,id:saved.id}; }
     else if(demoAllowed){const s=getLocal();s.orders.unshift(publicOrder);saveLocal(s);}
     else throw Error('Recebimento pelo site ainda não foi conectado. Entre em contato pelo WhatsApp.');
     return publicOrder;
   }
-  async function login(email,password){const {data,error}=await client().auth.signInWithPassword({email,password});if(error)throw error;return data;}
-  async function logout(){if(live)await client().auth.signOut();}
-  async function session(){if(!live)return null;const {data,error}=await client().auth.getUser();if(error)return null;return data.user;}
-  async function adminLoad(){
-    if(!live){if(!demoAllowed)throw Error('Conecte o Supabase em config.js para acessar o painel online.');return getLocal();}
-    const db=client(); const u=await session();if(!u)throw Error('Faça login para acessar o painel.');
-    const {data:access,error:ae}=await db.from('admin_users').select('user_id').eq('user_id',u.id).maybeSingle();
-    if(ae||!access)throw Error('Este usuário não tem permissão de administrador.');
-    const [{data:app,error:e1},{data:orders,error:e2}]=await Promise.all([db.from('app_data').select('key,payload'),db.from('orders').select('*').order('createdAt',{ascending:false})]);
-    if(e1||e2)throw (e1||e2);
-    const obj=Object.fromEntries((app||[]).map(row=>[row.key,row.payload]));
-    const defaults=seed();
-    const missing=['ingredients','recipes','settings'].filter(k=>!obj[k]);
-    if(missing.length){const {error:seedError}=await db.from('app_data').upsert(missing.map(k=>({key:k,payload:defaults[k]})),{onConflict:'key'});if(seedError)throw seedError;}
-    return {ingredients:obj.ingredients||defaults.ingredients,recipes:obj.recipes||defaults.recipes,settings:{...defaults.settings,...(obj.settings||{})},orders:orders||[]};
+  async function login(email,password) {return api('login',{method:'POST',body:{email,password}});}
+  async function logout() {if(live)await api('logout',{method:'POST',body:{}});}
+  async function session() {if(!live)return null;return (await api('session')).user;}
+  async function adminLoad() {
+    if(!live){if(!demoAllowed)throw Error('Conecte o Neon e o Vercel para acessar o painel online.');return getLocal();}
+    const r=await api('bootstrap');const defaults=seed();
+    const settings={...defaults.settings,...(r.sections.settings||{})};
+    return {ingredients:r.sections.ingredients||defaults.ingredients,
+      recipes:r.sections.recipes||defaults.recipes,settings,orders:r.orders||[]};
   }
-  async function saveSection(section,value,state){
-    if(!['ingredients','recipes','settings'].includes(section))throw Error('Seção inválida');
-    if(live){const {error}=await client().from('app_data').upsert({key:section,payload:value,updated_at:new Date().toISOString()},{onConflict:'key'});if(error)throw error;}
+  async function saveSection(section,value,state) {
+    if(!['ingredients','recipes','settings'].includes(section))throw Error('Seção inválida.');
+    if(live)await api('section',{method:'POST',body:{section,payload:value}});
     else {if(!demoAllowed)throw Error('Sem banco conectado');const s=state||getLocal();s[section]=value;saveLocal(s);}
   }
-  async function saveOrder(order,state){
-    if(live){const {error}=await client().from('orders').upsert(order,{onConflict:'id'});if(error)throw error;}
+  async function saveOrder(order,state) {
+    if(live)await api('order',{method:'POST',body:{order}});
     else {if(!demoAllowed)throw Error('Sem banco conectado');const s=state||getLocal();const i=s.orders.findIndex(x=>x.id===order.id);if(i>=0)s.orders[i]=order;else s.orders.unshift(order);saveLocal(s);}
   }
-  async function deleteOrder(orderId,state){
-    if(live){const {error}=await client().from('orders').delete().eq('id',orderId);if(error)throw error;}
-    else {const s=state||getLocal();s.orders=s.orders.filter(o=>o.id!==orderId);saveLocal(s);}
+  async function deleteOrder(orderId,state) {
+    if(live)await api('delete',{method:'POST',body:{id:orderId}});
+    else {if(!demoAllowed)throw Error('Sem banco conectado');const s=state||getLocal();s.orders=s.orders.filter(o=>o.id!==orderId);saveLocal(s);}
   }
   function whatsapp(order,state){
     const summary=order.quoteSnapshot||calculate(order,state);
