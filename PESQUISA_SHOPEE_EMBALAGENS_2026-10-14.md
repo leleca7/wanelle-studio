@@ -77,3 +77,11 @@ Esses totais são **cenários ilustrativos que podem precisar de revisão** se o
 3. Verificar se o acetato é próprio para uso alimentar, espessura e consumo efetivo.
 4. Validar gramaturas e conservação das pastas; obter frete + entrega estimada no CEP real para comparação Shopee × bairro/Lapa.
 5. Não lançar preços automaticamente em produção até validação comercial da Wanelle.
+
+## 7. Complemento da pesquisa narrada — altura do recheio e caixa grande (14/10/2026)
+
+- **Camadas de recheio:** pessoa responsável indicou aproximadamente **1,5 a 2 cm de espessura**. Quantidade de camadas, espessura da massa e da decoração continuam sem confirmação. Todas as formas têm 10 cm de altura, mas a altura final não está estabelecida.
+- **Confirmação comercial das caixas:** para as formas de Ø18 e Ø20 cm, seguir avaliando caixas de **25×25×18** e **28×28×18 cm**, respectivamente, condicionadas à medida do bolo pronto e dimensões internas.
+- **Forma Ø25 cm:** **descartar a caixa 33×33×16 cm como referência preferencial**, pois o último eixo de 16 cm é a altura, menor que as demais. A opção **33×33×18 cm** é dimensionalmente preferível, mas permanece **sem preço confirmado**. A pessoa responsável encontrou opção **35×35×20 cm (alegadamente 5 unidades, R$ 13,99)**. O valor equivale matematicamente a R$ 2,798/un. se realmente for o kit inteiro, porém a oferta parece muito abaixo das demais; **confirmar se R$ 13,99 é preço unitário, preço de variação ou do kit de cinco**, dimensões internas, tipo de caixa, material e frete. **Não usar como custo aprovado**.
+- **Alocação preferida provisória:** Ø18 → 25×25×18; Ø20 → 28×28×18; Ø25 → **35×35×20**, caso o anúncio e as dimensões reais sejam válidos. Alternativa Ø25: 33×33×18 se encontrada.
+- **Custos ilustrativos anteriores para Ø25 baseados na caixa de 33×33×16 devem ser considerados supersedidos para decisões de compra**. Não recalcular custo final até validar preço da nova caixa. Também verificar necessidade de tira de acetato de 15 cm conforme altura da torta.
