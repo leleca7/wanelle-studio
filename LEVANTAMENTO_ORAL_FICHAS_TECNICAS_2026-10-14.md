@@ -15,7 +15,7 @@
   - farinha de trigo: **~6–9 xícaras**, volume efetivo/massa por xícara a medir;
   - leite de coco: **~500 ml**.
   - O relato menciona Qualy como tendo “99% de lipídio”; **verificar o rótulo/SKU antes de afirmar qualquer teor de gordura**.
-  - **Rendimento da massa ainda não confirmado**: checar se todas essas quantidades foram para um único bolo de Ø20 cm ou se houve sobras/mais assadeiras.
+  - **Rendimento parcialmente confirmado na conversa seguinte:** **sobrou uma pequena quantidade de massa**, utilizada para assar **um bolinho em forma menor para tomar café**. Portanto, **o lote aproximado de nove ovos NÃO foi totalmente consumido na torta Ø20 cm**. Quantidade/peso exato da sobra, forma menor e peso da massa destinada à torta ainda desconhecidos. **Não atribuir custo de todo o lote de massa à torta Ø20 cm**; no teste padronizado, pesar massa total crua e massa vertida em cada forma.
 - **Referência oral a uma receita-base menor, NÃO intercambiável com o lote acima:**
   - 3 ovos;
   - 3 xícaras de farinha;
