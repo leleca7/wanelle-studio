@@ -85,3 +85,16 @@ Esses totais são **cenários ilustrativos que podem precisar de revisão** se o
 - **Forma Ø25 cm:** **descartar a caixa 33×33×16 cm como referência preferencial**, pois o último eixo de 16 cm é a altura, menor que as demais. A opção **33×33×18 cm** é dimensionalmente preferível, mas permanece **sem preço confirmado**. A pessoa responsável encontrou opção **35×35×20 cm (alegadamente 5 unidades, R$ 13,99)**. O valor equivale matematicamente a R$ 2,798/un. se realmente for o kit inteiro, porém a oferta parece muito abaixo das demais; **confirmar se R$ 13,99 é preço unitário, preço de variação ou do kit de cinco**, dimensões internas, tipo de caixa, material e frete. **Não usar como custo aprovado**.
 - **Alocação preferida provisória:** Ø18 → 25×25×18; Ø20 → 28×28×18; Ø25 → **35×35×20**, caso o anúncio e as dimensões reais sejam válidos. Alternativa Ø25: 33×33×18 se encontrada.
 - **Custos ilustrativos anteriores para Ø25 baseados na caixa de 33×33×16 devem ser considerados supersedidos para decisões de compra**. Não recalcular custo final até validar preço da nova caixa. Também verificar necessidade de tira de acetato de 15 cm conforme altura da torta.
+
+## 8. Verificação geométrica da montagem — 14/10/2026
+
+**Esclarecimento do responsável:** cada camada de massa tem **3 cm de espessura** e cada camada de recheio mede **1,5 a 2 cm**. Para a configuração demonstrada anteriormente de 3 camadas de massa + 2 de recheio, a conta é (3×3) + (2×1,5 a 2) = **12 a 13 cm antes da cobertura/decoração**. Exemplo de acabamento de 1 a 2 cm, ainda não medido, daria **13 a 15 cm** de altura final. O número de camadas é o cenário de montagem em discussão; confirmar se é o padrão de todas as receitas. As formas têm 10 cm de altura, mas bolo montado pode passar disso.
+
+**Teste de folga vertical (13–15 cm de bolo acabado, sem topper alto):**
+- caixa de altura **16 cm** deixa **1 a 3 cm**: pode encostar com decoração alta ou transporte;
+- caixa de altura **18 cm** deixa **3 a 5 cm**: **preferência por proporção e folga**, após conferir a dimensão INTERNA real;
+- caixa de altura **20 cm** deixa **5 a 7 cm**: segura com mais folga, mas pode ser desnecessariamente alta para a decoração simples.
+
+**Padrão dimensional prioritário resultante:** Ø18 cm → caixa **25×25×18**; Ø20 cm → **28×28×18**; Ø25 cm → buscar **33×33×18** (melhor proporção se altura final 13–15 cm). Para Ø25, **35×35×20** é alternativa válida quando a decoração aumentar a altura, quando não houver 33×33×18 ou por preferência visual. **33×33×18 ainda não foi cotada**. A oferta narrada de 35×35×20 por R$ 13,99 alegadamente em kit de 5 permanece **pendente de verificação do preço e quantidade**. Não tratar como custo aprovado.
+
+**Atenção ao acetato:** para uma parede montada de 12–13 cm, a faixa de 10 cm é insuficiente se for envolver a altura inteira da torta; a de 15 cm é a candidata a validar, dependendo do uso, e muda o custo previsto. Não autorizar as simulações antigas de custo com faixa de 10 cm como valor final de embalagem.
