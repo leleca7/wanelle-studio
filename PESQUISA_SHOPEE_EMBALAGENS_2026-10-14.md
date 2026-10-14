@@ -53,17 +53,23 @@ Comparar por m² apenas quando produto/espessura, uso alimentar e corte forem co
 - Rosa-bebê — R$ 18,80 por 250 g (R$ 75,20/kg observado; tratar cor e tamanho à parte; custo protegido do pacote = R$ 21,00/250 g).
 **Sem média geral segura** até ter gramatura, tipo, cor e lote comparáveis. Como a demanda é rara, não comprar estoque grande sem pedido confirmado. Verificar selo, validade, lacre, conservação e reputação do vendedor.
 
-## 5. Sugestão inicial de caixa + disco para as formas atuais
-- Forma 18 cm (~1,5 kg) → base Ø20 cm, caixa 25×25×18 cm.
-- Forma 20 cm (~2,0 kg) → base Ø25 cm, caixa 28×28×18 cm.
-- Forma 25 cm (~3,0 kg) → base Ø30 cm, caixa 33×33×16 cm, se altura de acabamento permitir; subir altura da caixa se necessário.
-Medir diâmetro efetivo com cobertura, altura total + decoração e resistência da base antes de fechar. Uma caixa de 22×22×8 não serve para bolo alto de 18 cm.
+## 5. Altura informada das formas e seleção de caixas (atualização 14/10/2026)
+**Dado informado pelo responsável:** todas as formas da Wanelle têm 10 cm de altura, nos diâmetros 18, 20 e 25 cm. **Não confundir a altura da forma com a altura final da torta montada**, que depende da massa assada e cortada, número e espessura das camadas de recheio, cobertura, decoração e eventual topper. Se a montagem acrescentar recheios entre camadas de massa e ultrapassar o nível original, a torta final pode passar dos 10 cm. Não somar automaticamente '10 cm + todos os recheios': medir a espessura real das camadas e a altura final.
 
-**Exemplo de custo protegido por bolo** (sem frete, fita, etiqueta, taxas, perdas extras; pacotes de caixas de 5 un. confirmados; discos de 20 un. no anúncio A; acetato 10×10 m e 5 cm de sobreposição):
+**Exemplo meramente ilustrativo:** 3 camadas de massa de 3 cm + 2 recheios de 1,5 cm = 12 cm antes de cobertura/decoração. A receita real não foi informada; não cadastrar 12 cm como altura oficial.
+
+**Referências condicionais (validar medidas INTERNAS da caixa e capacidade da base):**
+- Forma Ø18×10 cm → disco Ø20 cm e caixa 25×25×18 cm, desde que sobrem aproximadamente 2–3 cm de folga acima da decoração.
+- Forma Ø20×10 cm → disco Ø25 cm e caixa 28×28×18 cm sob a mesma condição.
+- Forma Ø25×10 cm → disco Ø30 cm e caixa 33×33×16 cm **SOMENTE** se a torta decorada tiver altura compatível (idealmente até ~13–14 cm de acordo com folga). Se maior, buscar cotação de caixa **35×35×18 ou 35×35×20 cm**, ainda não pesquisada. Não adotar caixa 30×30×18 cm com disco de 30 cm sem conferir dimensões internas e folga lateral, pois pode encostar nas paredes.
+
+**Acetato:** a tira de 10 cm de largura/altura não necessariamente comporta a lateral da torta montada, que pode superar 10 cm. Cotar tira de 15 cm ou mais conforme uso e medida real. O acetato de 15 cm × 4 m (R$ 15,90) é uma alternativa já narrada, mas não está validada; os custos simulados abaixo consideram SOMENTE tira de 10 cm.
+
+**Exemplo previamente calculado de custo protegido por torta** (sem frete, fita, etiqueta, taxas, perdas extras; kits das caixas supostos em 5 un.; discos supostos em 20 un.; acetato 10×10 m e 5 cm de sobreposição):
 - Forma 18: caixa R$ 8,80 + base Ø20 R$ 1,65 + acetato R$ 1,82 = **R$ 12,27**.
 - Forma 20: caixa R$ 8,80 + base Ø25 R$ 2,55 + acetato R$ 2,00 = **R$ 13,35**.
-- Forma 25: caixa R$ 8,80 + base Ø30 R$ 3,03 + acetato R$ 2,46 = **R$ 14,29**.
-São **cenários ilustrativos, não ficha técnica aprovada**. A regra de 10% e arredondamento R$ 0,50 aplica-se sobre cada embalagem/kit ANTES de ratear pelo consumo; não arredondar a unidade para múltiplos de R$ 0,50. A proteção não é margem de lucro.
+- Forma 25: caixa R$ 8,80 + base Ø30 R$ 3,03 + acetato R$ 2,46 = **R$ 14,29**; NÃO válido como total para uma caixa mais alta ainda sem cotação.
+Esses totais são **cenários ilustrativos que podem precisar de revisão** se o acetato de 10 cm ou a caixa de 16 cm não comportarem a torta. Não são fichas técnicas aprovadas nem preços de venda. A regra de 10% e arredondamento R$ 0,50 aplica-se sobre embalagem/kit ANTES do rateio.
 
 ## 6. Pendências
 1. Confirmar quantidades reais nos kits de caixas 28/30/33, altura máxima dos bolos acabados e resistência estrutural.
