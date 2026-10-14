@@ -1,9 +1,15 @@
 {
-  "name":"wanelle-studio",
-  "version":"1.0.0",
-  "private":true,
-  "description":"Vitrine e gestão de encomendas Wanelle com Neon e Vercel",
-  "engines":{"node":">=20"},
-  "dependencies":{"@neondatabase/serverless":"^1.0.0"},
-  "scripts":{"test":"node teste_fluxo_real.cjs && node --check api/wanelle.js"}
+  "name": "wanelle-studio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Vitrine e gestão de encomendas Wanelle com Neon e Vercel",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.0"
+  },
+  "scripts": {
+    "test": "node teste_fluxo_real.cjs && node teste_reserva_preco.cjs && node --check api/wanelle.js"
+  }
 }

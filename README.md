@@ -33,6 +33,18 @@ Foram registrados **67 valores narrados pelo responsável** (Assaí, Atacadão, 
 - Frete informado no iFood: Atakarejo aproximadamente **R$ 21–21,50** por pedido e Assaí possivelmente grátis acima de **R$ 50**; dependem do carrinho, endereço e promoção. Não atribuir uma taxa inteira a cada bolo indiscriminadamente.
 - Ainda faltam cotações e consumo real de abacaxi, coco, ovos, leite condensado, chantilly, embalagem, gás, energia, água e horas. R$ 160 é apenas **proposta de preço**, não margem comprovada.
 
+## Precificação com proteção contra oscilação semanal (14/10/2026)
+
+Para não subestimar gastos entre a pesquisa e a compra, o painel usa por padrão uma **proteção de 10% sobre o preço cotado da embalagem**, arredondada para cima ao múltiplo de **R$ 0,50**. Esses dois parâmetros são editáveis em **Custos & preços → Reserva contra aumento semanal**.
+
+- **Preço pesquisado** permanece idêntico ao registro original: fonte, mercado, data e embalagem.
+- **Custo protegido** serve apenas para previsão de compra e custo dos ingredientes no orçamento. Ex.: farinha R$ 4,64/kg → **R$ 5,50/kg**.
+- **Lucro, mão de obra, embalagem, frete, tributos e despesas indiretas** são parcelas separadas. Não cobrar a folga duas vezes.
+- Descontos por volume só contam quando a quantidade mínima for efetivamente comprada. Cotações narradas, ambíguas e vencidas devem ser reconfirmadas antes de vincular à ficha técnica.
+- Os preços por grama mantêm precisão no cálculo; o arredondamento é aplicado **na embalagem**.
+
+Ver política e exemplos em [`POLITICA_PRECOS_WANELLE.md`](POLITICA_PRECOS_WANELLE.md).
+
 ## Configurar Vercel e Neon
 
 1. Importe **`leleca7/wanelle-studio`** no Vercel, usando **Framework Preset: Other** e `Root Directory: /`.

@@ -1,0 +1,33 @@
+const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict');
+const storage={};const window={WANELLE_CONFIG:{},dispatchEvent:()=>{}};
+const ctx={window,location:{protocol:'file:',hostname:''},localStorage:{getItem:k=>storage[k]??null,setItem:(k,v)=>{storage[k]=v}},Event:class{},console};
+vm.createContext(ctx);vm.runInContext(fs.readFileSync(__dirname+'/assets/wanelle-core.js','utf8'),ctx);
+const C=window.WanelleCore,state=C.seed();
+assert.equal(state.settings.ingredientPriceBufferPct,10);
+assert.equal(state.settings.ingredientPriceRoundingStep,.5);
+for(const [observed,protectedPrice] of [[4.64,5.5],[3.82,4.5],[5.14,6],[36.88,41],[0,0]]) {
+ assert.equal(C.safePackagePrice({packagePrice:observed},state.settings),protectedPrice);
+}
+const flour=state.ingredients.find(i=>i.id==='farinha');
+flour.packagePrice=4.64;flour.packageQty=1000;flour.priceSource={store:'Assaí',checkedAt:'2026-10-14'};
+assert.equal(C.unitCost(flour)*1000,4.64);
+assert.equal(C.unitCost(flour,state.settings)*1000,5.5);
+assert.equal(flour.packagePrice,4.64,'A cotação original deve ser mantida');
+state.recipes=[{id:'torta',name:'Teste',servings:20,laborMinutes:120,decorationMinutes:20,baseFillingLayers:2,packaging:10,custom:false,lines:[{ingredientId:'farinha',quantity:300,component:'massa'}]}];
+state.settings.costsConfirmed=true;
+const o={items:[{recipeId:'torta',qty:1}],servings:20,fillingLayers:2,status:'novo',salePrice:null};
+const c=C.calculate(o,state);
+assert.equal(c.quoteReady,true);
+assert(Math.abs(c.ingredientsMarketCost-1.392)<1e-6);
+assert(Math.abs(c.ingredientsCost-1.65)<1e-6);
+assert(Math.abs(c.ingredientPriceSafetyReserve-.258)<1e-6);
+assert(Math.abs(c.usedIngredients[0].cost-c.usedIngredients[0].baseCost-c.ingredientPriceSafetyReserve)<1e-6);
+assert(c.suggested>c.totalCost);
+assert.equal(c.usedIngredients[0].quotedPackagePrice,4.64);
+assert.equal(c.usedIngredients[0].protectedPackagePrice,5.5);
+const noBuffer=C.calculate(o,{...state,settings:{...state.settings,ingredientPriceBufferPct:0,ingredientPriceRoundingStep:0}});
+assert(Math.abs(noBuffer.ingredientsMarketCost-noBuffer.ingredientsCost)<1e-6);
+assert.equal(noBuffer.ingredientPriceSafetyReserve,0);
+const withMissing=C.calculate(o,{...state,ingredients:state.ingredients.map(x=>x.id==='farinha'?{...x,priceSource:null}:x)});
+assert.equal(withMissing.quoteReady,false,'A reserva não valida uma cotação não confirmada');
+console.log('✓ Reserva: preço observado intocado, proteção configurável, transparência no custo, sem dupla cobrança, bloquear dado pendente.');

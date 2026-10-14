@@ -62,6 +62,8 @@
     waterRateM3:7.46167, sewagePct:80, waterLitersPerCake:15,
     gasPerCake:4, otherPerCake:3, fixedMonthlyCosts:0,
     indirectPct:5, creationPct:12,
+    // Margem de segurança sobre o preço de cada embalagem; não é lucro nem preço real do mercado.
+    ingredientPriceBufferPct:10, ingredientPriceRoundingStep:0.5,
     targetMarginPct:30, paymentFeePct:3.5, salesTaxPct:0, roundTo:5, costsConfirmed:false
   };
   const day = offset => { const d=new Date(); d.setDate(d.getDate()+offset); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
@@ -94,7 +96,17 @@
   function n(v) {return Math.max(0,Number(v)||0);}
   function dateBR(d) {if(!d)return 'Sem data'; const [y,m,day]=d.split('-');return [day,m,y].join('/');}
   function id() {return 'WAN-'+Date.now().toString(36).toUpperCase()+'-'+Math.random().toString(36).slice(2,6).toUpperCase();}
-  function unitCost(ing) {return n(ing.packageQty) > 0 ? n(ing.packagePrice)/n(ing.packageQty)*(1+n(ing.lossPct)/100):0;}
+  // Cotação observada e preço de PROTEÇÃO devem permanecer valores distintos.
+  // Nunca arredondar o custo por grama antes de multiplicar pela quantidade usada.
+  function safePackagePrice(ing,settings) {
+    const observed=n(ing?.packagePrice);
+    if(!observed)return 0;
+    const percentage=settings ? Math.min(100,n(settings.ingredientPriceBufferPct ?? 10)) : 0;
+    const step=settings ? Math.max(.01,n(settings.ingredientPriceRoundingStep ?? .5)) : 0;
+    const adjusted=observed*(1+percentage/100);
+    return step ? Math.round(Math.ceil((adjusted-0.00000001)/step)*step*100)/100 : adjusted;
+  }
+  function unitCost(ing,settings) {return n(ing?.packageQty) > 0 ? safePackagePrice(ing,settings)/n(ing.packageQty)*(1+n(ing.lossPct)/100):0;}
   function recipeLines(recipe) { return (recipe.lines||[]).map(line=>({...line,component:line.component||inferComponent(line.ingredientId)})); }
   function estimateTime(order,state) {
     const servingCount=Math.max(1,n(order.servings)||20);
@@ -131,7 +143,7 @@
   function calculate(order, state) {
     const settings=state.settings;
     const labor=estimateTime(order,state);
-    let ingredientsCost=0,packagingCost=0,utilitiesCost=0;
+    let ingredientsCost=0,ingredientsMarketCost=0,packagingCost=0,utilitiesCost=0;
     let mixerCost=0,ovenCost=0,fridgeCost=0,waterCost=0,gasCost=0,otherUtilitiesCost=0,fixedCosts=0;
     let baseForCreation=0;
     const energyRate=n(settings.electricityKwhRate);
@@ -152,7 +164,8 @@
         const ing=state.ingredients.find(i=>i.id===line.ingredientId);if(!ing)return acc;
         const requested=n(line.quantity)*factor*(line.component==='recheio'?fillingScale:1);
         required[ing.id]=(required[ing.id]||0)+requested;
-        return acc + unitCost(ing)*requested;
+        ingredientsMarketCost+=unitCost(ing)*requested;
+        return acc + unitCost(ing,settings)*requested;
       },0);
       const cakePackaging=n(recipe.packaging)*qty;
       const thisMixer=n(settings.mixerWatts)/1000*n(settings.mixerMinutesPerCake)/60*energyRate*factor;
@@ -189,7 +202,10 @@
     const profit=effectivePrice-fee-salesTax-totalCost;
     const usedIngredients=Object.entries(required).map(([ingredientId,quantity])=>{
       const ing=state.ingredients.find(x=>x.id===ingredientId);
-      return {ingredientId,name:ing?.name||ingredientId,unit:ing?.unit||'',quantity,cost:quantity*unitCost(ing||{}),stockQty:n(ing?.stockQty),toBuy:Math.max(0,quantity-n(ing?.stockQty)),priceVerified:!!ing?.priceSource&&!!n(ing?.packagePrice)};
+      return {ingredientId,name:ing?.name||ingredientId,unit:ing?.unit||'',quantity,
+        baseCost:quantity*unitCost(ing||{}),cost:quantity*unitCost(ing||{},settings),
+        quotedPackagePrice:n(ing?.packagePrice),protectedPackagePrice:safePackagePrice(ing,settings),
+        stockQty:n(ing?.stockQty),toBuy:Math.max(0,quantity-n(ing?.stockQty)),priceVerified:!!ing?.priceSource&&!!n(ing?.packagePrice)};
     }).sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'));
     const actualRecorded=!!order.actualRecorded;
     const actualStageMinutes=Object.fromEntries(STAGE_DEFS.map(stage=>[stage.id,n(order.actualStageMinutes?.[stage.id])]));
@@ -208,6 +224,7 @@
     if(missingPrices.length)risks.push(`${missingPrices.length} ingrediente(s) sem preço documentado`);
     if(!n(settings.salesTaxPct))risks.push('Tributos não configurados');
     if(!n(settings.fixedMonthlyCosts))risks.push('Custos fixos mensais não informados');
+    if(n(settings.ingredientPriceBufferPct)===0)risks.push('Sem proteção para variação semanal de preços de ingredientes');
     if((order.items||[]).some(item=>{const r=state.recipes.find(x=>x.id===item.recipeId);return r && servings>n(r.servings)*1.25;}))risks.push('Embalagem-base pode ser insuficiente para o tamanho');
     const expired=usedIngredients.filter(i=>{const ing=state.ingredients.find(x=>x.id===i.ingredientId);return ing?.priceSource?.validUntil && ing.priceSource.validUntil < new Date().toISOString().slice(0,10)}).map(i=>i.name);
     if(expired.length)risks.push(`Ofertas de ${expired.length} ingrediente(s) vencidas`);
@@ -217,7 +234,8 @@
     if(n(order.salePrice)<suggested && order.salePrice!==null && order.salePrice!==undefined && order.salePrice!=='')risks.push('Preço manual abaixo da sugestão');
     if(labor.mode==='manual' && labor.totalMinutes===0)risks.push('Tempo manual zerado');
     if(n(order.fillingLayers)>n((state.recipes.find(r=>r.id===(order.items||[])[0]?.recipeId)||{}).baseFillingLayers||2))risks.push('Camadas extras: confira se a altura do bolo e embalagem comportam a receita');
-    return {quoteReady,missingRecipes,incompleteRecipes,totalCakes,servings,fillingLayers,ingredientsCost,packagingCost,laborCost:labor.laborCost,decorationLaborCost:labor.decorationLaborCost,
+    return {quoteReady,missingRecipes,incompleteRecipes,totalCakes,servings,fillingLayers,ingredientsCost,
+      ingredientsMarketCost,ingredientPriceSafetyReserve:Math.max(0,ingredientsCost-ingredientsMarketCost),packagingCost,laborCost:labor.laborCost,decorationLaborCost:labor.decorationLaborCost,
       labor,utilitiesCost,mixerCost,ovenCost,fridgeCost,waterCost,gasCost,otherUtilitiesCost,fixedCosts,
       creationFee,creationCost:0,extraMaterialsCost,otherOrderCost,indirectCost,deliveryCost,totalCost,suggested,effectivePrice,fee,salesTax,profit,
       marginPct:effectivePrice?100*profit/effectivePrice:0,usedIngredients,missingPrices,risks,pricingValid,
@@ -267,5 +285,5 @@
     const normalized=(digits.length===10||digits.length===11)?'55'+digits:digits;
     return 'https://wa.me/'+normalized+'?text='+encodeURIComponent(lines.join('\n'));
   }
-  global.WanelleCore={KEY,STAGES,STAGE_DEFS,COMPONENTS,inferComponent,recipeLines,estimateTime,products,seed,getLocal,saveLocal,calculate,unitCost,money,n,dateBR,id,itemDescription,publicSubmit,login,logout,session,adminLoad,saveSection,saveOrder,deleteOrder,whatsapp,live,demoAllowed};
+  global.WanelleCore={KEY,STAGES,STAGE_DEFS,COMPONENTS,inferComponent,recipeLines,estimateTime,products,seed,getLocal,saveLocal,calculate,unitCost,safePackagePrice,money,n,dateBR,id,itemDescription,publicSubmit,login,logout,session,adminLoad,saveSection,saveOrder,deleteOrder,whatsapp,live,demoAllowed};
 })(window);
