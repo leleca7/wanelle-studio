@@ -238,6 +238,11 @@
   async function adminLoad() {
     if(!live){if(!demoAllowed)throw Error('Conecte o Neon e o Vercel para acessar o painel online.');return getLocal();}
     const r=await api('bootstrap');const defaults=seed();
+    if (Array.isArray(r.marketQuotes) && global.WANELLE_MARKET) {
+      const items=new Map((global.WANELLE_MARKET.quotes||[]).map(q=>[q.id,q]));
+      r.marketQuotes.forEach(q=>{if(q && q.id)items.set(q.id,q);});
+      global.WANELLE_MARKET.quotes=[...items.values()];
+    }
     const settings={...defaults.settings,...(r.sections.settings||{})};
     return {ingredients:r.sections.ingredients||defaults.ingredients,
       recipes:r.sections.recipes||defaults.recipes,settings,orders:r.orders||[]};

@@ -24,6 +24,15 @@ A referência inicial confirmada é **torta simples de abacaxi com coco**. Taman
 
 Os dados NÃO determinam o custo sozinhos. Falta cadastrar a receita real, os preços atuais e o tempo de preparo. Não associe os R$ 160 / 210 / 290 de simulações anteriores a custos confirmados.
 
+
+## Pesquisa de preços do iFood (14/10/2026)
+
+Foram registrados **67 valores narrados pelo responsável** (Assaí, Atacadão, Atakarejo, Mercantil e Hiperideal), além das **12 referências anteriores**. As anotações originais organizadas estão em `neon/cotacoes_ifood_2026-10-14.json` e `assets/market-prices.json`. Os 67 preços também estão em `wanelle_market_quotes` no Neon e são carregados na aba **Pesquisa de mercado** após o login. Nenhuma cotação é aplicada automaticamente às fichas técnicas.
+
+- Verificar embalagem, marca, tipo de farinha (com/sem fermento), teor de cacau, datas e eventuais descontos por quantidade. Entradas contraditórias ou incertas foram marcadas como pendentes de confirmação e não podem ser aplicadas na interface.
+- Frete informado no iFood: Atakarejo aproximadamente **R$ 21–21,50** por pedido e Assaí possivelmente grátis acima de **R$ 50**; dependem do carrinho, endereço e promoção. Não atribuir uma taxa inteira a cada bolo indiscriminadamente.
+- Ainda faltam cotações e consumo real de abacaxi, coco, ovos, leite condensado, chantilly, embalagem, gás, energia, água e horas. R$ 160 é apenas **proposta de preço**, não margem comprovada.
+
 ## Configurar Vercel e Neon
 
 1. Importe **`leleca7/wanelle-studio`** no Vercel, usando **Framework Preset: Other** e `Root Directory: /`.

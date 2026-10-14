@@ -20,3 +20,12 @@ CREATE TABLE IF NOT EXISTS public.wanelle_login_attempts (
   locked_until timestamptz
 );
 -- Não há INSERT fictício: receitas, preços, clientes e encomendas começam vazios.
+
+-- Cotações levantadas manualmente, não verificadas diretamente no iFood.
+CREATE TABLE IF NOT EXISTS public.wanelle_market_quotes (
+  id text PRIMARY KEY,
+  payload jsonb NOT NULL CHECK (jsonb_typeof(payload) = 'object'),
+  received_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS wanelle_market_quotes_store_idx ON public.wanelle_market_quotes ((payload->>'store'));

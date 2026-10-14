@@ -90,8 +90,8 @@ module.exports = async (req,res) => {
     if(req.method==='GET'&&action==='session')return json(res,200,{user:authenticate(req)?{email:authenticate(req).email}:null});
     await authorized(sql,req);
     if(req.method==='GET'&&action==='bootstrap'){
-      const [s,o]=await Promise.all([sql`SELECT section,payload FROM public.wanelle_app_data`,sql`SELECT payload FROM public.wanelle_orders ORDER BY created_at DESC LIMIT 3000`]);
-      return json(res,200,{sections:Object.fromEntries(s.map(x=>[x.section,x.payload])),orders:o.map(x=>x.payload)});
+      const [s,o,q]=await Promise.all([sql`SELECT section,payload FROM public.wanelle_app_data`,sql`SELECT payload FROM public.wanelle_orders ORDER BY created_at DESC LIMIT 3000`,sql`SELECT payload FROM public.wanelle_market_quotes ORDER BY id`]);
+      return json(res,200,{sections:Object.fromEntries(s.map(x=>[x.section,x.payload])),orders:o.map(x=>x.payload),marketQuotes:q.map(x=>x.payload)});
     }
     if(req.method==='POST'&&action==='section'){
       const section=clean(body.section,40);if(!SECTIONS.has(section))throw apiError(400,'Seção inválida.');
