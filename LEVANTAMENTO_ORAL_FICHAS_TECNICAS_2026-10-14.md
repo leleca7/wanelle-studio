@@ -1,0 +1,81 @@
+# Wanelle — levantamento oral de receitas e identificação de produtos
+
+**Data:** 14/10/2026  
+**Origem:** conversa transcrita com a confeiteira responsável, a respeito de bolos já produzidos e fotografados no acervo.  
+**Classificação:** memória de produção; **NÃO é ficha técnica validada, nem receita para execução em escala**. Quantidades aproximadas, sem balança e sem medição sistemática; não gerar preço automático com elas. Registrar o que foi dito sem harmonizar conflitos ou completar ingredientes por suposição.
+
+## FT-001 — Torta de abacaxi com coco (bolo de aniversário)
+
+- **Forma confirmada para o exemplar discutido:** diâmetro **20 cm**, altura nominal da forma **10 cm**. Massa e recheios podem elevar o bolo final acima da forma.
+- **Produto/foto:** versão de abacaxi com coco, com decoração superior que remete a abacaxi/coroa.
+- **Massa usada no exemplar, conforme recordação aproximada:**
+  - ovos: **~9 unidades**;
+  - açúcar: **~500 g**;
+  - margarina Qualy: **~500 g**;
+  - farinha de trigo: **~6–9 xícaras**, volume efetivo/massa por xícara a medir;
+  - leite de coco: **~500 ml**.
+  - O relato menciona Qualy como tendo “99% de lipídio”; **verificar o rótulo/SKU antes de afirmar qualquer teor de gordura**.
+  - **Rendimento da massa ainda não confirmado**: checar se todas essas quantidades foram para um único bolo de Ø20 cm ou se houve sobras/mais assadeiras.
+- **Referência oral a uma receita-base menor, NÃO intercambiável com o lote acima:**
+  - 3 ovos;
+  - 3 xícaras de farinha;
+  - 2 xícaras de açúcar (unidade presumida pelo contexto “3, 2 de açúcar, 3 ovos, 3 farinha”; confirmar);
+  - ~200 g de margarina;
+  - ~200–300 ml de leite de coco;
+  - demais ingredientes e rendimento não lembrados.
+  - Não fazer média com o lote de 9 ovos; medir ambos em teste e decidir qual será padronizado.
+- **Creme branco/recheio e decoração:**
+  - leite condensado: **~3 embalagens** (peso líquido/unidade NÃO informado);
+  - creme de leite: **~2 embalagens** (peso líquido/unidade NÃO informado);
+  - abacaxi fresco: **2 unidades**, divididas entre recheio e decoração (fração de cada uso NÃO informada);
+  - preparo lembrado: creme branco/neutro feito de leite condensado e creme de leite; abacaxi cozido incorporado ao creme;
+  - coco ralado: **~200 g destinados à cobertura**;
+  - chantininho: **~1 litro**, conforme denominação oral; confirmar se se refere a chantilly líquido/creme a bater utilizado para produzir chantininho, produto pronto ou outra preparação;
+  - calda para umedecer: **usada**, porém sem ingredientes, volumes e rendimento informados.
+- **Geometria informada na conversa:** camada de massa com **~3 cm**; recheio **~1,5–2 cm por camada**. Em um exemplo com 3 massas e 2 recheios, isso dá **12–13 cm** antes da decoração. O exemplo 3+2 NÃO está comprovado como a estrutura real deste bolo; a altura final decorada deverá ser medida.
+- **Embalagem candidata para Ø20:** caixa **28×28×18 cm**, disco Ø25 cm, validar altura final e medidas internas. Acetato de 15 cm a avaliar se envolver toda a lateral.
+
+### Pendências de validação
+1. Fazer **uma receita em balança**, registrando massas em g e líquidos em ml, peso/unidade dos ovos e o volume calibrado de cada xícara.
+2. Confirmar **rendimento total da massa**, quantas formas foram usadas, peso de massa por assadeira, perdas e sobras.
+3. Registrar gramatura por lata/caixa (leite condensado e creme de leite), marca do coco e do chantilly/chantininho.
+4. Pesar abacaxi bruto, casca/coroa/miolo descartados, abacaxi cozido, quantidade para recheio e para topo, assim como eventual açúcar da cocção.
+5. Pesagem do creme pronto, gramas de recheio por camada, quantas camadas, e peso e altura final da torta.
+6. Descrever e pesar a calda para umedecer, inclusive quanto foi efetivamente absorvido.
+7. Medir quantos gramas/ml de chantilly/chantininho vão à decoração e se 1 litro se refere a embalagem adquirida ou ao consumo.
+8. Registrar tempo de preparo/montagem, custos de gás/energia, base, embalagem, acetato, conservação e validade, antes da precificação.
+
+## FT-002 — Chocolate com chantilly, ganache e raspas
+- **Forma recordada:** Ø20×10 cm.
+- **Massa:** relatada como adaptação da massa usual com **cacau 100%**; proporções e quanto de cacau ainda desconhecidos.
+- **Recheio:** leite condensado, creme de leite e cacau 100%.
+- **Chantilly de chocolate:** recebe chocolate em barra derretido e cacau 100%.
+- **Ganache:** chocolate em barra derretido com creme de leite.
+- **Acabamento:** raspas de chocolate / chantilly; quantidades e distribuição não esclarecidas.
+- **Pendente:** relação chocolate/creme da ganache, gramas de cacau em cada elemento, tipo de chocolate, rendimento e número de camadas. NÃO copiar automaticamente a ficha de abacaxi para este bolo.
+
+## Outros itens identificados no histórico fotográfico (sem ficha técnica fechada)
+
+| Item | Memória/descrição | Forma/tamanho | Lacunas |
+|---|---|---|---|
+| Torta de kiwi e uvas | Massa branca; kiwi especificamente na decoração; uvas mencionadas no nome; recheio desconhecido | Ø30×10 cm, aproximado por memória | massas, recheios, frutas e pesos |
+| Torta de morango com wafer | Interior de chocolate; chantilly branco; decoração com morango e wafer de chocolate | não informado | quantidades, forma, recheios específicos |
+| Bolo “diário da Ellen” | Aproximadamente 2 bolos e 3 recheios; ~1 kg de farinha ou mais, sem certeza; papel de arroz com película de gelatina sem sabor | retangular ~40×25 cm, aproximado | quantidades, tipo de recheio, receita da película |
+| Homem-Aranha | Forma recente Ø20×10 cm; bolo pronto excedeu 10 cm com recheios | Ø20×10 cm | sabores e consumo |
+| Bolo com pasta americana (possivelmente associado ao tema administração na conversa) | Foi comprado “um pacote”, mas quantidade/peso da pasta ficou contraditório/ininteligível | não seguro | peso exato, cor, composição, custo |
+| Hello Kitty | Parte da decoração em chantilly e parte descrita como pasta marmorizada; lembrança de bolo de noiva pernambucano com ameixa e vinho, sem recheio | não informado | confirmar correspondência foto/receita, massas, cobertura |
+| Boteco da Suelen | Recheio de coco | não informado | receita e tamanho |
+| Minnie, Pluto e Mickey | Apenas tema lembrado | não informado | sem ingredientes ou medidas |
+| Formatura da Ellen | Exemplar citado, mas sem informações reproduzíveis | não informado | sem ingredientes ou medidas |
+| Outros bolos brancos/antigos | Alguns sabores e assadeiras não foram lembrados | não informado | não cadastrar como produto técnico validado |
+
+## Notas de governança de dados
+
+- **Nome e descrição do bolo fotografado** não bastam para inferir ingredientes nem tamanho. Manter inspiração visual desvinculada de uma receita precisa até confirmação.
+- **Forma de 30 cm** e o retangular ~40×25 cm são registros de bolos históricos; não equivalem à grade comercial de 18/20/25 cm que está sendo estudada.
+- Evitar lançar no sistema conversões arbitrárias de xícaras para gramas, pesos supostos de latas e caixas, rendimentos de formas ou preços de venda.
+- Receitas de teste devem criar versões datadas (FT-001-T1, FT-001-T2...), até validação. Registrar massa crua, massa assada, recheio produzido/usado/sobra, altura total, peso final, tempo, embalagem.
+- Só depois aprovar custo dos ingredientes, proteção de compras, embalagem adequada, mão de obra e preço final das três faixas comerciais.
+
+## Próxima medição recomendada
+Para a **torta de abacaxi com coco, Ø20×10 cm**, pesar a próxima produção completa em cada etapa e guardar notas/fotos; começar pela massa, esclarecer se o lote de 9 ovos rende mais de uma forma, depois pesagem do recheio, montagem, decoração e peso/altura finais.
