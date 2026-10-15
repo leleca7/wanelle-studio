@@ -13,6 +13,18 @@
    const phone=$('#client-phone').value.replace(/\D/g,'');
    if(phone.length<10||phone.length>13){window.toast?.('Informe um WhatsApp válido com DDD.');$('#client-phone').focus();return;}
    const formData={customer:$('#client-name').value.trim(),phone:phone.startsWith('55')?phone:'55'+phone,eventDate:$('#client-date').value,occasion:$('#client-event').value,servings:Number($('#client-servings').value),items,method:$('#client-method').value,neighborhood:$('#client-neighborhood').value.trim(),flavor:$('#client-flavor').value.trim(),filling:$('#client-filling').value.trim(),decoration:$('#client-decoration').value.trim(),fillingLayers:Number($('#client-filling-layers').value)||2,sizeCm:$('#client-size-cm').value?Number($('#client-size-cm').value):null,decorationLevel:$('#client-decoration-level').value,custom:$('#client-custom').checked,notes:$('#client-notes').value.trim(),source:new URLSearchParams(location.search).get('utm_source')||'site'};
+   if(!C.live){
+     const selections=items.map(x=>x.qty+'x '+(x.referenceId||'a definir')).join(', ');
+     const message='Olá, Wanelle! Gostaria de solicitar um orçamento.\n' +
+       'Nome: '+formData.customer+'\nWhatsApp: '+formData.phone+'\nData: '+formData.eventDate+
+       '\nOcasião: '+formData.occasion+'\nPessoas: '+formData.servings+
+       '\nTamanho: '+(formData.sizeCm||'a definir')+' cm\nReferências: '+selections+
+       '\nMassa: '+(formData.flavor||'a definir')+'\nRecheio: '+(formData.filling||'a definir')+
+       '\nDecoração: '+(formData.decoration||'a definir')+'\nObservações: '+(formData.notes||'nenhuma');
+     window.open('https://wa.me/5571993125721?text='+encodeURIComponent(message),'_blank','noopener');
+     window.toast?.('Continue sua solicitação pelo WhatsApp da Wanelle ♡');
+     return;
+   }
    sending=true;btn.disabled=true;btn.textContent='Registrando seu pedido...';
    try{
      const saved=await C.publicSubmit(formData);
