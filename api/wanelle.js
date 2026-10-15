@@ -71,10 +71,11 @@ async function login(sql,req,res,body){
 module.exports = async (req,res) => {
   res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Cache-Control','no-store');
   try {
-    if(!process.env.DATABASE_URL)throw apiError(503,'Banco de dados ainda não configurado.');
+    const databaseUrl = process.env.DATABASE_URL || process.env.wanellestudio_DATABASE_URL;
+    if(!databaseUrl)throw apiError(503,'Banco de dados ainda não configurado.');
     if(!['GET','POST'].includes(req.method))throw apiError(405,'Método não permitido.');
     if(req.method==='POST' && !sameOrigin(req))throw apiError(403,'Origem não autorizada.');
-    const sql=neon(process.env.DATABASE_URL);
+    const sql=neon(databaseUrl);
     const action=clean(req.query.action,40);
     const body=req.method==='POST'?dataBody(req):null;
     if(req.method==='GET'&&action==='health')return json(res,200,{status:'ok',database:'configured'});
