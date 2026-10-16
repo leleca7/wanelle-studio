@@ -15,7 +15,7 @@ function cookieValue(req) { const cookie=String(req.headers.cookie || '');const 
 function b64url(text) { return Buffer.from(text).toString('base64url'); }
 function hmac(text) { return crypto.createHmac('sha256',process.env.WANELLE_SESSION_SECRET).update(text).digest('base64url'); }
 function compare(a,b) { const x=Buffer.from(String(a)),y=Buffer.from(String(b));return x.length===y.length && crypto.timingSafeEqual(x,y); }
-function mint(email){const payload=b64url(JSON.stringify({email,exp:Date.now()+COOKIE_TTL*1000,version:1}));return payload+'.'+hmac(payload);}
+function mint(email){const payload=b64url(JSON.stringify({email,exp:Date.now()+COOKIE_TTL*1000,iat:Date.now()}));return payload+'.'+hmac(payload);}
 function authenticate(req) {
   if(!process.env.WANELLE_SESSION_SECRET) return null;
   const token=cookieValue(req);const idx=token.lastIndexOf('.');if(idx<1) return null;
@@ -46,7 +46,7 @@ function publicOrder(form){
     sizeCm:size&&size>=10&&size<=50?size:null,laborMode:'auto',stageMinutes:{},extraMaterialsCost:0,
     otherOrderCost:0,provisionalApproved:false,actualRecorded:false,actualStageMinutes:{},actualExtraCost:0};
 }
-async function authorized(sql,req){if(!authenticate(req))throw apiError(401,'Faça login para acessar o painel.');}
+async function authorized(sql,req){const user=authenticate(req);if(!user)throw apiError(401,'Faça login para acessar o painel.');const rows=await sql`SELECT changed_at FROM public.wanelle_password_recovery WHERE id=1`;if(rows[0]?.changed_at&&(!user.iat||user.iat<=new Date(rows[0].changed_at).getTime()))throw apiError(401,'Sessão encerrada após alteração da senha. Faça login novamente.');}
 
 async function resetStorage(sql){
  await sql`CREATE TABLE IF NOT EXISTS public.wanelle_password_recovery (id integer PRIMARY KEY DEFAULT 1 CHECK (id=1), password_hash text, reset_hash text, reset_expires timestamptz, requested_at timestamptz, changed_at timestamptz)`;
@@ -67,7 +67,7 @@ async function requestReset(sql,req,body){
  const token=crypto.randomBytes(32).toString('hex');
  const tokenHash=crypto.createHash('sha256').update(token).digest('hex');
  const host=String(req.headers['x-forwarded-host']||req.headers.host||'');
- if(!/^[a-z0-9.-]+(?::\\d+)?$/i.test(host))throw apiError(400,'Domínio inválido.');
+ if(!/^[a-z0-9.-]+(?::\d+)?$/i.test(host))throw apiError(400,'Domínio inválido.');
  const proto='https';
  const link=proto+'://'+host+'/redefinir-senha.html?token='+encodeURIComponent(token);
  const responseEmail=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:'Bearer '+process.env.RESEND_API_KEY,'Content-Type':'application/json'},body:JSON.stringify({from:process.env.WANELLE_RESET_FROM_EMAIL,to:[configured],subject:'Wanelle Studio • Redefinição de senha',text:'Você solicitou uma troca de senha. Abra este link nos próximos 20 minutos: '+link+'\\nSe não foi você, ignore esta mensagem.'})});
@@ -130,7 +130,7 @@ module.exports = async (req,res) => {
     if(req.method==='POST'&&action==='logout'){
       res.setHeader('Set-Cookie',COOKIE+'=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0');return json(res,200,{ok:true});
     }
-    if(req.method==='GET'&&action==='session')return json(res,200,{user:authenticate(req)?{email:authenticate(req).email}:null});
+    if(req.method==='GET'&&action==='session'){try{await authorized(sql,req);return json(res,200,{user:{email:authenticate(req).email}});}catch{return json(res,200,{user:null});}}
     await authorized(sql,req);
     if(req.method==='GET'&&action==='bootstrap'){
       const [s,o,q]=await Promise.all([sql`SELECT section,payload FROM public.wanelle_app_data`,sql`SELECT payload FROM public.wanelle_orders ORDER BY created_at DESC LIMIT 3000`,sql`SELECT payload FROM public.wanelle_market_quotes ORDER BY id`]);
