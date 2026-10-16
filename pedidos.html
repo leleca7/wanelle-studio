@@ -57,7 +57,8 @@ document.querySelectorAll('[data-tab]').forEach(button=>button.addEventListener(
  document.querySelectorAll('[data-tab]').forEach(x=>x.setAttribute('aria-selected',String(x===button)));
  ['potes','tortas','pontos'].forEach(id=>el(id).hidden=id!==button.dataset.tab);
 }));
-const chosenInspiration=new URLSearchParams(location.search).get('inspiracao');if(chosenInspiration){document.querySelector('[data-tab="tortas"]')?.click();document.getElementById('c-inspo').value='Quero um bolo inspirado no modelo: '+chosenInspiration.slice(0,120);}\nconst selectedPhoto=new URLSearchParams(location.search).get('inspiracao');if(selectedPhoto){document.querySelector('[data-tab="tortas"]')?.click();document.getElementById('c-inspo').value='Gostaria de uma torta inspirada no modelo: '+selectedPhoto.slice(0,120);}
+const chosenInspiration=new URLSearchParams(location.search).get('inspiracao');if(chosenInspiration){document.querySelector('[data-tab="tortas"]')?.click();document.getElementById('c-inspo').value='Quero um bolo inspirado no modelo: '+chosenInspiration.slice(0,120);}
+const selectedPhoto=new URLSearchParams(location.search).get('inspiracao');if(selectedPhoto){document.querySelector('[data-tab="tortas"]')?.click();document.getElementById('c-inspo').value='Gostaria de uma torta inspirada no modelo: '+selectedPhoto.slice(0,120);}
 const today=new Date();const localDay=new Date(today.getTime()-today.getTimezoneOffset()*60000).toISOString().slice(0,10);
 el('c-date').min=localDay;
 const cart={};const catalog=el('pote-list');
