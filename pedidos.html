@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Peça na Wanelle • Tortas e bolos no pote</title>
+<meta name="description" content="Monte sua encomenda de tortas e consulte bolos no pote, retirada e entregas da Wanelle.">
+<style>
+:root{--wine:#ad244c;--dark:#7e1736;--cream:#fff3e6;--paper:#fffaf5;--ink:#422a2d;--muted:#765d5c;--line:#ead5cc}
+*{box-sizing:border-box}body{margin:0;font:16px/1.5 system-ui,Arial;background:var(--cream);color:var(--ink)}header{padding:20px max(18px,calc((100% - 1000px)/2));background:var(--paper);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;align-items:center}header strong{font:32px Georgia,serif;color:var(--dark)}a{color:var(--wine)}main{max-width:1000px;margin:auto;padding:32px 18px 72px}h1,h2{color:var(--dark);font-family:Georgia,serif}h1{font-size:clamp(32px,6vw,54px);line-height:1.12}h2{font-size:30px;margin:4px 0 16px}.lead{font-size:18px;color:var(--muted);max-width:670px}.tabs{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0}.tabs button,.btn{border:1px solid var(--wine);border-radius:40px;background:white;color:var(--wine);padding:13px 20px;font-weight:750;cursor:pointer}.tabs button[aria-selected=true],.btn.primary{background:var(--wine);color:white}.btn:disabled{opacity:.5;cursor:not-allowed}.panel{background:var(--paper);padding:clamp(18px,4vw,32px);border-radius:22px;box-shadow:0 10px 36px #5a202112}.panel[hidden]{display:none}label{font-weight:700;font-size:14px;display:block;margin:15px 0 6px}input,select,textarea{width:100%;border:1px solid #d9baba;border-radius:12px;background:white;padding:12px;font:inherit;color:var(--ink)}textarea{min-height:90px}input:focus,select:focus,textarea:focus,button:focus-visible{outline:3px solid #e8aa75;outline-offset:2px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 17px}.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.note{color:var(--muted);font-size:13px}.notice{background:#fff0db;border:1px solid #ecd5b6;padding:14px;border-radius:12px;margin:17px 0}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.card{padding:18px;background:white;border:1px solid var(--line);border-radius:16px}.card h3{margin:0 0 8px;color:var(--dark)}.summary{white-space:pre-wrap;background:white;padding:18px;border:1px solid var(--line);border-radius:12px}.step{display:inline-block;background:#fbe7e4;border-radius:99px;padding:5px 11px;font-size:12px;font-weight:800;color:var(--dark)}@media(max-width:620px){.grid{grid-template-columns:1fr}header strong{font-size:24px}}
+</style></head>
+<body><header><strong>Wanelle ♡</strong><a href="/">← Voltar ao site</a></header>
+<main><span class="step">WANELLE • PEDIDOS DIRETOS</span><h1>Seu momento merece um doce especial.</h1>
+<p class="lead">Encomende sua torta sem dúvidas e veja os bolos no pote disponíveis. Nosso atendimento confirma todos os detalhes pelo WhatsApp.</p>
+<nav class="tabs" aria-label="Escolha o atendimento"><button type="button" data-tab="potes" aria-selected="true">Bolos no pote</button><button type="button" data-tab="tortas" aria-selected="false">Montar minha torta</button><button type="button" data-tab="pontos" aria-selected="false">Onde encontrar</button></nav>
+<section class="panel" id="potes"><h2>Bolos no pote</h2><p>Escolha os sabores e quantidades disponíveis para solicitar seu pedido.</p>
+<div id="pote-list" class="cards"></div><div id="cart-area" hidden><h3>Seu carrinho</h3><div id="cart-summary" class="summary"></div>
+<div class="grid"><div><label for="p-name">Seu nome</label><input id="p-name" autocomplete="name"></div><div><label for="p-phone">Seu WhatsApp</label><input id="p-phone" inputmode="tel" autocomplete="tel"></div>
+<div><label for="p-method">Como deseja receber?</label><select id="p-method"><option value="Entrega própria (a confirmar)">Entrega própria (a confirmar)</option><option value="Retirada (a confirmar)">Retirada (a confirmar)</option></select></div><div><label for="p-bairro">Bairro / ponto de referência</label><input id="p-bairro" autocomplete="address-level3"></div></div>
+<label for="p-notes">Observações</label><textarea id="p-notes"></textarea>
+<p class="note">Nenhum pedido é confirmado automaticamente. A equipe validará estoque, entrega, taxa e pagamento.</p>
+<button class="btn primary" id="send-potes" type="button">Enviar seleção pelo WhatsApp</button></div>
+<p id="pote-info" class="notice"></p></section>
+<section class="panel" id="tortas" hidden><h2>Monte sua torta</h2><p>Escolha o sabor por dentro e o estilo por fora. Fotos do portfólio são referências, não sabores obrigatórios.</p>
+<form id="cake-form"><div class="grid">
+<div><label for="c-name">Seu nome *</label><input id="c-name" required autocomplete="name" maxlength="120"></div>
+<div><label for="c-phone">WhatsApp com DDD *</label><input id="c-phone" required inputmode="tel" autocomplete="tel" maxlength="22"></div>
+<div><label for="c-date">Data desejada *</label><input id="c-date" type="date" required></div>
+<div><label for="c-occasion">Ocasião</label><select id="c-occasion"><option>Aniversário</option><option>Comemoração</option><option>Formatura</option><option>Outra ocasião</option></select></div>
+<div><label for="c-size">Tamanho *</label><select id="c-size" required><option value="">Escolha</option><option>18 cm (aprox. 15–18 fatias)</option><option>20 cm (aprox. 20–24 fatias)</option><option>25 cm (aprox. 30–35 fatias)</option><option>Preciso de orientação</option></select></div>
+<div><label for="c-massa">Massa desejada</label><input id="c-massa" maxlength="100" placeholder="Descreva sua preferência (sujeita a confirmação)"></div>
+<div><label for="c-recheio">Recheio desejado</label><input id="c-recheio" maxlength="100" placeholder="Informe sua preferência"></div>
+<div><label for="c-style">Estilo de decoração</label><select id="c-style"><option>Simples</option><option>Temática personalizada</option><option>Conforme inspiração</option><option>Preciso de sugestões</option></select></div>
+<div><label for="c-method">Recebimento</label><select id="c-method"><option>Retirada (a confirmar)</option><option>Entrega própria (a confirmar)</option></select></div>
+<div><label for="c-bairro">Bairro / endereço de referência</label><input id="c-bairro" maxlength="150"></div></div>
+<label for="c-inspo">Inspiração / descrição da decoração</label><textarea id="c-inspo" maxlength="2000" placeholder="Ex.: tons rosa e branco, flores delicadas, nome da aniversariante"></textarea>
+<label for="c-image">Foto de inspiração (opcional)</label><input type="file" id="c-image" accept="image/jpeg,image/png,image/webp">
+<p class="note">A foto não é enviada automaticamente pelo link do WhatsApp. Depois de abrir a conversa, anexe a imagem selecionada no próprio WhatsApp. Não enviamos arquivos a servidores nesta versão.</p>
+<label for="c-notes">Outras informações</label><textarea id="c-notes" maxlength="2000"></textarea>
+<div class="notice">Orçamento sujeito à análise da confeiteira: massa, recheio, decoração, prazo e valor precisam ser confirmados.</div>
+<button type="submit" class="btn primary">Solicitar orçamento no WhatsApp</button></form></section>
+<section class="panel" id="pontos" hidden><h2>Onde encontrar a Wanelle?</h2><p>Consulte aqui os pontos parceiros e a possibilidade de retirada.</p>
+<div id="partner-list" class="cards"></div><div class="notice">Marback e Curralinho são regiões em avaliação. Endereços, parcerias, horários e estoque só serão publicados quando confirmados.</div>
+<p>Para combinar uma entrega própria ou saber o local de retirada, <a id="point-contact" target="_blank" rel="noopener noreferrer">fale com a Wanelle no WhatsApp</a>.</p></section>
+</main>
+<script>
+'use strict';
+const WHATSAPP='5571993125721';
+// Somente cadastros confirmados deverão aparecer. Não inserir preços ou sabores fictícios.
+const POT_PRODUCTS=[]; // Futuro: carregar do catálogo administrativo confirmado.
+const PARTNERS=[]; // Futuro: {name,address,neighborhood,hours,stockConfirmed,canPickup}
+const fmt=n=>Number(n).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const wa=message=>'https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(message);
+const el=id=>document.getElementById(id);
+document.querySelectorAll('[data-tab]').forEach(button=>button.addEventListener('click',()=>{
+ document.querySelectorAll('[data-tab]').forEach(x=>x.setAttribute('aria-selected',String(x===button)));
+ ['potes','tortas','pontos'].forEach(id=>el(id).hidden=id!==button.dataset.tab);
+}));
+const today=new Date();const localDay=new Date(today.getTime()-today.getTimezoneOffset()*60000).toISOString().slice(0,10);
+el('c-date').min=localDay;
+const cart={};const catalog=el('pote-list');
+if(!POT_PRODUCTS.length){el('pote-info').textContent='O catálogo de bolos no pote está sendo preparado. Ainda não há sabores, preços ou estoque confirmados para venda online.'}
+POT_PRODUCTS.filter(p=>p.available&&Number.isFinite(p.price)&&p.price>=0).forEach(p=>{
+ const card=document.createElement('article');card.className='card';
+ const h=document.createElement('h3');h.textContent=p.name;card.append(h);
+ const info=document.createElement('p');info.textContent=(p.size||'')+' • '+fmt(p.price);card.append(info);
+ const btn=document.createElement('button');btn.className='btn';btn.type='button';btn.textContent='Adicionar +';
+ btn.onclick=()=>{cart[p.id]=(cart[p.id]||0)+1;drawCart()};card.append(btn);catalog.append(card);
+});
+function drawCart(){const selected=POT_PRODUCTS.filter(p=>cart[p.id]>0);el('cart-area').hidden=!selected.length;
+ el('cart-summary').textContent=selected.map(p=>cart[p.id]+' × '+p.name+' — '+fmt(cart[p.id]*p.price)).join('\n')+'\nSubtotal: '+fmt(selected.reduce((n,p)=>n+p.price*cart[p.id],0))+'\nFrete a confirmar';}
+el('send-potes').onclick=()=>{
+ const name=el('p-name').value.trim(),phone=el('p-phone').value.replace(/\D/g,'');
+ if(name.length<2||phone.length<10){alert('Informe seu nome e WhatsApp com DDD.');return}
+ const items=POT_PRODUCTS.filter(p=>cart[p.id]>0);if(!items.length)return;
+ const msg=['Olá, Wanelle! Gostaria de confirmar esta seleção de bolos no pote:','',...items.map(p=>cart[p.id]+' × '+p.name+' — '+fmt(p.price*cart[p.id])),'Subtotal: '+fmt(items.reduce((n,p)=>n+p.price*cart[p.id],0)),'Recebimento: '+el('p-method').value,'Bairro: '+(el('p-bairro').value||'a definir'),'Nome: '+name,'Contato: '+phone,'Observações: '+el('p-notes').value,'','Entendo que disponibilidade, frete e pagamento ainda serão confirmados.'].join('\n');
+ window.open(wa(msg),'_blank','noopener,noreferrer');
+};
+el('cake-form').onsubmit=e=>{
+ e.preventDefault();if(!e.target.reportValidity())return;
+ const phone=el('c-phone').value.replace(/\D/g,'');if(phone.length<10||phone.length>13){alert('Informe o WhatsApp com DDD.');return}
+ if(el('c-date').value<localDay){alert('Escolha uma data válida.');return}
+ const lines=['Olá, Wanelle! Quero solicitar um orçamento de torta personalizada.','',
+ 'Nome: '+el('c-name').value,'WhatsApp: '+phone,'Data desejada: '+el('c-date').value,
+ 'Ocasião: '+el('c-occasion').value,'Tamanho: '+el('c-size').value,
+ 'Massa desejada: '+(el('c-massa').value||'a definir'),'Recheio desejado: '+(el('c-recheio').value||'a definir'),
+ 'Decoração: '+el('c-style').value,'Inspiração: '+(el('c-inspo').value||'não informada'),
+ 'Foto de referência: '+(el('c-image').files.length?'Vou anexar a foto nesta conversa':'sem foto anexada'),
+ 'Recebimento: '+el('c-method').value,'Bairro: '+(el('c-bairro').value||'a definir'),'Observações: '+(el('c-notes').value||'nenhuma'),
+ '','Aguardo confirmação de disponibilidade, preço e prazo.'];
+ window.open(wa(lines.join('\n')),'_blank','noopener,noreferrer');
+};
+const partnerList=el('partner-list');
+if(!PARTNERS.length){const note=document.createElement('p');note.textContent='Ainda não há pontos de venda ou retirada confirmados cadastrados no site.';partnerList.append(note)}
+PARTNERS.filter(p=>p.name&&p.address&&p.confirmed).forEach(p=>{const card=document.createElement('article');card.className='card';const h=document.createElement('h3');h.textContent=p.name;const info=document.createElement('p');info.textContent=[p.address,p.hours,p.canPickup?'Retirada disponível':'Venda no balcão'].filter(Boolean).join(' • ');card.append(h,info);partnerList.append(card)});
+el('point-contact').href=wa('Olá, Wanelle! Quero consultar ponto de venda, retirada ou entrega disponível.');
+</script></body></html>
