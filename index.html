@@ -36,13 +36,11 @@
 <script src="assets/wanelle-showcase.js" defer></script>
 </head>
 <body>
-<a href="/pedidos.html" aria-label="Fazer pedido na Wanelle" style="position:fixed;right:18px;bottom:18px;z-index:9999;background:#ad244c;color:#fff;padding:14px 20px;border-radius:40px;box-shadow:0 6px 24px #0003;font:700 14px system-ui;text-decoration:none">♡ Fazer meu pedido</a>
-
-<div role="status" style="background:#fff2c6;color:#673c28;text-align:center;font:600 13px Arial,sans-serif;padding:9px 12px;position:relative;z-index:9999">Vitrine Wanelle — Orçamentos são enviados pelo WhatsApp; integração de pedidos em preparação.</div>
+<div role="status" style="background:#fff2c6;color:#673c28;text-align:center;font:600 13px Arial,sans-serif;padding:9px 12px;position:relative;z-index:9999">Wanelle • Faça seu pedido pelo site ou converse com a gente no WhatsApp.</div>
 <div class="topline"><div class="wrap"><span>♡ Doçura em cada detalhe • Feito por encomenda</span><span class="topright">Salvador, Bahia <em>✳</em></span></div></div>
 <header class="header"><div class="wrap"><a class="logo" href="#inicio" aria-label="Wanelle, voltar para início"><img src="https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/foto-d1a021079f73c4.png" alt="Wanelle" /></a>
 <nav class="links" aria-label="Navegação principal"><a href="#inicio">Início</a><a href="#tortas">Criações da Wanelle</a><a href="#personalizados">Personalizadas</a><a href="#como-funciona">Como encomendar</a></nav>
-<div class="header-actions"><button class="button button-small" id="header-order" type="button">Monte seu pedido <span aria-hidden="true">↗</span></button><button class="bag" type="button" id="open-bag" aria-label="Abrir minha encomenda"><span aria-hidden="true">♡</span><span id="bag-num">0</span></button><button class="hamburger" id="mobile-menu-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button></div></div>
+<div class="header-actions"><button class="button button-small" id="header-order" type="button">Fazer pedido <span aria-hidden="true">↗</span></button><button class="bag" type="button" id="open-bag" aria-label="Abrir minha encomenda"><span aria-hidden="true">♡</span><span id="bag-num">0</span></button><button class="hamburger" id="mobile-menu-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button></div></div>
 <nav class="mobile-menu" id="mobile-menu" aria-label="Menu para celular"><a href="#inicio">Início</a><a href="#tortas">Criações da Wanelle</a><a href="#personalizados">Tortas personalizadas</a><a href="#como-funciona">Como encomendar</a><a href="#contato">Contato</a></nav></header>
 <main>
 <section id="inicio" class="hero hero-editorial">
@@ -144,7 +142,7 @@ $('#clear-cart').onclick=()=>{cart=[];updateCart();toast('Sua seleção foi limp
 function openDrawer(){closeProduct(false);lastFocus=document.activeElement;$('#drawer').hidden=false;showBackdrop();requestAnimationFrame(()=>$('#drawer').classList.add('open'));$('#drawer-close').focus()}
 function closeDrawer(restore=true){if($('#drawer').hidden)return;$('#drawer').classList.remove('open');setTimeout(()=>{$('#drawer').hidden=true},300);hideBackdrop();if(restore&&lastFocus?.focus)lastFocus.focus()}
 $('#drawer-close').onclick=()=>closeDrawer();$('#open-bag').onclick=openDrawer;
-['header-order','hero-order','story-order','banner-order'].forEach(id=>$('#'+id).onclick=openDrawer);
+['header-order','hero-order','story-order','banner-order'].forEach(id=>{const btn=$('#'+id);if(btn)btn.onclick=()=>{location.href='/pedidos.html';};});
 $('#overlay').onclick=()=>{if(!$('#drawer').hidden)closeDrawer();if(!$('#product-modal').hidden)closeProduct()};
 window.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('#drawer').hidden)closeDrawer();else if(!$('#product-modal').hidden)closeProduct()}if(!$('#product-modal').hidden&&e.key==='ArrowLeft')changeModalImage(activeImage-1);if(!$('#product-modal').hidden&&e.key==='ArrowRight')changeModalImage(activeImage+1)});
 $('#client-method').addEventListener('change',e=>{$('#delivery-address').hidden=e.target.value!=='Consultar entrega';$('#client-neighborhood').required=e.target.value==='Consultar entrega'});
