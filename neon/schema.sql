@@ -29,3 +29,12 @@ CREATE TABLE IF NOT EXISTS public.wanelle_market_quotes (
   updated_at timestamptz NOT NULL DEFAULT now()
 );
 CREATE INDEX IF NOT EXISTS wanelle_market_quotes_store_idx ON public.wanelle_market_quotes ((payload->>'store'));
+
+-- Contador antiabuso por identificador pseudônimo e janela de uma hora.
+-- Apagar registros antigos por rotina administrativa; sem armazenamento de IP bruto.
+CREATE TABLE IF NOT EXISTS public.wanelle_public_limits (
+  key_hash text PRIMARY KEY,
+  hits integer NOT NULL DEFAULT 0,
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS wanelle_public_limits_updated_idx ON public.wanelle_public_limits(updated_at);

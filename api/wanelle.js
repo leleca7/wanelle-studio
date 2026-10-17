@@ -78,8 +78,20 @@ module.exports = async (req,res) => {
     const sql=neon(databaseUrl);
     const action=clean(req.query.action,40);
     const body=req.method==='POST'?dataBody(req):null;
-    if(req.method==='GET'&&action==='health')return json(res,200,{status:'ok',database:'configured'});
+    if(req.method==='GET'&&action==='health')return json(res,200,{status:'ok',database:'configured',adminReady:Boolean(process.env.WANELLE_ADMIN_PASSWORD_HASH&&process.env.WANELLE_ADMIN_EMAIL&&process.env.WANELLE_SESSION_SECRET),intakeReady:Boolean(process.env.WANELLE_ADMIN_PASSWORD_HASH&&process.env.WANELLE_ADMIN_EMAIL&&process.env.WANELLE_SESSION_SECRET)});
     if(req.method==='POST'&&action==='submit'){
+      if(!process.env.WANELLE_ADMIN_PASSWORD_HASH||!process.env.WANELLE_ADMIN_EMAIL||!process.env.WANELLE_SESSION_SECRET)
+        throw apiError(503,'Atendimento automático ainda em preparação. Use o WhatsApp.');
+      if(body.website||body.privacyAccepted!==true)throw apiError(400,'Confirme os dados para contato.');
+      const started=Number(body.clientStartedAt);
+      if(!Number.isFinite(started)||Date.now()-started<2500||Date.now()-started>86400000)throw apiError(400,'Reabra o formulário e tente novamente.');
+      const ip=clean(req.headers['x-real-ip']||req.headers['x-forwarded-for']?.split(',')[0]||req.socket?.remoteAddress||'sem-ip',100);
+      const hour=Math.floor(Date.now()/3600000);
+      const key=crypto.createHmac('sha256',process.env.WANELLE_SESSION_SECRET).update(ip+'|'+hour).digest('hex');
+      const quota=await sql`INSERT INTO public.wanelle_public_limits (key_hash,hits,updated_at)
+        VALUES (${key},1,now()) ON CONFLICT(key_hash) DO UPDATE
+        SET hits=public.wanelle_public_limits.hits+1, updated_at=now() RETURNING hits`;
+      if(Number(quota[0]?.hits)>4)throw apiError(429,'Limite de solicitações atingido. Continue pelo WhatsApp.');
       const order=publicOrder(body);
       await sql`INSERT INTO public.wanelle_orders (id,payload,created_at,updated_at) VALUES (${order.id},${JSON.stringify(order)}::jsonb,now(),now())`;
       return json(res,201,{id:order.id,customer:order.customer});

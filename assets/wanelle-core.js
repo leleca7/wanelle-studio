@@ -9,18 +9,18 @@
     ['pronto', 'Pronto'], ['entregue', 'Entregue']
   ];
   const products = [
-    { id:"chocolate", name:"Torta de Chocolate", photo:"https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/nova-chocolate-frontal.webp" },
-    { id:"chocolate-raspas", name:"Torta de Chocolate com Raspas", photo:"https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/wanelle-chocolate-raspas-frontal.webp" },
-    { id:"morango", name:"Torta de Morango", photo:"https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/foto-c01ef23f279de8.webp" },
-    { id:"abacaxi", name:"Torta de Abacaxi com Coco", photo:"https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/nova-abacaxi-frontal.webp" },
-    { id:"kiwi", name:"Torta de Frutas", photo:"https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/foto-f999ef06c816e0.webp" },
-    { id:"formatura", name:"Torta de Formatura", photo:"https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/wanelle-formatura-nova-frente.webp" },
-    { id:"ellen", name:"Torta Temática", photo:"https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/foto-80a5346b079ec6.webp" },
-    { id:"rosa", name:"Torta Rosa Delicada", photo:"https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/nova-rosa-close.webp" },
-    { id:"heroi", name:"Torta Super-Herói", photo:"https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/nova-heroi-close.webp" },
-    { id:"infantil", name:"Torta Infantil", photo:"https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/wanelle-infantil-nova.webp" },
-    { id:"boteco", name:"Torta Tema Boteco", photo:"https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/wanelle-boteco-principal.webp" },
-    { id:"administracao", name:"Torta de Formatura Administração", photo:"https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/wanelle-formatura-administracao-frontal.webp" },
+    { id:"chocolate", name:"Torta de Chocolate", photo:"assets/media/nova-chocolate-frontal.webp" },
+    { id:"chocolate-raspas", name:"Torta de Chocolate com Raspas", photo:"assets/media/wanelle-chocolate-raspas-frontal.webp" },
+    { id:"morango", name:"Torta de Morango", photo:"assets/media/foto-c01ef23f279de8.webp" },
+    { id:"abacaxi", name:"Torta de Abacaxi com Coco", photo:"assets/media/nova-abacaxi-frontal.webp" },
+    { id:"kiwi", name:"Torta de Frutas", photo:"assets/media/foto-f999ef06c816e0.webp" },
+    { id:"formatura", name:"Torta de Formatura", photo:"assets/media/wanelle-formatura-nova-frente.webp" },
+    { id:"ellen", name:"Torta Temática", photo:"assets/media/foto-80a5346b079ec6.webp" },
+    { id:"rosa", name:"Torta Rosa Delicada", photo:"assets/media/nova-rosa-close.webp" },
+    { id:"heroi", name:"Torta Super-Herói", photo:"assets/media/nova-heroi-close.webp" },
+    { id:"infantil", name:"Torta Infantil", photo:"assets/media/wanelle-infantil-nova.webp" },
+    { id:"boteco", name:"Torta Tema Boteco", photo:"assets/media/wanelle-boteco-principal.webp" },
+    { id:"administracao", name:"Torta de Formatura Administração", photo:"assets/media/wanelle-formatura-administracao-frontal.webp" },
   ];
   const ingredientSeed = [
     ['farinha','Farinha de trigo','g',1000,6.80,1500],
@@ -245,7 +245,7 @@
   function itemDescription(order,state){return (order.items||[]).map(item=>{const r=state.recipes.find(r=>r.id===item.recipeId);const p=products.find(p=>p.id===item.referenceId);return `${item.qty||1}× ${r?.name|| (p?'Sob medida (inspiração: '+p.name+')':'Torta sob medida')}`;}).join(' • ') || 'Torta personalizada';}
   async function publicSubmit(o) {
     const publicOrder={id:id(),customer:String(o.customer||'').trim(),phone:String(o.phone||'').trim(),eventDate:o.eventDate,occasion:o.occasion||'',servings:Math.max(1,Math.round(n(o.servings)||20)),items:o.items||[],method:o.method||'Retirada',neighborhood:o.neighborhood||'',custom:!!o.custom,flavor:o.flavor||'',filling:o.filling||'',decoration:o.decoration||'',notes:o.notes||'',status:'novo',createdAt:new Date().toISOString(),source:o.source||'site',salePrice:null,quoteSnapshot:null,deliveryCost:0,fillingLayers:Math.max(1,Math.min(10,Math.round(n(o.fillingLayers)||2))),decorationLevel:o.decorationLevel||'simples',sizeCm:o.sizeCm? n(o.sizeCm):null,laborMode:'auto',stageMinutes:{},extraMaterialsCost:0,otherOrderCost:0,provisionalApproved:false,actualRecorded:false,actualStageMinutes:{},actualExtraCost:0};
-    if(live){ const saved=await api('submit',{method:'POST',body:publicOrder});return {...publicOrder,id:saved.id}; }
+    if(live){ const payload={...publicOrder,website:o.website||'',privacyAccepted:!!o.privacyAccepted,clientStartedAt:o.clientStartedAt}; const saved=await api('submit',{method:'POST',body:payload});return {...publicOrder,id:saved.id}; }
     else if(demoAllowed){const s=getLocal();s.orders.unshift(publicOrder);saveLocal(s);}
     else throw Error('Recebimento pelo site ainda não foi conectado. Entre em contato pelo WhatsApp.');
     return publicOrder;

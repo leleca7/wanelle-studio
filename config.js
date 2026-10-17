@@ -1,4 +1,3 @@
-// Admin uses secure Neon API; public storefront remains WhatsApp-only until
-// authentication and anti-spam safeguards are validated.
-const adminPage = /(?:^|\/)admin\.html$/i.test(window.location.pathname);
-window.WANELLE_CONFIG = { backend: adminPage ? 'neon' : 'demo', apiPath: '/api/wanelle' };
+// Admin e vitrine usam o núcleo Neon; a API só grava orçamento público
+// depois de habilitar o administrador e aplicar as proteções antiabuso.
+window.WANELLE_CONFIG = { backend: 'neon', apiPath: '/api/wanelle' };
