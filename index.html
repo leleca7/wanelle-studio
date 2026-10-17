@@ -7,6 +7,9 @@
 <link rel="icon" href="assets/media/foto-d1a021079f73c4.png" type="image/png">
 <meta name="description" content="Wanelle Tortas: tortas artesanais e personalizadas em Salvador. Explore nossos trabalhos e solicite seu orçamento pelo site.">
 <title>Wanelle Tortas — Feito para celebrar</title>
+<script src="config.js" defer></script>
+<script src="assets/wanelle-core.js" defer></script>
+<script src="assets/storefront-intake.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@600;700&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -221,6 +224,12 @@ form input:focus,form select:focus,form textarea:focus{outline:none;border-color
 .toast{position:fixed;left:50%;bottom:max(22px,env(safe-area-inset-bottom,0px));transform:translate(-50%,140px);background:var(--ink);color:#fff;padding:13px 22px;border-radius:999px;font-weight:800;font-size:.9rem;z-index:120;transition:transform .3s}
 .toast.on{transform:translate(-50%,0)}
 
+/* O sistema antigo foi religado sem alterar os blocos da vitrine. */
+.trap{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;overflow:hidden!important;opacity:0!important}
+.order-feedback{margin:16px 0;padding:15px 16px;border-radius:16px;background:#fff;border:2px solid var(--pink);font-size:.9rem}
+.order-feedback[hidden]{display:none}
+.order-feedback a{display:inline-flex;margin-top:10px}
+footer .internal-link{display:inline-block;margin-top:14px;font-size:.75rem;opacity:.75;text-decoration:underline;text-underline-offset:3px}
 /* responsivo */
 @media (max-width:980px){
   .nav{grid-template-columns:auto 1fr;padding-left:18px}
@@ -476,7 +485,7 @@ form input:focus,form select:focus,form textarea:focus{outline:none;border-color
       <details><summary>Posso pedir uma torta personalizada?</summary><p>Sim! Conte seu tema e envie referências pelo WhatsApp. A possibilidade de reprodução e o orçamento dependem do tipo de decoração, ingredientes e agenda.</p></details>
       <details><summary>Onde encontro preços e tamanhos?</summary><p>Estamos finalizando as opções comerciais do catálogo. Por enquanto, consulte tamanho, recheio, valor e disponibilidade diretamente com a Wanelle.</p></details>
       <details><summary>A Wanelle faz entregas?</summary><p>Você pode solicitar entrega no formulário. O bairro, o valor e a disponibilidade de transporte serão confirmados antes do fechamento do pedido.</p></details>
-      <details><summary>Já posso encomendar bolo de pote?</summary><p>A linha de bolos de pote ainda está em preparação. Fale com a gente para verificar se há unidades disponíveis.</p></details>
+      <details><summary>Já posso encomendar bolo de pote?</summary><p>A linha de bolos no pote ainda está em testes. Por enquanto, não estamos recebendo reservas nem divulgando estoque.</p></details>
     </div>
   </div>
 </section>
@@ -487,7 +496,7 @@ form input:focus,form select:focus,form textarea:focus{outline:none;border-color
     <div class="foot-grid">
       <div>
         <a class="logo" href="#inicio" aria-label="Wanelle Tortas, voltar ao início"><img decoding="async" src="assets/media/foto-d1a021079f73c4.png" alt=""></a>
-        <p style="max-width:38ch">Feita à mão, com carinho e ingredientes selecionados para tornar cada momento ainda mais especial.</p>
+        <p style="max-width:38ch">Feita à mão, com carinho e ingredientes selecionados para tornar cada momento ainda mais especial.</p><a class="internal-link" href="admin.html" rel="nofollow">Área interna da Wanelle ↗</a>
       </div>
       <div>
         <h4>Explore</h4>
@@ -520,20 +529,36 @@ form input:focus,form select:focus,form textarea:focus{outline:none;border-color
   <p class="fine" style="margin-top:0">Preencha o que souber. A Wanelle confirma disponibilidade e valor pelo WhatsApp.</p>
   <div class="saved" id="saved"></div>
   <form id="orderForm">
-    <label for="nome">Seu nome<input id="nome" required autocomplete="name"></label>
+    <label for="nome">Seu nome<input id="nome" required minlength="2" maxlength="150" autocomplete="name"></label>
+    <label for="telefone">WhatsApp com DDD<input id="telefone" required inputmode="tel" maxlength="20" autocomplete="tel" placeholder="(71) 99999-9999"></label>
     <div class="row2">
-      <label for="data">Data da festa<input id="data" type="date"></label>
-      <label for="pessoas">Nº de pessoas<input id="pessoas" type="number" min="1" inputmode="numeric"></label>
+      <label for="data">Data desejada<input id="data" type="date" required></label>
+      <label for="pessoas">Nº de pessoas<input id="pessoas" type="number" min="1" max="500" required inputmode="numeric"></label>
     </div>
     <div class="row2">
-      <label for="sabor">Sabor<select id="sabor"><option value="">A combinar</option><option>Chocolate</option><option>Abacaxi</option><option>Morango</option><option>Outro</option></select></label>
-      <label for="recheio">Recheio<input id="recheio" placeholder="Ex.: brigadeiro"></label>
+      <label for="tamanho">Tamanho da torta<select id="tamanho"><option value="">A combinar</option><option value="18">18 cm</option><option value="20">20 cm</option><option value="25">25 cm</option><option value="outro">Outro tamanho</option></select></label>
+      <label for="ocasiao">Ocasião<input id="ocasiao" maxlength="100" placeholder="Aniversário, formatura..."></label>
     </div>
-    <label for="entrega">Entrega<select id="entrega"><option>Vou retirar</option><option>Quero entrega (informo o bairro)</option></select></label>
-    <label for="ideias">Ideias de decoração<textarea id="ideias" rows="4" placeholder="Cores, tema, frase no topo..."></textarea></label>
-    <button class="btn btn-crimson" type="submit" style="width:100%;justify-content:center">Enviar pelo WhatsApp ↗</button>
-    <p class="fine">Ao enviar, o WhatsApp abre com a mensagem pronta. Nada é enviado automaticamente.</p>
+    <div class="row2">
+      <label for="sabor">Sabor da massa<select id="sabor"><option value="">A combinar</option><option>Chocolate</option><option>Baunilha</option><option>Outra massa</option></select></label>
+      <label for="recheio">Recheio<input id="recheio" maxlength="150" placeholder="A combinar"></label>
+    </div>
+    <div class="row2">
+      <label for="camadas">Camadas de recheio<select id="camadas"><option value="2">2 (a consultar)</option><option value="1">1</option><option value="3">3</option><option value="4">4</option></select></label>
+      <label for="decoracaoNivel">Decoração<select id="decoracaoNivel"><option value="simples">A combinar / simples</option><option value="detalhada">Detalhada</option><option value="artistica">Artística</option></select></label>
+    </div>
+    <label for="entrega">Recebimento<select id="entrega"><option value="Retirada a confirmar">Retirada (a confirmar)</option><option value="Consultar entrega">Consultar entrega no meu bairro</option></select></label>
+    <label for="bairro">Bairro / referência de entrega<input id="bairro" maxlength="150" placeholder="Preencha se desejar entrega"></label>
+    <label for="ideias">Ideias de decoração<textarea id="ideias" rows="3" maxlength="1800" placeholder="Tema, cores, frase no topo..."></textarea></label>
+    <label class="trap" aria-hidden="true" for="website">Deixe este campo em branco<input id="website" name="website" type="text" autocomplete="off" tabindex="-1"></label>
+    <label for="privacidade" style="font-weight:600;text-transform:none;letter-spacing:0;font-size:.78rem;display:flex;gap:8px;align-items:flex-start">
+      <input id="privacidade" type="checkbox" required style="width:auto;margin-top:4px;flex:none">
+      <span>Autorizo usar meus dados para responder ao orçamento e organizar o atendimento. Isto não confirma a encomenda.</span>
+    </label>
+    <button class="btn btn-crimson" id="sendBudget" type="submit" style="width:100%;justify-content:center">Solicitar orçamento ↗</button>
+    <p class="fine">O sistema tenta registrar a solicitação quando o atendimento online estiver ativo. Caso contrário, continue pelo WhatsApp. Nossa equipe confirma valores e disponibilidade.</p>
   </form>
+  <div id="orderFeedback" class="order-feedback" role="status" aria-live="polite" hidden></div>
 </aside>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -573,11 +598,14 @@ form input:focus,form select:focus,form textarea:focus{outline:none;border-color
   document.querySelectorAll("[data-filter-link]").forEach(function(a){a.addEventListener("click",function(){filter(a.dataset.filterLink)})});
 
   /* pedido */
-  var saved=[],savedEl=document.getElementById("saved"),countEl=document.getElementById("cartCount");
+  var saved=[];try{var previous=JSON.parse(localStorage.getItem("wanelle-inspiracoes-v1")||"[]");if(Array.isArray(previous))saved=previous.filter(function(x){return typeof x==="string"&&x.length<120}).slice(0,8)}catch(e){}
+  window.WANELLE_SITE_SELECTION=function(){return saved.slice()};
+  var savedEl=document.getElementById("saved"),countEl=document.getElementById("cartCount");
   var drawer=document.getElementById("drawer"),overlay=document.getElementById("overlay"),toast=document.getElementById("toast");
   function say(m){toast.textContent=m;toast.classList.add("on");clearTimeout(say.t);say.t=setTimeout(function(){toast.classList.remove("on")},2200)}
   function render(){
     countEl.textContent=saved.length;
+    try{localStorage.setItem("wanelle-inspiracoes-v1",JSON.stringify(saved))}catch(e){}
     savedEl.innerHTML=saved.length?saved.map(function(n){return"<span>♡ "+n+"</span>"}).join(""):"<em>Nenhuma inspiração salva ainda. Toque no ♡ das fotos para escolher.</em>";
     document.querySelectorAll(".save").forEach(function(b){var on=saved.indexOf(b.dataset.name)>-1;b.setAttribute("aria-pressed",on);b.textContent=on?"♥":"♡"});
   }
@@ -593,19 +621,7 @@ form input:focus,form select:focus,form textarea:focus{outline:none;border-color
   document.getElementById("closeBtn").addEventListener("click",close);
   overlay.addEventListener("click",close);
   document.addEventListener("keydown",function(e){if(e.key==="Escape")close()});
-  document.getElementById("orderForm").addEventListener("submit",function(e){
-    e.preventDefault();
-    var v=function(id){return document.getElementById(id).value.trim()};
-    var L=["Oi, Wanelle! Quero fazer um orçamento de torta ♡","","Nome: "+v("nome")];
-    if(v("data"))L.push("Data da festa: "+v("data").split("-").reverse().join("/"));
-    if(v("pessoas"))L.push("Pessoas: "+v("pessoas"));
-    if(v("sabor"))L.push("Sabor: "+v("sabor"));
-    if(v("recheio"))L.push("Recheio: "+v("recheio"));
-    L.push("Entrega: "+v("entrega"));
-    if(saved.length)L.push("Inspirações: "+saved.join(", "));
-    if(v("ideias"))L.push("Ideias: "+v("ideias"));
-    window.open("https://wa.me/5571993125721?text="+encodeURIComponent(L.join("\n")),"_blank","noopener");
-  });
+
   render();
 })();
 </script>
