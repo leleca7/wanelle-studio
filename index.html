@@ -1,159 +1,614 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
-<meta name="theme-color" content="#a82349" />
-<script src="config.js" defer></script><script src="assets/wanelle-core.js" defer></script><script src="assets/site-intake.js" defer></script>
-<meta name="description" content="Wanelle Tortas: tortas artesanais e personalizadas em Salvador. Explore nossos trabalhos e solicite seu orçamento pelo site." />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#c4204f">
+<link rel="icon" href="assets/media/foto-d1a021079f73c4.png" type="image/png">
+<meta name="description" content="Wanelle Tortas: tortas artesanais e personalizadas em Salvador. Explore nossos trabalhos e solicite seu orçamento pelo site.">
 <title>Wanelle Tortas — Feito para celebrar</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@600;700&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--cream:#FFF3E6;--paper:#FFF9F3;--wine:#AD244C;--wine2:#7E1736;--rose:#EA9EA8;--caramel:#D98B32;--honey:#F4B55E;--ink:#422A2D;--mute:#7D6361;--line:#EAD5CC;--font: 'DM Sans','Trebuchet MS',Arial,sans-serif;--serif:'DM Serif Display',Georgia,serif}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;overflow-x:hidden;background:var(--cream);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased}button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}img{display:block;max-width:100%}[hidden]{display:none!important}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--caramel);outline-offset:3px}.wrap{width:min(1200px,calc(100% - 64px));margin-inline:auto}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-.topline{background:var(--wine2);color:#fff6f0;font-size:10px;letter-spacing:.17em;text-transform:uppercase;font-weight:800}.topline .wrap{display:flex;align-items:center;justify-content:space-between;padding-block:9px}.topline em{font-style:normal;color:#FFD18B}.header{background:rgba(255,248,240,.96);position:sticky;top:0;z-index:30;border-bottom:1px solid #ead6d050;backdrop-filter:blur(16px)}.header>.wrap{height:82px;display:flex;align-items:center;justify-content:space-between;gap:24px}.logo{display:flex;align-items:center;flex-shrink:0}.logo img{width:182px;height:auto}.links{display:flex;gap:34px;align-items:center;font-size:12px;font-weight:800;letter-spacing:.03em}.links a{position:relative}.links a:after{content:'';position:absolute;left:0;right:100%;bottom:-6px;border-bottom:2px solid var(--wine);transition:right .25s}.links a:hover:after{right:0}.header-actions{display:flex;align-items:center;gap:10px}.button{background:var(--wine);color:#fffaf3;display:inline-flex;align-items:center;justify-content:center;gap:9px;border:1.5px solid var(--wine);border-radius:999px;padding:15px 22px;font-size:13px;font-weight:800;letter-spacing:.01em;transition:background .25s,color .25s,transform .25s,box-shadow .25s;white-space:nowrap}.button:hover{background:var(--wine2);border-color:var(--wine2);transform:translateY(-2px);box-shadow:0 8px 20px #7e17362c}.button-light{background:transparent;color:var(--wine)}.button-light:hover{color:white}.button-caramel{background:var(--caramel);border-color:var(--caramel);color:white}.button-small{padding:11px 17px;font-size:12px}.bag{height:42px;min-width:42px;border:1.5px solid #e9b8ba;border-radius:100px;background:transparent;display:inline-flex;align-items:center;justify-content:center;gap:6px;color:var(--wine);font-size:13px;font-weight:800;padding:0 11px}.bag svg,.button svg{width:17px;height:17px;flex:none}.hamburger{display:none;background:transparent;border:0;color:var(--wine);font-size:24px}.mobile-menu{display:none;padding:0 32px 24px}.mobile-menu a{display:block;padding:11px 0;font-weight:700;border-bottom:1px solid var(--line)}
-.hero{position:relative;isolation:isolate;overflow:hidden}.hero .wrap{display:grid;grid-template-columns:48% 52%;align-items:center;min-height:640px;gap:10px;padding-top:45px;padding-bottom:46px}.hero:before{position:absolute;content:'';width:520px;height:520px;border-radius:50%;top:-320px;left:-280px;background:#f0c8b540;z-index:-1}.hero-copy{position:relative;z-index:2;padding:25px 10px 20px 0}.eyebrow{font-size:11px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--wine);display:flex;align-items:center;gap:13px}.eyebrow:before{content:'';width:34px;height:1.5px;background:var(--caramel)}.hero h1{font:normal clamp(57px,6.3vw,91px)/.98 var(--serif);letter-spacing:-.039em;color:var(--wine2);margin:25px 0 21px;max-width:640px}.hero h1 em{font-style:italic;color:var(--caramel)}.hero-copy>p{font-size:17px;line-height:1.74;max-width:445px;color:#735651}.hero-buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:31px}.small-note{display:flex;align-items:center;gap:10px;margin-top:43px;font-size:11px;font-weight:700;color:#866A63}.small-note span{background:#f8d9ca;padding:8px 14px;border-radius:100px;color:var(--wine)}.small-note b{font-weight:500}.hero-visual{position:relative;height:540px;min-width:0}.hero-blob{position:absolute;inset:0 16px 26px 30px;background:var(--caramel);border-radius:52% 48% 44% 56%/44% 41% 59% 56%;transform:rotate(5deg);opacity:.94}.hero-blob:before{content:'';position:absolute;width:100%;height:100%;border-radius:inherit;border:1px solid #ad244c44;transform:translate(-18px,12px) rotate(-10deg)}.hero-img{position:absolute;inset:42px 55px 55px 62px;border-radius:46% 50% 43% 45%/48% 46% 53% 49%;overflow:hidden;box-shadow:0 20px 60px #7e17362a;background:#fff4e6}.hero-img img{width:100%;height:100%;object-fit:cover;transition:opacity .45s,transform 6s}.hero-img:hover img{transform:scale(1.06)}.hero-star{position:absolute;left:0;top:12%;font:84px var(--serif);color:var(--wine);transform:rotate(-20deg);pointer-events:none}.hero-badge{position:absolute;right:-9px;bottom:20px;width:165px;height:165px;border-radius:50%;transform:rotate(11deg);display:grid;place-items:center;background:var(--wine);border:7px solid var(--cream);color:white;text-align:center;padding:18px;font:normal 24px/1 var(--serif);box-shadow:0 9px 26px #581b2836}.slide-controls{position:absolute;left:50px;bottom:4px;display:flex;align-items:center;gap:9px;z-index:3}.slide-dot{width:8px;height:8px;border-radius:20px;border:0;padding:0;background:#bd7282;transition:width .2s}.slide-dot[aria-current=true]{width:31px;background:var(--wine)}.hero-name{position:absolute;z-index:2;left:65px;top:52px;background:#fffaf3e8;color:var(--wine2);border-radius:30px;padding:8px 15px;font-size:10px;font-weight:900;letter-spacing:.05em;box-shadow:0 5px 19px #4f252b14}
-.marquee{background:var(--caramel);color:#fff9ef;overflow:hidden;white-space:nowrap;font:normal 27px/1 var(--serif);padding:16px 0}.marquee-track{display:flex;align-items:center;gap:40px;width:max-content;animation:marquee 30s linear infinite}.marquee span{display:inline-flex;align-items:center;gap:40px}.marquee b{font:16px var(--font);color:var(--wine2)}@keyframes marquee{to{transform:translateX(-50%)}}
-.section{padding:93px 0}.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;margin-bottom:28px}.section h2{font:normal clamp(42px,5vw,66px)/1.04 var(--serif);letter-spacing:-.023em;color:var(--wine2);margin:18px 0 0}.section h2 em{font-style:italic;color:var(--caramel)}.section-head p{font-size:14px;line-height:1.75;max-width:340px;color:#806460;margin-bottom:4px}.catalog-tools{display:flex;justify-content:space-between;gap:25px;align-items:center;margin-bottom:27px}.filters{display:flex;gap:8px;flex-wrap:wrap}.filter{border:1px solid #DDBEB9;padding:11px 19px;border-radius:28px;background:#fff9f3;white-space:nowrap;color:var(--wine2);font-size:12px;font-weight:800}.filter[aria-pressed=true]{color:white;background:var(--wine);border-color:var(--wine)}.search{display:flex;align-items:center;gap:9px;border:1px solid #dec7bd;border-radius:100px;background:#fff9f3;padding:9px 16px;min-width:235px}.search svg{width:17px;flex:none;color:var(--wine)}.search input{border:0;background:transparent;width:100%;outline:0;color:var(--wine2);font-size:13px}.search input::placeholder{color:#947875}.catalog-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:25px}.product{background:#fffaf4;border:1px solid #e9d5c9;border-radius:24px;overflow:hidden;box-shadow:0 10px 25px #5f233010;transition:transform .3s,box-shadow .3s}.product:hover{transform:translateY(-5px);box-shadow:0 15px 30px #5f233020}.product-media{height:325px;position:relative;background:#e4cbbe;overflow:hidden;cursor:pointer}.product-media img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}.product:hover .product-media img{transform:scale(1.055)}.product-tag{position:absolute;top:17px;left:16px;border-radius:30px;padding:8px 12px;background:#fff9f2e8;backdrop-filter:blur(6px);font-size:10px;font-weight:800;color:var(--wine2)}.product-zoom{position:absolute;bottom:15px;right:16px;width:38px;height:38px;border-radius:50%;border:0;background:#fffaf3ed;color:var(--wine2);font-size:22px}.product-bottom{padding:19px 20px 21px}.product-cat{color:var(--caramel);font-weight:900;text-transform:uppercase;font-size:10px;letter-spacing:.15em}.product-bottom h3{font:normal 27px/1.1 var(--serif);color:var(--wine2);margin:9px 0 5px}.product-bottom p{font-size:12px;color:#876b64;margin:0 0 16px}.product-line{border-top:1px solid #eedbd2;padding-top:15px;display:flex;justify-content:space-between;gap:10px;align-items:center}.product-line button:first-child{border:0;background:none;padding:2px 0;color:var(--wine);font-weight:800;font-size:12px;text-decoration:underline;text-underline-offset:4px}.circle-plus{width:36px;height:36px;border:0;background:var(--wine);color:white;border-radius:50%;font-size:23px;line-height:1}.no-results{padding:45px;text-align:center;color:var(--wine2);font-size:16px;background:#fff9f3;border-radius:20px}
-.story{padding:20px 0 80px}.story-inner{display:grid;grid-template-columns:.94fr 1.06fr;min-height:565px;border-radius:32px;background:var(--wine);color:white;overflow:hidden}.story-copy{padding:70px clamp(35px,5vw,78px);display:flex;flex-direction:column;justify-content:center;align-items:flex-start}.story .eyebrow{color:#ffe3ba}.story .eyebrow:before{background:#ffc184}.story h2{font:normal clamp(47px,5.2vw,77px)/.98 var(--serif);letter-spacing:-.028em;margin:27px 0}.story h2 em{color:#f9b960}.story p{line-height:1.8;max-width:360px;font-size:15px;color:#fff0e8}.story-img{overflow:hidden;position:relative;background:#3b2c2d}.story-img img{width:100%;height:100%;object-fit:cover;object-position:50% 48%;filter:saturate(.97)}.story-doodle{position:absolute;right:26px;bottom:32px;background:var(--caramel);font:24px var(--serif);border-radius:50%;height:118px;width:118px;display:grid;place-items:center;transform:rotate(12deg)}
-.pot-section{background:#F9DCCF;overflow:hidden}.pot-section .wrap{display:grid;grid-template-columns:1fr 1fr;gap:65px;align-items:center;padding:76px 0}.pot-art{min-height:350px;position:relative;display:grid;place-items:center;background:var(--caramel);border-radius:50% 48% 51% 49%/47% 57% 43% 53%}.pot-art:before{content:'';position:absolute;inset:25px;border:2px dashed #fff5e9ab;border-radius:inherit}.pot-art .pot-title{position:relative;transform:rotate(-8deg);font:normal clamp(59px,7.4vw,107px)/.84 var(--serif);letter-spacing:-.04em;color:#fff3e6;text-align:center}.pot-art .pot-title em{font-style:italic;color:var(--wine2)}.pot-art .pot-spark{position:absolute;font:70px var(--serif);color:var(--wine2);right:10%;top:13%}.pot-section h2{font:normal clamp(45px,5vw,69px)/1.04 var(--serif);color:var(--wine2);margin:20px 0}.pot-section p{color:#80645b;line-height:1.8;max-width:440px}.pot-label{display:inline-block;color:var(--wine2);font-weight:800;background:#fff5e7;border:1px solid #e7bfc0;border-radius:30px;padding:8px 14px;font-size:11px}
-.how{background:var(--cream)}.how-head{text-align:center}.how-head .eyebrow{justify-content:center}.how-head .eyebrow:before{display:none}.how-head h2{max-width:640px;margin-inline:auto}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px}.step{padding:33px;border-radius:26px;background:#fff9f2;border:1px solid #EAD7CA;position:relative;overflow:hidden}.step-num{font:italic 74px/.9 var(--serif);color:#eed0be;position:absolute;right:25px;top:18px}.step-icon{width:45px;height:45px;border-radius:50%;background:var(--wine);color:white;display:grid;place-items:center;font-size:23px}.step h3{color:var(--wine2);font:normal 26px var(--serif);margin:23px 0 10px}.step p{font-size:13px;line-height:1.8;color:#80645b;max-width:270px}
-.cta-banner{margin:0 0 20px;background:var(--caramel);position:relative;overflow:hidden;border-radius:24px;padding:50px;display:flex;align-items:center;justify-content:space-between;gap:20px}.cta-banner h2{margin:0;max-width:750px;color:#fff9f2;font:normal clamp(36px,4.5vw,62px)/1 var(--serif)}.cta-banner .button{background:var(--wine2);border-color:var(--wine2)}.cta-banner:after{content:'✳';position:absolute;font:180px var(--serif);color:#fff8f22c;right:19%;top:-75px;pointer-events:none}
-.faq{padding-top:75px;padding-bottom:90px}.faq .wrap{display:grid;grid-template-columns:.7fr 1.3fr;gap:80px}.faq-list{border-top:1px solid #e0c5bf}.faq details{border-bottom:1px solid #e0c5bf;padding:20px 0}.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:15px;font-weight:800;color:var(--wine2)}.faq summary::-webkit-details-marker{display:none}.faq summary:after{content:'+';font:28px/1 var(--serif)}.faq details[open] summary:after{content:'−'}.faq details p{max-width:600px;color:#846963;font-size:13px;line-height:1.8;margin:12px 30px 3px 0}.footer{background:var(--wine2);color:#fff5ef}.footer .wrap{display:grid;grid-template-columns:1.3fr 1fr .8fr;gap:50px;padding:66px 0 45px}.footer-logo{width:200px;filter:brightness(0) invert(1);opacity:.95}.footer p{font-size:13px;line-height:1.9;color:#f3dbe0;max-width:300px}.footer h3{font-size:13px;text-transform:uppercase;letter-spacing:.1em}.footer a{display:block;font-size:13px;padding:6px 0}.footer-bottom{border-top:1px solid #ffffff26;padding:18px 0;text-align:center;color:#f5d4db;font-size:10px;letter-spacing:.07em}
-.float-wa{position:fixed;bottom:24px;right:22px;z-index:25;display:flex;align-items:center;gap:9px;border:0;background:var(--wine);color:#fff;padding:13px 19px;border-radius:100px;box-shadow:0 9px 26px #4f1c2c45;font-size:12px;font-weight:800}.float-wa svg{width:18px;height:18px}
-.overlay{position:fixed;inset:0;background:#260d1cb0;z-index:45;opacity:0;transition:opacity .25s}.overlay.visible{opacity:1}.product-modal{position:fixed;inset:50% auto auto 50%;transform:translate(-50%,-47%) scale(.98);width:min(965px,calc(100% - 28px));max-height:93vh;overflow-y:auto;background:var(--cream);border-radius:23px;z-index:51;opacity:0;box-shadow:0 25px 80px #2a102646;transition:opacity .25s,transform .25s}.product-modal.open{transform:translate(-50%,-50%) scale(1);opacity:1}.modal-grid{display:grid;grid-template-columns:1.08fr .92fr}.modal-gallery{background:#ead5c6;padding:23px}.modal-gallery>img{height:480px;width:100%;object-fit:cover;border-radius:16px}.modal-thumbs{display:flex;gap:9px;margin-top:11px}.modal-thumbs button{height:76px;width:76px;overflow:hidden;padding:0;border:3px solid transparent;border-radius:10px;background:transparent}.modal-thumbs button[aria-pressed=true]{border-color:var(--wine)}.modal-thumbs img{height:100%;width:100%;object-fit:cover}.modal-info{padding:54px 38px;position:relative;display:flex;flex-direction:column;justify-content:center}.modal-info h2{font:normal 52px/1 var(--serif);margin:15px 0;color:var(--wine2)}.modal-info p{line-height:1.8;font-size:14px;color:#775d59}.modal-info .button{margin-top:26px}.modal-close,.drawer-close{position:absolute;top:16px;right:18px;width:38px;height:38px;border-radius:50%;background:#fff9f4;border:1px solid #ead2c8;font-size:23px;color:var(--wine2);z-index:3}.modal-arrow{border:0;background:#fff9f4d9;border-radius:50%;width:34px;height:34px;position:absolute;top:42%;font-size:22px;color:var(--wine2)}.modal-prev{left:32px}.modal-next{right:32px}.modal-gallery{position:relative}
-.drawer{position:fixed;z-index:55;top:0;right:0;height:100dvh;width:min(510px,100vw);overflow:auto;background:var(--cream);transform:translateX(103%);transition:transform .3s;box-shadow:-12px 0 50px #39172824;display:flex;flex-direction:column}.drawer.open{transform:translateX(0)}.drawer-head{background:var(--wine2);color:white;padding:32px 29px 25px;position:relative}.drawer-head h2{font:normal 43px var(--serif);margin:15px 0 2px}.drawer-head p{font-size:12px;color:#f9d1d4;line-height:1.6}.drawer-close{background:#fff1e8;color:var(--wine2)}.drawer-body{padding:24px 29px 40px}.empty-cart{background:#fff9f3;border-radius:17px;padding:30px;text-align:center;color:#83665c;font-size:13px;line-height:1.7}.cart-item{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:1px solid #e9d3cb}.cart-item img{height:74px;width:74px;object-fit:cover;border-radius:12px}.cart-name{font-weight:800;color:var(--wine2);font-size:13px}.cart-kind{font-size:11px;color:#8c7068}.cart-action{display:flex;align-items:center;gap:11px;margin-top:8px}.cart-action button{border:1px solid #e2b7b3;border-radius:50%;height:25px;width:25px;color:var(--wine2);background:#fff7ef}.cart-action .delete{border:0;border-radius:0;background:none;color:#a56970;font-size:11px;width:auto;text-decoration:underline;margin-left:auto}.cart-action span{min-width:14px;text-align:center;font-weight:700;font-size:12px}.drawer h3{font:normal 26px var(--serif);color:var(--wine2);margin:25px 0 14px}.field{display:block;margin:12px 0}.field label{font-size:11px;font-weight:900;color:var(--wine2);display:block;margin-bottom:6px}.field input,.field select,.field textarea{width:100%;padding:13px 14px;border:1px solid #E1C7BE;border-radius:12px;background:#fffaf5;color:var(--ink);font-size:13px;outline-color:var(--wine)}.field input[type=date]{min-height:46px}.field textarea{min-height:92px;resize:vertical}.two-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}.drawer .button{width:100%;margin-top:17px;border-radius:13px}.form-note{font-size:11px;color:#8a6a65;line-height:1.6;margin-top:11px}.drawer-tags{display:flex;gap:7px;flex-wrap:wrap;margin:16px 0}.drawer-tags span{border:1px solid #e7c6bb;border-radius:30px;padding:7px 11px;font-size:10px;font-weight:800;color:var(--wine2);background:#fff9f3}.drawer-reset{margin-top:12px;border:0;background:none;color:var(--wine);text-decoration:underline;font-size:11px}
-.toast{position:fixed;left:50%;bottom:30px;transform:translate(-50%,25px);z-index:80;background:var(--wine2);color:white;padding:12px 18px;border-radius:10px;font-size:12px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;box-shadow:0 8px 26px #45192833}.toast.show{opacity:1;transform:translate(-50%,0)}.fade-in{opacity:0;transform:translateY(28px);transition:opacity .6s,transform .6s}.fade-in.in-view{opacity:1;transform:translateY(0)}body.locked{overflow:hidden}
-@media(max-width:1050px){.links{gap:18px}.hero h1{font-size:70px}.hero-visual{height:490px}.hero-badge{width:135px;height:135px;font-size:21px}.story-inner{min-height:490px}.section{padding:75px 0}}
-@media(max-width:800px){.wrap{width:min(100% - 36px,1200px)}.links{display:none}.hamburger{display:block}.header>.wrap{height:74px}.header-actions .button{display:none}.mobile-menu.open{display:block}.topline .wrap{justify-content:center}.topline .topright{display:none}.hero .wrap{grid-template-columns:1fr;min-height:0;padding:40px 0 55px;gap:5px}.hero h1{font-size:clamp(56px,10vw,83px);max-width:680px}.hero-copy{padding:10px 0}.hero-visual{height:530px;max-width:650px;width:100%;margin:0 auto}.hero-blob{inset:7px 23px 22px 23px}.hero-img{inset:46px 57px 53px 65px}.hero-badge{right:5px}.section-head{align-items:flex-start}.catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.story-inner{grid-template-columns:1fr}.story-copy{padding:55px 39px}.story-img{max-height:650px}.pot-section .wrap{gap:25px}.faq .wrap{gap:36px}.footer .wrap{gap:25px}.modal-grid{grid-template-columns:1fr 1fr}.modal-gallery>img{height:350px}.modal-info{padding:42px 26px}.modal-info h2{font-size:40px}}
-@media(max-width:600px){.header .logo img{width:148px}.topline{font-size:9px}.hero .wrap{padding:32px 0 48px}.hero h1{font-size:clamp(52px,13vw,72px);max-width:520px}.hero-copy>p{font-size:14px}.hero-buttons .button{padding:12px 17px}.small-note{margin-top:26px;flex-wrap:wrap}.hero-visual{height:380px}.hero-img{inset:25px 42px 47px 41px}.hero-blob{inset:0 18px 18px 10px}.hero-badge{width:105px;height:105px;font-size:17px;border-width:4px;right:0;bottom:15px}.hero-star{font-size:45px;left:5px}.hero-name{left:46px;top:30px;font-size:9px}.slide-controls{bottom:2px;left:35px}.marquee{font-size:19px;padding:13px 0}.marquee-track,.marquee span{gap:25px}.section{padding:60px 0}.section h2{font-size:clamp(40px,10vw,54px)}.section-head{display:block}.section-head p{margin-top:18px}.catalog-tools{display:flex;flex-direction:column;align-items:stretch;gap:14px}.filters{gap:6px}.filter{padding:10px 13px;font-size:11px}.search{width:100%;min-width:0}.catalog-grid{gap:11px}.product-media{height:205px}.product-bottom{padding:14px}.product-bottom h3{font-size:21px}.product-bottom p{font-size:11px}.product-line{padding-top:10px}.product-line button:first-child{font-size:11px}.circle-plus{height:31px;width:31px;font-size:19px}.product-tag{top:9px;left:9px;padding:6px 8px;font-size:9px}.story{padding-top:10px;padding-bottom:45px}.story-inner{border-radius:23px}.story-copy{padding:42px 25px}.story h2{font-size:53px}.story-img{height:440px}.story-doodle{width:85px;height:85px;font-size:18px;right:16px;bottom:16px}.pot-section .wrap{grid-template-columns:1fr;padding:53px 0;gap:30px}.pot-art{min-height:290px;max-width:440px;width:100%}.pot-art .pot-title{font-size:76px}.steps{grid-template-columns:1fr;margin-top:25px;gap:12px}.step{padding:24px 28px}.step h3{margin:14px 0 7px}.cta-banner{padding:35px 24px;display:block;border-radius:19px}.cta-banner h2{font-size:43px;margin-bottom:25px}.faq{padding-top:50px}.faq .wrap{grid-template-columns:1fr;gap:23px}.footer .wrap{grid-template-columns:1fr 1fr;gap:28px;padding:43px 0}.footer .footer-brand{grid-column:span 2}.float-wa{right:13px;bottom:14px;font-size:0;border-radius:50%;width:52px;height:52px;padding:0;justify-content:center}.float-wa svg{width:24px;height:24px}.product-modal{top:50%;max-height:92dvh;border-radius:18px}.modal-grid{grid-template-columns:1fr}.modal-gallery{padding:12px}.modal-gallery>img{height:min(50vh,330px)}.modal-thumbs button{height:49px;width:49px}.modal-info{padding:26px 24px 32px}.modal-info h2{font-size:35px}.modal-info p{font-size:13px}.drawer-head{padding:30px 21px 18px}.drawer-head h2{font-size:38px}.drawer-body{padding:20px}.drawer h3{font-size:23px}}
-@media(max-width:365px){.catalog-grid{grid-template-columns:1fr}.product-media{height:310px}.two-cols{grid-template-columns:1fr}.hero-visual{height:320px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}.fade-in{opacity:1;transform:none}}
+/* Layout: mosaico de blocos coloridos + títulos gigantes condensados, divisores de cobertura escorrendo, selos redondos e botões pílula. */
+:root{
+  --pink:#ffc6da;
+  --pink-soft:#ffe6ee;
+  --crimson:#c4204f;
+  --wine:#5c0f27;
+  --pistachio:#b8d27c;
+  --cream:#fff6f2;
+  --ink:#2a0c16;
+  --display:"Anton","Impact","Arial Narrow",sans-serif;
+  --body:"Manrope","Helvetica Neue",Arial,sans-serif;
+  --hand:"Caveat","Comic Sans MS",cursive;
+  --r:28px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:96px}
+body{font-family:var(--body);background:var(--cream);color:var(--ink);line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+:focus-visible{outline:3px solid var(--crimson);outline-offset:3px}
+.wrap{width:min(1240px,100%);margin-inline:auto;padding-inline:max(18px,env(safe-area-inset-left,0px))}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-transform:uppercase;line-height:.95;letter-spacing:.005em;text-wrap:balance}
+h2{font-size:clamp(2.6rem,7vw,5.6rem);color:var(--crimson)}
+h2 em,h1 em{font-style:normal;color:var(--wine)}
+.eyebrow{display:inline-block;font-weight:800;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--crimson);margin-bottom:14px}
+.lead{font-size:1.08rem;max-width:52ch}
 
-.intake-success{border-radius:19px;padding:25px;background:#fff9f3;border:1px solid #e9d4cb;margin-top:20px;text-align:center}.intake-success h3{font:normal 32px var(--serif);color:var(--wine2);margin:15px 0}.intake-success p{font-size:13px;line-height:1.8;color:#856a60}.intake-success .button{width:100%;margin-top:12px}.intake-success small{display:block;font-size:10px;line-height:1.6;color:#9c7469;margin-top:13px}
+/* botões */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 26px;border-radius:999px;font-weight:800;font-size:.95rem;transition:transform .2s,box-shadow .2s,background .2s;white-space:nowrap}
+.btn:hover{transform:translateY(-3px) rotate(-1deg)}
+.btn-dark{background:var(--ink);color:#fff}
+.btn-crimson{background:var(--crimson);color:#fff;box-shadow:0 8px 0 var(--wine)}
+.btn-crimson:hover{box-shadow:0 11px 0 var(--wine)}
+.btn-light{background:#fff;color:var(--crimson)}
+.btn-ghost{background:transparent;border:2.5px solid currentColor}
+
+/* faixa de aviso */
+.promo{background:var(--crimson);color:#fff;text-align:center;font-size:.8rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:9px 16px;padding-top:max(9px,env(safe-area-inset-top,0px))}
+
+/* nav */
+.nav-wrap{position:sticky;top:max(12px,env(safe-area-inset-top,0px));z-index:50;padding-inline:max(14px,env(safe-area-inset-left,0px));margin-top:14px}
+.nav{width:min(1180px,100%);margin-inline:auto;background:#fff;border-radius:999px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;padding:10px 14px 10px 28px;box-shadow:0 10px 30px rgba(92,15,39,.12)}
+.nav ul{display:flex;gap:26px;list-style:none;font-weight:800;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
+.nav ul a:hover{color:var(--crimson)}
+.logo{justify-self:center;display:flex;align-items:center;gap:10px;font-family:var(--display);font-size:1.5rem;line-height:.85;text-transform:uppercase;color:var(--crimson);text-align:center}
+.logo img{height:44px;width:44px;object-fit:contain;border-radius:50%}
+.nav-r{justify-self:end;display:flex;align-items:center;gap:10px}
+.cart{display:flex;align-items:center;gap:6px;padding:10px 16px;border-radius:999px;background:var(--pink);font-weight:800;color:var(--crimson)}
+.menu-btn{display:none;font-size:1.4rem;width:44px;height:44px;border-radius:50%;background:var(--pink);color:var(--crimson)}
+.mobile-menu{display:none}
+
+/* hero */
+.hero{position:relative;padding:50px 0 130px;background:var(--cream)}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center}
+.hero h1{font-size:clamp(3.6rem,10.5vw,9rem);color:var(--crimson);position:relative}
+.hero h1 small{display:block;font-size:.3em;color:var(--wine);margin-top:10px;letter-spacing:.06em}
+.bubble{position:absolute;left:-6px;top:-34px;font-family:var(--hand);font-weight:700;font-size:1.25rem;line-height:1;color:var(--wine);background:#fff;padding:12px 16px;border-radius:20px 20px 20px 4px;transform:rotate(-7deg);box-shadow:0 6px 0 var(--pink);text-transform:none}
+.hero p.lead{margin:26px 0 30px}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px}
+.badges{display:flex;flex-wrap:wrap;gap:22px;margin-top:34px}
+.badges span{display:flex;align-items:center;gap:9px;font-weight:800;font-size:.72rem;letter-spacing:.07em;text-transform:uppercase}
+.badges i{width:36px;height:36px;border-radius:50%;background:var(--pink);color:var(--crimson);display:grid;place-items:center;font-style:normal;font-size:1rem}
+.collage{position:relative;aspect-ratio:1/1.05;max-width:560px;margin-inline:auto;width:100%}
+.ph{position:absolute;overflow:hidden;background:var(--pink)}
+.ph img{width:100%;height:100%;object-fit:cover}
+.c1{inset:0 12% 22% 0;border-radius:46% 46% 24px 24px;transform:rotate(-2deg);background:var(--pink)}
+.c2{width:44%;aspect-ratio:1;right:0;top:6%;border-radius:50%;border:8px solid var(--cream);background:var(--pistachio)}
+.c3{width:50%;aspect-ratio:1/1.1;right:2%;bottom:0;border-radius:26px;transform:rotate(5deg);border:8px solid var(--cream);background:var(--crimson)}
+.sticker{position:absolute;left:-4%;bottom:6%;width:128px;height:128px;z-index:3;animation:spin 18s linear infinite}
+.sticker svg{width:100%;height:100%}
+.sticker .core{position:absolute;inset:0;display:grid;place-items:center;font-size:2rem;color:var(--crimson);animation:spin 18s linear infinite reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* drips */
+.drip{position:absolute;left:0;right:0;height:84px;pointer-events:none;z-index:4}
+.drip svg{width:100%;height:100%;display:block;fill:currentColor}
+.drip.bottom{bottom:-83px}
+.drip.top{top:-1px;transform:scaleY(-1);transform-origin:center}
+.d-pink{color:var(--pink)}.d-green{color:var(--pistachio)}.d-crimson{color:var(--crimson)}.d-wine{color:var(--wine)}.d-cream{color:var(--cream)}
+
+/* marquee */
+.marquee{background:var(--crimson);color:#fff;overflow:hidden;padding:20px 0;transform:rotate(-1.2deg);margin:0 -2vw;position:relative;z-index:5}
+.marquee-track{display:flex;width:max-content;animation:slide 28s linear infinite}
+.marquee span{font-family:var(--display);font-size:clamp(1.5rem,3.4vw,2.6rem);text-transform:uppercase;padding-right:36px;white-space:nowrap}
+.marquee b{color:var(--pink);font-weight:400}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* mood */
+.mood{position:relative;background:var(--pink);padding:140px 0 150px}
+.sec-head{display:grid;grid-template-columns:1.2fr 1fr;gap:30px;align-items:end;margin-bottom:46px}
+.mood .eyebrow{color:var(--wine)}
+.mood-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.mood-card{display:flex;flex-direction:column;border-radius:var(--r);overflow:hidden;transition:transform .25s;background:var(--wine)}
+.mood-card:hover{transform:translateY(-8px) rotate(-1deg)}
+.mood-card .img{aspect-ratio:1/.8;background:var(--crimson);overflow:hidden}
+.mood-card .img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.mood-card:hover .img img{transform:scale(1.07)}
+.mood-card .txt{padding:22px 24px 26px;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex:1}
+.mood-card small{display:block;font-weight:800;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px}
+.mood-card h3{font-size:clamp(2rem,3.6vw,2.9rem)}
+.mood-card .arrow{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-size:1.3rem;background:#fff;color:var(--crimson);flex:none}
+.m1 .txt{background:var(--pistachio);color:var(--wine)}
+.m2 .txt{background:var(--crimson);color:#fff}
+.m3 .txt{background:#fff;color:var(--crimson)}
+.m3 .arrow{background:var(--crimson);color:#fff}
+.m1 .arrow{background:var(--wine);color:#fff}
+
+/* portfolio */
+.portfolio{position:relative;background:var(--cream);padding:130px 0 150px}
+.filters{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 30px}
+.chip{padding:12px 22px;border-radius:999px;border:2.5px solid var(--crimson);color:var(--crimson);font-weight:800;font-size:.85rem;transition:.2s}
+.chip[aria-pressed="true"],.chip:hover{background:var(--crimson);color:#fff}
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{position:relative;border-radius:var(--r);overflow:hidden;background:var(--pink);aspect-ratio:3/4;transition:transform .25s}
+.card:nth-child(3n+2){aspect-ratio:3/3.6}
+.card:hover{transform:translateY(-6px) rotate(.8deg)}
+.card img{width:100%;height:100%;object-fit:cover}
+.card figcaption{position:absolute;left:12px;right:12px;bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:8px;background:#fff;border-radius:999px;padding:8px 8px 8px 16px;font-weight:800;font-size:.8rem;color:var(--wine)}
+.save{width:36px;height:36px;border-radius:50%;background:var(--pink);color:var(--crimson);font-size:1.1rem;flex:none;transition:.2s}
+.save[aria-pressed="true"]{background:var(--crimson);color:#fff;transform:scale(1.1)}
+.port-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:18px;margin-top:34px}
+.port-foot p{font-weight:700}
+.note{font-size:.82rem;color:#7a4a58;margin-top:14px}
+
+/* personalizadas */
+.custom{position:relative;background:var(--pistachio);padding:130px 0 150px;color:var(--wine)}
+.custom-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.custom .blk{border-radius:var(--r);overflow:hidden;min-height:280px;position:relative}
+.custom .photo{background:var(--pink)}
+.custom .photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.custom .big{background:var(--crimson);color:#fff;padding:34px;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.custom .big h2{color:#fff}
+.custom .big h2 em{color:var(--pink)}
+.custom .words{background:var(--pink);color:var(--crimson);padding:34px;display:flex;align-items:center}
+.custom .words h3{font-size:clamp(3rem,8vw,6.4rem)}
+.custom .sticker2{position:absolute;right:16px;top:16px;background:var(--cream);color:var(--crimson);font-family:var(--hand);font-weight:700;font-size:1.5rem;line-height:1;padding:16px 18px;border-radius:50%;transform:rotate(10deg);text-align:center;width:112px;height:112px;display:grid;place-items:center}
+.custom .cta-row{margin-top:26px;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.custom .cta-row p{font-weight:700;max-width:40ch}
+
+/* pote */
+.pote{position:relative;background:var(--wine);color:#fff;padding:130px 0 150px;overflow:hidden}
+.pote-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.pote h2{color:var(--pink)}
+.pote h2 em{color:#fff}
+.pote .eyebrow{color:var(--pistachio)}
+.pote p.lead{margin:20px 0 28px;color:#ffe6ee}
+.soon{aspect-ratio:1;max-width:460px;margin-inline:auto;width:100%;background:var(--pink);color:var(--crimson);border-radius:50%;display:grid;place-items:center;text-align:center;padding:40px;transform:rotate(-6deg);position:relative}
+.soon::after{content:"";position:absolute;inset:14px;border-radius:50%;border:3px dashed var(--crimson);opacity:.5}
+.soon small{font-family:var(--hand);font-weight:700;font-size:1.7rem;display:block;color:var(--wine)}
+.soon h3{font-size:clamp(3.4rem,9vw,6.4rem)}
+
+/* como */
+.how{position:relative;background:var(--cream);padding:130px 0 150px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
+.step{border-radius:var(--r);padding:30px 28px 34px;display:flex;flex-direction:column;gap:14px;min-height:300px;transition:transform .25s}
+.step:hover{transform:translateY(-8px)}
+.step .ico{width:68px;height:68px;border-radius:50%;background:#fff;color:var(--crimson);display:grid;place-items:center;font-size:1.8rem}
+.step h3{font-size:clamp(2rem,3.4vw,2.8rem)}
+.step p{max-width:34ch}
+.step .btn{margin-top:auto;align-self:flex-start}
+.s1{background:var(--pink);color:var(--wine)}
+.s2{background:var(--crimson);color:#fff}
+.s2 .ico{background:var(--pink)}
+.s3{background:var(--pistachio);color:var(--wine)}
+
+/* cta final */
+.final{position:relative;background:var(--crimson);color:#fff;padding:130px 0 140px;text-align:center;overflow:hidden}
+.final h2{color:#fff;font-size:clamp(3rem,9vw,7.6rem);max-width:15ch;margin-inline:auto}
+.final .eyebrow{color:var(--pink)}
+.final .btn{margin-top:34px}
+
+/* faq */
+.faq{position:relative;background:var(--pink-soft);padding:130px 0 120px}
+.faq-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:50px;align-items:start}
+details{background:#fff;border-radius:22px;margin-bottom:12px;overflow:hidden}
+summary{list-style:none;cursor:pointer;padding:20px 24px;font-weight:800;display:flex;justify-content:space-between;align-items:center;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-family:var(--display);font-size:1.8rem;color:var(--crimson);line-height:1;transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{padding:0 24px 22px;max-width:60ch}
+
+/* footer */
+footer{background:var(--wine);color:#fff;padding:70px 0 40px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px}
+footer .logo{color:#fff;justify-self:start;margin-bottom:16px}
+footer h4{font-family:var(--display);font-weight:400;font-size:1.4rem;text-transform:uppercase;color:var(--pink);margin-bottom:12px}
+footer ul{list-style:none;display:grid;gap:8px}
+footer a:hover{color:var(--pink)}
+footer .big{font-family:var(--display);font-size:clamp(3rem,15vw,12rem);line-height:.9;text-transform:uppercase;color:var(--crimson);margin-top:50px;text-align:center;letter-spacing:.01em}
+.copy{margin-top:26px;font-size:.8rem;opacity:.8;text-align:center}
+
+/* drawer pedido */
+.overlay{position:fixed;inset:0;background:rgba(42,12,22,.55);opacity:0;pointer-events:none;transition:opacity .25s;z-index:90}
+.overlay.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(460px,100%);background:var(--cream);z-index:100;transform:translateX(105%);transition:transform .3s;overflow-y:auto;padding:26px max(22px,env(safe-area-inset-right,0px)) 30px 24px;padding-top:max(26px,env(safe-area-inset-top,0px))}
+.drawer.on{transform:none}
+.drawer h3{font-size:2.6rem;color:var(--crimson);margin-bottom:6px}
+.drawer .close{position:absolute;top:max(18px,env(safe-area-inset-top,0px));right:18px;width:44px;height:44px;border-radius:50%;background:var(--pink);color:var(--crimson);font-size:1.3rem}
+.saved{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 20px;min-height:36px}
+.saved span{background:var(--pink);color:var(--wine);border-radius:999px;padding:7px 14px;font-weight:800;font-size:.8rem}
+.saved em{font-style:normal;font-size:.9rem;color:#7a4a58}
+form label{display:grid;gap:6px;font-weight:800;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px}
+form input,form select,form textarea{font:inherit;font-weight:500;text-transform:none;letter-spacing:0;padding:13px 16px;border-radius:16px;border:2px solid var(--pink);background:#fff;color:var(--ink);width:100%}
+form input:focus,form select:focus,form textarea:focus{outline:none;border-color:var(--crimson)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fine{font-size:.78rem;color:#7a4a58;margin-top:12px}
+.toast{position:fixed;left:50%;bottom:max(22px,env(safe-area-inset-bottom,0px));transform:translate(-50%,140px);background:var(--ink);color:#fff;padding:13px 22px;border-radius:999px;font-weight:800;font-size:.9rem;z-index:120;transition:transform .3s}
+.toast.on{transform:translate(-50%,0)}
+
+/* responsivo */
+@media (max-width:980px){
+  .nav{grid-template-columns:auto 1fr;padding-left:18px}
+  .nav ul{display:none}
+  .logo{justify-self:start}
+  .menu-btn{display:grid;place-items:center}
+  .mobile-menu{display:none;position:absolute;left:14px;right:14px;top:calc(100% + 8px);background:#fff;border-radius:28px;padding:18px 24px;box-shadow:0 10px 30px rgba(92,15,39,.15)}
+  .mobile-menu.on{display:grid;gap:4px}
+  .mobile-menu a{padding:12px 0;font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:.85rem;border-bottom:1px solid var(--pink-soft)}
+  .hero-grid,.sec-head,.custom-grid,.pote-grid,.faq-grid{grid-template-columns:1fr}
+  .mood-grid,.steps{grid-template-columns:1fr}
+  .gallery{grid-template-columns:repeat(2,1fr)}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .foot-grid>div:first-child{grid-column:1/-1}
+  .hero{padding-bottom:110px}
+  .bubble{top:-52px}
+  .nav-wrap{margin-top:10px}
+}
+@media (max-width:520px){
+  .gallery{gap:10px}
+  .card figcaption{font-size:.7rem;left:8px;right:8px;bottom:8px;padding-left:12px}
+  .save{width:32px;height:32px}
+  .cart span.t{display:none}
+  .nav-r .btn{display:none}
+  .row2{grid-template-columns:1fr}
+  .btn{white-space:normal}
+  .drip{height:56px}.drip.bottom{bottom:-55px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
 </style>
-<link rel="stylesheet" href="assets/wanelle-showcase.css" />
-<script src="assets/wanelle-showcase.js" defer></script>
 </head>
 <body>
-<div role="status" style="background:#fff2c6;color:#673c28;text-align:center;font:600 13px Arial,sans-serif;padding:9px 12px;position:relative;z-index:9999">Vitrine Wanelle — Orçamentos são enviados pelo WhatsApp; integração de pedidos em preparação.</div>
-<div class="topline"><div class="wrap"><span>♡ Doçura em cada detalhe • Feito por encomenda</span><span class="topright">Salvador, Bahia <em>✳</em></span></div></div>
-<header class="header"><div class="wrap"><a class="logo" href="#inicio" aria-label="Wanelle, voltar para início"><img src="https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/foto-d1a021079f73c4.png" alt="Wanelle" /></a>
-<nav class="links" aria-label="Navegação principal"><a href="#inicio">Início</a><a href="#tortas">Criações da Wanelle</a><a href="#personalizados">Personalizadas</a><a href="#como-funciona">Como encomendar</a></nav>
-<div class="header-actions"><button class="button button-small" id="header-order" type="button">Monte seu pedido <span aria-hidden="true">↗</span></button><button class="bag" type="button" id="open-bag" aria-label="Abrir minha encomenda"><span aria-hidden="true">♡</span><span id="bag-num">0</span></button><button class="hamburger" id="mobile-menu-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button></div></div>
-<nav class="mobile-menu" id="mobile-menu" aria-label="Menu para celular"><a href="#inicio">Início</a><a href="#tortas">Criações da Wanelle</a><a href="#personalizados">Tortas personalizadas</a><a href="#como-funciona">Como encomendar</a><a href="#contato">Contato</a></nav></header>
+
+<div class="promo">Orçamentos pelo WhatsApp • Feito por encomenda em Salvador, Bahia ✳</div>
+
+<div class="nav-wrap">
+  <nav class="nav" aria-label="Principal">
+    <ul>
+      <li><a href="#inicio">Início</a></li>
+      <li><a href="#tortas">Criações</a></li>
+      <li><a href="#personalizados">Personalizadas</a></li>
+      <li><a href="#como-funciona">Como encomendar</a></li>
+    </ul>
+    <a class="logo" href="#inicio" aria-label="Wanelle Tortas, início">
+      <img decoding="async" src="assets/media/foto-d1a021079f73c4.png" alt="">
+      <span>Wanelle<br>Tortas</span>
+    </a>
+    <div class="nav-r">
+      <button class="cart" id="cartBtn" type="button" aria-label="Abrir meu pedido">♡ <span id="cartCount">0</span> <span class="t">Meu pedido</span></button>
+      <button class="btn btn-dark" type="button" data-open-order>Monte seu pedido ↗</button>
+      <button class="menu-btn" id="menuBtn" type="button" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#inicio">Início</a>
+      <a href="#tortas">Criações da Wanelle</a>
+      <a href="#personalizados">Tortas personalizadas</a>
+      <a href="#como-funciona">Como encomendar</a>
+      <a href="#contato">Contato</a>
+    </div>
+  </nav>
+</div>
+
 <main>
-<section id="inicio" class="hero hero-editorial">
-  <div class="wrap hero-stage">
-   <div class="hero-copy">
-     <span class="eyebrow hero-eyebrow"><span class="mini-daisy">✳</span> Wanelle • tortas artesanais em Salvador</span>
-     <h1>O amor tem <em>gosto</em> de <span class="hero-mark">festa!</span></h1>
-     <p>Tem momentos que merecem mais do que parabéns. Merecem uma torta feita para a sua história, do jeitinho que você imaginou.</p>
-     <div class="hero-buttons"><a class="button hero-primary" href="#tortas">Ver nossas criações <span aria-hidden="true">↗</span></a><button class="button button-light" id="hero-order" type="button">Montar meu pedido ♡</button></div>
-     <div class="hero-details"><span>♡ Feito com carinho</span><span>✳ Criado para você</span><span>↗ Sob encomenda</span></div>
-   </div>
-   <div class="hero-visual hero-collage" aria-label="Fotos de criações artesanais da Wanelle">
-      <div class="hero-aura" aria-hidden="true"></div>
-      <button type="button" class="hero-side-photo photo-one" data-feature-target="abacaxi" aria-label="Conhecer torta de abacaxi"><img src="https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/nova-abacaxi-frontal.webp" alt="Torta de abacaxi artesanal da Wanelle" /></button>
-      <div class="hero-center-card"><div class="hero-img"><img id="hero-photo" src="https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/nova-chocolate-frontal.webp" alt="Torta de chocolate artesanal da Wanelle" /></div><div class="photo-caption"><span>DA NOSSA COZINHA PRA SUA FESTA</span><b id="hero-name">Torta de Chocolate</b></div></div>
-      <button type="button" class="hero-side-photo photo-two" data-feature-target="morango" aria-label="Conhecer torta de morango"><img src="https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/foto-c01ef23f279de8.webp" alt="Torta de morango artesanal da Wanelle" /></button>
-      <div class="hero-badge" aria-hidden="true"><span>feito com</span><strong>amor</strong><span>♡ e açúcar!</span></div>
-      <span class="hero-spark hero-spark-a" aria-hidden="true">✳</span><span class="hero-spark hero-spark-b" aria-hidden="true">✦</span>
-      <div class="hero-controls"><span>Inspirações reais</span><div aria-label="Trocar torta em destaque" class="slide-controls" id="slide-controls"></div></div>
-   </div>
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">✳ Wanelle • tortas artesanais em Salvador</span>
+      <h1><span class="bubble">feito com carinho, de verdade!</span>O amor tem <em>gosto</em> de festa!</h1>
+      <p class="lead">Tem momentos que merecem mais do que parabéns. Merecem uma torta feita para a sua história, do jeitinho que você imaginou.</p>
+      <div class="hero-cta">
+        <a class="btn btn-crimson" href="#tortas">Ver nossas criações ↗</a>
+        <button class="btn btn-ghost" type="button" data-open-order>Montar meu pedido ♡</button>
+      </div>
+      <div class="badges">
+        <span><i>♡</i> Feito com carinho</span>
+        <span><i>✳</i> Criado para você</span>
+        <span><i>↗</i> Sob encomenda</span>
+      </div>
+    </div>
+    <div class="collage">
+      <div class="ph c1"><img loading="eager" fetchpriority="high" decoding="async" src="assets/media/nova-chocolate-frontal.webp" alt="Torta real de chocolate da Wanelle"></div>
+      <div class="ph c2"><img loading="eager" decoding="async" src="assets/media/nova-abacaxi-frontal.webp" alt="Torta real de abacaxi com coco da Wanelle"></div>
+      <div class="ph c3"><img loading="eager" decoding="async" src="assets/media/foto-c01ef23f279de8.webp" alt="Torta real de morango com wafer da Wanelle"></div>
+      <div class="sticker" aria-hidden="true">
+        <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="58" fill="#c4204f"/><defs><path id="circ" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs><text font-family="Anton,Impact,sans-serif" font-size="13" letter-spacing="2.2" fill="#ffc6da"><textPath href="#circ">DA NOSSA COZINHA PRA SUA FESTA ✳</textPath></text></svg>
+        <div class="core">♡</div>
+      </div>
+    </div>
   </div>
-  <div class="hero-bottom" aria-hidden="true"><span>CONFEITARIA AFETIVA</span><span>✳</span><span>FEITO PRA CELEBRAR</span><span>✳</span><span>DO SEU JEITO</span></div>
+  <div class="drip bottom d-cream" style="color:var(--crimson)"></div>
 </section>
-<div class="marquee" aria-hidden="true"><div class="marquee-track"><span>Feito à mão <b>✳</b> Amor em cada fatia <b>✳</b> Tão único quanto você <b>✳</b></span><span>Feito à mão <b>✳</b> Amor em cada fatia <b>✳</b> Tão único quanto você <b>✳</b></span><span>Feito à mão <b>✳</b> Amor em cada fatia <b>✳</b> Tão único quanto você <b>✳</b></span><span>Feito à mão <b>✳</b> Amor em cada fatia <b>✳</b> Tão único quanto você <b>✳</b></span></div></div>
-<section class="vibe-section" aria-labelledby="vibe-title">
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track" id="track"></div>
+</div>
+
+<!-- MOOD -->
+<section class="mood" id="mood">
+  <div class="drip top d-crimson"></div>
   <div class="wrap">
-    <div class="vibe-heading"><div><span class="kicker">QUE VIBE TEM A SUA FESTA?</span><h2 id="vibe-title">Escolha seu <em>doce mood.</em></h2></div><p>Tem quem ame chocolate. Tem quem viva por fruta. E tem quem queira uma torta que seja a própria festa. Qual é você?</p></div>
-    <div class="vibe-grid">
-      <button class="vibe-card vibe-chocolate" type="button" data-vibe="Clássicas" aria-label="Ver criações clássicas"><span class="vibe-index">01 / CLÁSSICAS</span><strong>Time do<br/>chocolate</strong><img src="https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/nova-chocolate-preparo.webp" loading="lazy" alt="Preparo de torta de chocolate"/><span class="vibe-arrow" aria-hidden="true">↗</span></button>
-      <button class="vibe-card vibe-fruit" type="button" data-vibe="Frutadas" aria-label="Ver criações com frutas"><span class="vibe-index">02 / FRUTADAS</span><strong>Fruta &<br/><i>frescor</i></strong><img src="https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/foto-0aef1dab6b0ac8.webp" loading="lazy" alt="Torta com morangos"/><span class="vibe-arrow" aria-hidden="true">↗</span></button>
-      <button class="vibe-card vibe-theme" type="button" data-vibe="Temáticas" aria-label="Ver criações temáticas"><span class="vibe-index">03 / TEMÁTICAS</span><strong>Um bolo,<br/>sua história</strong><img src="https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/nova-rosa-frontal.webp" loading="lazy" alt="Torta personalizada em rosa"/><span class="vibe-arrow" aria-hidden="true">↗</span></button>
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">Que vibe tem a sua festa?</span>
+        <h2>Escolha seu <em>doce mood.</em></h2>
+      </div>
+      <p class="lead">Tem quem ame chocolate. Tem quem viva por fruta. E tem quem queira uma torta que seja a própria festa. Qual é você?</p>
+    </div>
+    <div class="mood-grid">
+      <a class="mood-card m1" href="#tortas" data-filter-link="Clássicas">
+        <div class="img"><img decoding="async" loading="lazy" src="assets/media/wanelle-chocolate-raspas-frontal.webp" alt="Torta real de chocolate com raspas"></div>
+        <div class="txt"><div><small>01 / Clássicas</small><h3>Time do<br>chocolate</h3></div><span class="arrow">↗</span></div>
+      </a>
+      <a class="mood-card m2" href="#tortas" data-filter-link="Frutadas">
+        <div class="img"><img decoding="async" loading="lazy" src="assets/media/foto-f999ef06c816e0.webp" alt="Torta real com kiwi e uvas"></div>
+        <div class="txt"><div><small>02 / Frutadas</small><h3>Fruta &amp;<br>frescor</h3></div><span class="arrow">↗</span></div>
+      </a>
+      <a class="mood-card m3" href="#tortas" data-filter-link="Temáticas">
+        <div class="img"><img decoding="async" loading="lazy" src="assets/media/nova-heroi-ambiente.webp" alt="Torta temática de super-herói da Wanelle"></div>
+        <div class="txt"><div><small>03 / Temáticas</small><h3>Um bolo,<br>sua história</h3></div><span class="arrow">↗</span></div>
+      </a>
+    </div>
+  </div>
+  <div class="drip bottom d-pink"></div>
+</section>
+
+<!-- CRIAÇÕES -->
+<section class="portfolio" id="tortas">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">O álbum mais gostoso da internet ♡</span>
+        <h2>Criações da <em>Wanelle.</em> ✳</h2>
+      </div>
+      <p class="lead">Fotos de bolos que já fizemos, de verdade! Escolha seus favoritos como inspiração. Cada novo pedido é pensado e orçado especialmente pra você.</p>
+    </div>
+    <div class="filters" role="group" aria-label="Filtrar criações">
+      <button class="chip" type="button" aria-pressed="true" data-f="Todas">Todas as criações</button>
+      <button class="chip" type="button" aria-pressed="false" data-f="Clássicas">Clássicas</button>
+      <button class="chip" type="button" aria-pressed="false" data-f="Frutadas">Frutadas</button>
+      <button class="chip" type="button" aria-pressed="false" data-f="Temáticas">Temáticas</button>
+    </div>
+    <div class="gallery" id="gallery">
+      <figure class="card" data-cat="Clássicas"><img decoding="async" loading="lazy" src="assets/media/wanelle-chocolate-raspas-perfil.webp" alt="Torta real de chocolate com raspas"><figcaption>Chocolate com raspas <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta de chocolate com raspas" data-name="Torta de chocolate com raspas">♡</button></figcaption></figure>
+      <figure class="card" data-cat="Frutadas"><img decoding="async" loading="lazy" src="assets/media/foto-61439d86808619.webp" alt="Torta real de abacaxi com coco"><figcaption>Abacaxi com coco <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta de abacaxi com coco" data-name="Torta de abacaxi com coco">♡</button></figcaption></figure>
+      <figure class="card" data-cat="Frutadas"><img decoding="async" loading="lazy" src="assets/media/foto-0aef1dab6b0ac8.webp" alt="Torta real de morango com wafer"><figcaption>Morango com wafer <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta de morango com wafer" data-name="Torta de morango com wafer">♡</button></figcaption></figure>
+      <figure class="card" data-cat="Temáticas"><img decoding="async" loading="lazy" src="assets/media/nova-rosa-ambiente.webp" alt="Torta rosa delicada da Wanelle"><figcaption>Rosa delicada <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta rosa delicada" data-name="Torta rosa delicada">♡</button></figcaption></figure>
+      <figure class="card" data-cat="Temáticas"><img decoding="async" loading="lazy" src="assets/media/wanelle-formatura-administracao-frontal.webp" alt="Torta real de formatura em Administração"><figcaption>Formatura Administração <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta de formatura Administração" data-name="Torta de formatura Administração">♡</button></figcaption></figure>
+      <figure class="card" data-cat="Temáticas"><img decoding="async" loading="lazy" src="assets/media/wanelle-boteco-principal.webp" alt="Torta real personalizada com tema boteco"><figcaption>Tema boteco <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta tema boteco" data-name="Torta tema boteco">♡</button></figcaption></figure>
+      <figure class="card" data-cat="Frutadas"><img decoding="async" loading="lazy" src="assets/media/foto-01b232349ee752.webp" alt="Torta real de frutas com kiwi e uvas"><figcaption>Kiwi e uvas <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta de kiwi e uvas" data-name="Torta de kiwi e uvas">♡</button></figcaption></figure>
+      <figure class="card" data-cat="Clássicas"><img decoding="async" loading="lazy" src="assets/media/nova-heroi-close.webp" alt="Torta temática de super-herói"><figcaption>Super-herói <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta temática de super-herói" data-name="Torta temática de super-herói">♡</button></figcaption></figure>
+    </div>
+    <div class="port-foot">
+      <p>✳ Cada detalhe é feito à mão.</p>
+      <button class="btn btn-crimson" type="button" data-open-order>Quero uma torta só minha ↗</button>
+    </div>
+    <p class="note">Imagens para inspiração · Valores sob consulta</p>
+  </div>
+  <div class="drip bottom d-green" style="color:var(--pistachio)"></div>
+</section>
+
+<!-- PERSONALIZADAS -->
+<section class="custom" id="personalizados">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--wine)">Personalizada, igual a você</span>
+    <div class="custom-grid">
+      <div class="blk photo"><img decoding="async" loading="lazy" src="assets/media/nova-rosa-close.webp" alt="Torta rosa e branca da Wanelle"><div class="sticker2">100% sua cara! ✳</div></div>
+      <div class="blk big">
+        <h2>A sua ideia. <em>O nosso toque.</em> A sua festa!</h2>
+        <p class="lead">Uma cor favorita, uma conquista, um personagem ou uma memória. Você conta o que imagina e a gente transforma em uma criação especial.</p>
+      </div>
+      <div class="blk words"><h3>Ou do jeitinho que você sonhou?</h3></div>
+      <div class="blk photo"><img decoding="async" loading="lazy" src="assets/media/wanelle-formatura-nova-frente.webp" alt="Torta real de formatura em branco e azul"></div>
+    </div>
+    <div class="cta-row">
+      <button class="btn btn-crimson" type="button" data-open-order>Criar minha torta ↗</button>
+      <p>♡ Escolha um trabalho nosso como referência. Não precisa ser igual!</p>
+    </div>
+  </div>
+  <div class="drip bottom d-wine" style="color:var(--wine)"></div>
+</section>
+
+<!-- BOLO DE POTE -->
+<section class="pote" id="bolos-de-pote">
+  <div class="wrap pote-grid">
+    <div>
+      <span class="eyebrow">Um mimo que vem aí</span>
+      <h2>E se a felicidade coubesse num <em>potinho?</em></h2>
+      <p class="lead">A linha de bolos de pote da Wanelle está sendo preparada com carinho. Ainda não temos catálogo nem valores: acompanhe as novidades por aqui.</p>
+      <a class="btn btn-light" href="https://wa.me/5571993125721?text=Oi%2C%20Wanelle%21%20Quero%20saber%20das%20novidades%20dos%20bolos%20de%20pote." target="_blank" rel="noopener">Quero saber quando chegar ↗</a>
+    </div>
+    <div class="soon">
+      <div><small>A gente tá preparando... ✳</small><h3>Mais um<br>docinho<br>vem aí! ♡</h3></div>
+    </div>
+  </div>
+  <div class="drip bottom d-cream" style="color:var(--cream)"></div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section class="how" id="como-funciona">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">Fácil, leve e feito pra você</span>
+        <h2>Sua festa, <em>do seu jeito.</em></h2>
+      </div>
+      <p class="lead">Da primeira inspiração à mensagem para organizar o seu pedido.</p>
+    </div>
+    <div class="steps">
+      <div class="step s1">
+        <div class="ico">♡</div>
+        <h3>Encontre seu favorito</h3>
+        <p>Explore nossas criações reais e salve as fotos que combinam com o seu momento.</p>
+        <a class="btn btn-dark" href="#tortas">Ver o portfólio ↗</a>
+      </div>
+      <div class="step s2">
+        <div class="ico">✳</div>
+        <h3>Conte como imagina</h3>
+        <p>Informe data, pessoas, sabor, recheio e ideias de decoração, sem precisar saber todos os detalhes.</p>
+        <button class="btn btn-light" type="button" data-open-order>Montar meu pedido ↗</button>
+      </div>
+      <div class="step s3">
+        <div class="ico">↗</div>
+        <h3>Receba seu orçamento</h3>
+        <p>A Wanelle confirma disponibilidade, personalização e valor após calcular a sua encomenda.</p>
+        <span class="btn btn-ghost" style="pointer-events:none">Feito sob encomenda ♡</span>
+      </div>
+    </div>
+  </div>
+  <div class="drip bottom d-crimson" style="color:var(--crimson)"></div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="final">
+  <div class="wrap">
+    <span class="eyebrow">Tem uma festa chegando? ✳</span>
+    <h2>Sua próxima memória tem sabor de Wanelle.</h2>
+    <button class="btn btn-light" type="button" data-open-order>Montar minha encomenda ↗</button>
+  </div>
+  <div class="drip bottom d-pink" style="color:var(--pink-soft)"></div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="duvidas">
+  <div class="wrap faq-grid">
+    <div>
+      <span class="eyebrow">Tire suas dúvidas</span>
+      <h2>A gente te <em>ajuda.</em></h2>
+    </div>
+    <div>
+      <details open><summary>Como faço uma encomenda?</summary><p>Escolha uma ou mais inspirações do catálogo, clique em “Montar encomenda”, preencha os dados e envie a mensagem pelo WhatsApp. Vamos confirmar os detalhes diretamente com você.</p></details>
+      <details><summary>Posso pedir uma torta personalizada?</summary><p>Sim! Conte seu tema e envie referências pelo WhatsApp. A possibilidade de reprodução e o orçamento dependem do tipo de decoração, ingredientes e agenda.</p></details>
+      <details><summary>Onde encontro preços e tamanhos?</summary><p>Estamos finalizando as opções comerciais do catálogo. Por enquanto, consulte tamanho, recheio, valor e disponibilidade diretamente com a Wanelle.</p></details>
+      <details><summary>A Wanelle faz entregas?</summary><p>Você pode solicitar entrega no formulário. O bairro, o valor e a disponibilidade de transporte serão confirmados antes do fechamento do pedido.</p></details>
+      <details><summary>Já posso encomendar bolo de pote?</summary><p>A linha de bolos de pote ainda está em preparação. Fale com a gente para verificar se há unidades disponíveis.</p></details>
     </div>
   </div>
 </section>
-<section id="tortas" class="section gallery-section">
-  <div class="wrap">
-    <div class="section-head gallery-head fade-in"><div><span class="kicker kicker-outline">O ÁLBUM MAIS GOSTOSO DA INTERNET ♡</span><h2>Criações da <em>Wanelle.</em><span class="heading-star" aria-hidden="true">✳</span></h2></div><p>Fotos de bolos que já fizemos, de verdade! Escolha seus favoritos como inspiração. Cada novo pedido é pensado e orçado especialmente pra você.</p></div>
-    <div class="gallery-toolbar"><div class="catalog-tools"><div class="filters" id="filters" role="group" aria-label="Filtrar nossas criações"><button class="filter" data-category="Todas" aria-pressed="true">Todas as criações</button><button class="filter" data-category="Clássicas" aria-pressed="false">Clássicas</button><button class="filter" data-category="Frutadas" aria-pressed="false">Frutadas</button><button class="filter" data-category="Temáticas" aria-pressed="false">Temáticas</button></div><label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg><input id="search" type="search" aria-label="Buscar criações" placeholder="Qual torta você procura?"/></label></div></div>
-    <div id="catalog-grid" class="catalog-grid" aria-live="polite"></div><div id="no-results" class="no-results" hidden>Não encontramos essa torta ainda. Mas sua ideia pode ser a próxima! ♡</div>
-    <div class="gallery-foot"><span>✳ Cada detalhe é feito à mão.</span><button type="button" class="button" id="gallery-order">Quero uma torta só minha ↗</button><small>Imagens para inspiração · Valores sob consulta</small></div>
-  </div>
-</section>
-<section id="personalizados" class="story story-editorial">
-  <div class="wrap"><div class="story-inner fade-in">
-    <div class="story-photo-wall">
-      <div class="story-grid-base" aria-hidden="true"></div>
-      <div class="story-photo-primary"><img src="https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/nova-rosa-close.webp" loading="lazy" alt="Torta delicada em rosa e branco"/></div>
-      <div class="story-photo-secondary"><img src="https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/wanelle-formatura-nova-frente.webp" loading="lazy" alt="Torta de formatura Wanelle em branco e azul"/></div>
-      <span class="story-sticker" aria-hidden="true">100%<br/>sua cara!</span>
-      <span class="story-icon" aria-hidden="true">✳</span>
-    </div>
-    <div class="story-copy"><span class="kicker">PERSONALIZADA, IGUAL A VOCÊ</span><h2>A sua ideia.<br/><em>O nosso toque.</em><br/>A sua festa!</h2><p>Uma cor favorita, uma conquista, um personagem ou uma memória. Você conta o que imagina e a gente transforma em uma criação especial.</p><p class="story-tip">♡ Escolha um trabalho nosso como referência — não precisa ser igual!</p><button class="button" id="story-order" type="button">Criar minha torta ↗</button></div>
-  </div></div>
-</section>
-<section id="bolos-de-pote" class="pot-section pot-editorial"><div class="wrap pot-wrap"><div class="pot-art fade-in"><div class="pot-sticker">A GENTE TÁ PREPARANDO... ✳</div><span class="pot-title">Mais um<br/><em>docinho</em><br/>vem aí!</span><span class="pot-spark" aria-hidden="true">♡</span></div><div class="pot-content fade-in"><span class="kicker">UM MIMO QUE VEM AÍ</span><h2>E se a felicidade coubesse num <em>potinho?</em></h2><p>A linha de bolos de pote da Wanelle está sendo preparada com carinho. Ainda não temos catálogo nem valores: acompanhe as novidades por aqui.</p><a href="https://wa.me/5571993125721?text=Oi%2C%20Wanelle%21%20Quero%20saber%20das%20novidades%20dos%20bolos%20de%20pote." class="button button-light" target="_blank" rel="noopener">Quero saber quando chegar ↗</a></div></div></section>
-<section id="como-funciona" class="section how how-editorial"><div class="wrap"><div class="how-head fade-in"><span class="kicker">FÁCIL, LEVE E FEITO PRA VOCÊ</span><h2>Sua festa, do <em>seu jeito.</em></h2><p>Da primeira inspiração à mensagem para organizar o seu pedido.</p></div><div class="steps">
- <div class="step fade-in"><span class="step-num">01</span><span class="step-emoji" aria-hidden="true">♡</span><h3>Encontre seu favorito</h3><p>Explore nossas criações reais e salve as fotos que combinam com o seu momento.</p><a href="#tortas">Ver o portfólio ↗</a></div>
- <div class="step fade-in"><span class="step-num">02</span><span class="step-emoji" aria-hidden="true">✳</span><h3>Conte como imagina</h3><p>Informe data, pessoas, sabor, recheio e ideias de decoração — sem precisar saber todos os detalhes.</p><button type="button" class="step-order" id="step-order">Montar meu pedido ↗</button></div>
- <div class="step fade-in"><span class="step-num">03</span><span class="step-emoji" aria-hidden="true">↗</span><h3>Receba seu orçamento</h3><p>A Wanelle confirma disponibilidade, personalização e valor após calcular a sua encomenda.</p><span class="step-footer">Feito sob encomenda ♡</span></div>
- </div></div></section>
-<div class="wrap"><div class="cta-banner fade-in"><span class="cta-note">TEM UMA FESTA CHEGANDO? ✳</span><h2>Sua próxima memória tem sabor de Wanelle.</h2><button class="button" id="banner-order" type="button">Montar minha encomenda ↗</button></div></div>
-<section class="section faq" id="perguntas"><div class="wrap"><div><span class="eyebrow">Tire suas dúvidas</span><h2>A gente<br/>te <em>ajuda.</em></h2></div><div class="faq-list"><details><summary>Como faço uma encomenda?</summary><p>Escolha uma ou mais inspirações do catálogo, clique em “Montar encomenda”, preencha os dados e envie a mensagem pelo WhatsApp. Vamos confirmar os detalhes diretamente com você.</p></details><details><summary>Posso pedir uma torta personalizada?</summary><p>Sim! Conte seu tema e envie referências pelo WhatsApp. A possibilidade de reprodução e o orçamento dependem do tipo de decoração, ingredientes e agenda.</p></details><details><summary>Onde encontro preços e tamanhos?</summary><p>Estamos finalizando as opções comerciais do catálogo. Por enquanto, consulte tamanho, recheio, valor e disponibilidade diretamente com a Wanelle.</p></details><details><summary>A Wanelle faz entregas?</summary><p>Você pode solicitar entrega no formulário. O bairro, o valor e a disponibilidade de transporte serão confirmados antes do fechamento do pedido.</p></details><details><summary>Já posso encomendar bolo de pote?</summary><p>A linha de bolos de pote ainda está em preparação. Fale com a gente para verificar se há unidades disponíveis.</p></details></div></div></section>
 </main>
-<footer class="footer" id="contato"><div class="wrap"><div class="footer-brand"><img src="https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/foto-d1a021079f73c4.png" class="footer-logo" alt="Wanelle" /><p>Feita à mão, com carinho e ingredientes selecionados para tornar cada momento ainda mais especial.</p></div><div><h3>Explore</h3><a href="#tortas">Criações da Wanelle</a><a href="#personalizados">Personalizadas</a><a href="#bolos-de-pote">Bolos de pote</a><a href="#como-funciona">Como encomendar</a></div><div><h3>Vamos conversar?</h3><a href="https://wa.me/5571993125721" target="_blank" rel="noopener">(71) 99312-5721 ↗</a><p>Salvador, Bahia<br/>Atendimento e disponibilidade sob consulta.</p></div></div><div class="footer-bottom">© 2026 WANELLE TORTAS — Feito para celebrar ♡</div></footer>
-<button class="float-wa" id="floating-wa" type="button" aria-label="Chamar a Wanelle no WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 11.5a8.5 8.5 0 0 1-12.2 7.6L3 20l.9-4.7A8.5 8.5 0 1 1 20 11.5Z"/><path d="M8.6 8.7c.6 3.1 3.4 5.8 6.6 6.5l1.3-1.6-1.8-1.1-1.1 1.1a8.9 8.9 0 0 1-3.4-3.5l1-1.1L10 7.2 8.6 8.7Z"/></svg> FALE COM A WANELLE</button>
-<div id="overlay" class="overlay" hidden></div>
-<section role="dialog" aria-modal="true" aria-label="Detalhes da torta" id="product-modal" class="product-modal" hidden><button type="button" class="modal-close" id="modal-close" aria-label="Fechar detalhes">×</button><div class="modal-grid"><div class="modal-gallery"><img id="modal-photo" src="" alt="Fotografia da torta" /><button class="modal-arrow modal-prev" type="button" id="modal-prev" aria-label="Foto anterior">‹</button><button class="modal-arrow modal-next" type="button" id="modal-next" aria-label="Próxima foto">›</button><div class="modal-thumbs" id="modal-thumbs"></div></div><div class="modal-info"><span class="eyebrow" id="modal-category">Tortas</span><h2 id="modal-title"></h2><p id="modal-desc"></p><div class="drawer-tags"><span>♡ Feita por encomenda</span><span>✦ Opções sob consulta</span></div><button type="button" class="button" id="modal-add">Adicionar ao meu pedido ↗</button><p class="form-note">Fotos de trabalhos da Wanelle. Recheios, tamanhos, decoração e disponibilidade são confirmados no atendimento.</p></div></div></section>
-<aside role="dialog" aria-modal="true" aria-label="Montar encomenda" id="drawer" class="drawer" hidden><div class="drawer-head"><button class="drawer-close" type="button" id="drawer-close" aria-label="Fechar pedido">×</button><span class="eyebrow" style="color:#ffd0ac">Sua celebração começa aqui</span><h2>Minha encomenda ♡</h2><p>Preencha os detalhes e receba seu orçamento pelo atendimento Wanelle.</p></div><div class="drawer-body"><h3>Suas inspirações</h3><div id="cart-items"></div><button class="drawer-reset" type="button" id="clear-cart">Limpar seleção</button><h3>Dados da encomenda</h3><form id="order-form"><div class="field"><label for="client-name">Seu nome *</label><input id="client-name" name="client-name" autocomplete="name" required placeholder="Como podemos chamar você?" /></div><div class="field"><label for="client-phone">Seu WhatsApp com DDD *</label><input id="client-phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="(71) 99999-9999" /></div><div class="two-cols"><div class="field"><label for="client-date">Data desejada *</label><input type="date" id="client-date" required /></div><div class="field"><label for="client-event">Ocasião</label><select id="client-event"><option value="">Selecionar</option><option>Aniversário</option><option>Formatura</option><option>Comemoração</option><option>Outro momento</option></select></div></div><div class="two-cols"><div class="field"><label for="client-servings">Pessoas por torta *</label><input id="client-servings" type="number" min="1" max="500" required placeholder="Ex.: 20" /></div><div class="field"><label for="client-method">Recebimento *</label><select id="client-method" required><option value="Retirada">Retirada</option><option value="Consultar entrega">Consultar entrega</option></select></div></div><div class="field"><label for="client-cake">Criação que serviu de inspiração (opcional)</label><select id="client-cake"><option value="">Quero uma torta nova, sem referência</option><option value="chocolate">Torta de Chocolate</option><option value="chocolate-raspas">Torta de Chocolate com Raspas</option><option value="morango">Torta de Morango</option><option value="abacaxi">Torta de Abacaxi com Coco</option><option value="kiwi">Torta de Frutas</option><option value="formatura">Torta de Formatura</option><option value="administracao">Torta de Formatura Administração</option><option value="ellen">Torta Temática</option><option value="boteco">Torta Tema Boteco</option></select></div><div class="two-cols"><div class="field"><label for="client-flavor">Sabor da massa</label><input id="client-flavor" placeholder="Ex.: baunilha" /></div><div class="field"><label for="client-filling">Recheio desejado</label><input id="client-filling" placeholder="Ex.: brigadeiro" /></div></div><div class="field"><label for="client-size-cm">Tamanho da forma Wanelle</label><select id="client-size-cm"><option value="">Não sei — quero uma sugestão</option><option value="18">18 cm · 15 a 18 fatias · aproximadamente 1,5 kg</option><option value="20">20 cm · 20 a 24 fatias · aproximadamente 2 kg</option><option value="25">25 cm · 30 a 35 fatias · aproximadamente 3 kg</option></select><small class="form-note">Rendimentos aproximados. Confirmamos o tamanho conforme as porções e a altura da torta.</small></div><div class="two-cols"><div class="field"><label for="client-filling-layers">Camadas de recheio desejadas</label><select id="client-filling-layers"><option value="2">2 camadas (padrão)</option><option value="1">1 camada</option><option value="3">3 camadas</option><option value="4">4 camadas</option><option value="5">5 camadas</option></select></div><div class="field"><label for="client-decoration-level">Estilo de decoração</label><select id="client-decoration-level"><option value="simples">Simples / tradicional</option><option value="detalhada">Mais detalhes</option><option value="artistica">Artística / temática</option></select></div></div><div class="field"><label for="client-decoration">Tema, cores e decoração</label><input id="client-decoration" placeholder="Ex.: flores, rosa e dourado" /></div><div class="field" id="delivery-address" hidden><label for="client-neighborhood">Bairro para entrega</label><input id="client-neighborhood" placeholder="Seu bairro em Salvador" /></div><div class="field"><label for="client-notes">Detalhes e personalização</label><textarea id="client-notes" placeholder="Sabor, recheio desejado, tema, referências ou qualquer observação"></textarea></div><label class="field" style="display:flex;align-items:center;flex-direction:row;gap:10px;font-weight:800;font-size:12px;color:var(--wine2)"><input type="checkbox" id="client-custom" style="width:18px;height:18px">Quero uma decoração personalizada</label><div class="drawer-tags"><span>Fotos: apenas referências</span><span>Sem preços pré-definidos</span><span>Orçamento calculado para seu pedido</span></div><button type="submit" class="button" id="save-client-request">Solicitar meu orçamento ♡</button><p class="form-note">Seus dados serão usados para responder à solicitação. O pedido só estará confirmado depois da aprovação da Wanelle.</p></form><div id="order-success" class="intake-success" hidden></div></div></aside>
+
+<footer id="contato">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="logo" href="#inicio"><img decoding="async" src="assets/media/foto-d1a021079f73c4.png" alt=""><span>Wanelle<br>Tortas</span></a>
+        <p style="max-width:38ch">Feita à mão, com carinho e ingredientes selecionados para tornar cada momento ainda mais especial.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#tortas">Criações da Wanelle</a></li>
+          <li><a href="#personalizados">Personalizadas</a></li>
+          <li><a href="#bolos-de-pote">Bolos de pote</a></li>
+          <li><a href="#como-funciona">Como encomendar</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Vamos conversar?</h4>
+        <ul>
+          <li><a href="https://wa.me/5571993125721" target="_blank" rel="noopener">(71) 99312-5721 ↗</a></li>
+          <li>Salvador, Bahia<br><span style="opacity:.8">Atendimento e disponibilidade sob consulta.</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="big" aria-hidden="true">Fale com a Wanelle</div>
+    <p class="copy">© 2026 WANELLE TORTAS — Feito para celebrar ♡</p>
+  </div>
+</footer>
+
+<!-- pedido -->
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-hidden="true" aria-label="Monte seu pedido">
+  <button class="close" id="closeBtn" type="button" aria-label="Fechar">✕</button>
+  <span class="eyebrow">Orçamento pelo WhatsApp</span>
+  <h3>Monte seu pedido</h3>
+  <p class="fine" style="margin-top:0">Preencha o que souber. A Wanelle confirma disponibilidade e valor pelo WhatsApp.</p>
+  <div class="saved" id="saved"></div>
+  <form id="orderForm">
+    <label for="nome">Seu nome<input id="nome" required autocomplete="name"></label>
+    <div class="row2">
+      <label for="data">Data da festa<input id="data" type="date"></label>
+      <label for="pessoas">Nº de pessoas<input id="pessoas" type="number" min="1" inputmode="numeric"></label>
+    </div>
+    <div class="row2">
+      <label for="sabor">Sabor<select id="sabor"><option value="">A combinar</option><option>Chocolate</option><option>Abacaxi</option><option>Morango</option><option>Outro</option></select></label>
+      <label for="recheio">Recheio<input id="recheio" placeholder="Ex.: brigadeiro"></label>
+    </div>
+    <label for="entrega">Entrega<select id="entrega"><option>Vou retirar</option><option>Quero entrega (informo o bairro)</option></select></label>
+    <label for="ideias">Ideias de decoração<textarea id="ideias" rows="4" placeholder="Cores, tema, frase no topo..."></textarea></label>
+    <button class="btn btn-crimson" type="submit" style="width:100%;justify-content:center">Enviar pelo WhatsApp ↗</button>
+    <p class="fine">Ao enviar, o WhatsApp abre com a mensagem pronta. Nada é enviado automaticamente.</p>
+  </form>
+</aside>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 <script>
-const PRODUCTS = [{"id":"chocolate","name":"Torta de Chocolate","subtitle":"Chocolate e chantilly","category":"Clássicas","label":"Um clássico irresistível","desc":"Cobertura de chocolate, detalhes em chantilly e delicadas raspas de chocolate. Recheio e tamanho disponíveis sob consulta.","photos":["foto-retocada-08-enquadramento-sem-marca","foto-retocada-07-enquadramento-sem-marca","foto-retocada-01-enquadramento-sem-marca","torta-chocolate-chantilly-01-lateral.jpg","torta-chocolate-chantilly-02-tres-quartos.jpg","torta-chocolate-chantilly-03-superior.jpg"],"images":["https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/nova-chocolate-frontal.webp","https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/nova-chocolate-superior.webp","https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/nova-chocolate-preparo.webp","https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/foto-aac251dc1ec45b.webp","https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/foto-5c8b0724bfd5ab.webp","https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/foto-e467ee712863b2.webp"]},{"id":"chocolate-raspas","name":"Torta de Chocolate com Raspas","subtitle":"Chocolate intenso e acabamento artesanal","category":"Clássicas","label":"Chocolate em destaque","desc":"Criação da Wanelle com cobertura de chocolate, chantilly e raspas decorativas. Fotos reais como inspiração; sabores, tamanho e preço definidos após orçamento.","photos":["raspas-frente","raspas-lateral","raspas-superior"],"images":["https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/wanelle-chocolate-raspas-frontal.webp","https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/wanelle-chocolate-raspas-perfil.webp","https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/wanelle-chocolate-raspas-superior.webp"]},{"id":"morango","name":"Torta de Morango","subtitle":"Morango com wafer","category":"Frutadas","label":"Frutas em destaque","desc":"Torta decorada com morangos, cobertura clara e acabamento lateral com wafer. Recheio e tamanho sob consulta.","photos":["torta-morango-wafer-01-frontal.jpg","torta-morango-wafer-02-superior.jpg"],"images":["https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/foto-c01ef23f279de8.webp","https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/foto-0aef1dab6b0ac8.webp"]},{"id":"abacaxi","name":"Torta de Abacaxi com Coco","subtitle":"Abacaxi e coco","category":"Frutadas","label":"Leve e delicada","desc":"Finalização com abacaxi, decoração em chantilly e laterais claras com textura de coco. Recheio e tamanho sob consulta.","photos":["foto-retocada-09-enquadramento-sem-marca","torta-abacaxi-coco-01-frontal.jpg","torta-abacaxi-coco-02-tres-quartos.jpg","torta-abacaxi-coco-03-superior.jpg"],"images":["https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/nova-abacaxi-frontal.webp","https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/foto-a57d8eabf5ae22.webp","https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/foto-61439d86808619.webp","https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/foto-5777e0d49b72de.webp"]},{"id":"kiwi","name":"Torta de Frutas","subtitle":"Kiwi e uvas","category":"Frutadas","label":"Uma festa de cores","desc":"Decoração artesanal com kiwi e uvas sobre cobertura clara. Uma inspiração para celebrações. Recheio e tamanho sob consulta.","photos":["torta-kiwi-uvas-02-frontal.jpg","torta-kiwi-uvas-01-ambiente.jpg","torta-kiwi-uvas-03-superior.jpg"],"images":["https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/foto-f999ef06c816e0.webp","https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/foto-01b232349ee752.webp","https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/foto-2e939a72f2163a.webp"]},{"id":"formatura","name":"Torta de Formatura","subtitle":"Azul, branco e topo de formatura","category":"Temáticas","label":"Momentos que marcam","desc":"Criação de formatura da Wanelle em azul e branco, com decoração personalizada. As imagens são inspirações visuais; tamanhos, recheios e valores são definidos no orçamento.","photos":["formatura-nova-foto-frontal","formatura-nova-foto-superior"],"images":["https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/wanelle-formatura-nova-frente.webp","https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/wanelle-formatura-nova-superior.webp"]},{"id":"ellen","name":"Torta Temática","subtitle":"Diário da Ellen","category":"Temáticas","label":"Do tema para a mesa","desc":"Exemplo real de torta personalizada para aniversário, com acabamento rosa, detalhes amarelos e decoração temática. Personalizações sob consulta.","photos":["torta-tematica-diario-da-ellen-02-frontal.jpg","torta-tematica-diario-da-ellen-01-tres-quartos.jpg","torta-tematica-diario-da-ellen-03-superior.jpg"],"images":["https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/foto-80a5346b079ec6.webp","https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/foto-89a2130e301f2f.webp","https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/foto-e9c24721ca97a2.webp"]},{"id":"rosa","name":"Torta Rosa Delicada","subtitle":"Rosa, branco e acabamento artesanal","category":"Temáticas","label":"Delicadeza em cada detalhe","desc":"Inspiração com confeitos e detalhes em rosa e branco. O visual pode ser adaptado para sua comemoração. Sabores, recheios e valores sob consulta.","photos":["rosa-frontal","rosa-ambiente"],"images":["https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/nova-rosa-close.webp","https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/nova-rosa-ambiente.webp"]},{"id":"heroi","name":"Torta Super-Herói","subtitle":"Vermelho e preto","category":"Temáticas","label":"Personalização com atitude","desc":"Criação com acabamento em vermelho e preto e detalhes temáticos. Referência visual para uma encomenda personalizada; valor sob consulta.","photos":["heroi-close","heroi-ambiente"],"images":["https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/nova-heroi-close.webp","https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/nova-heroi-ambiente.webp"]},{"id":"infantil","name":"Torta Infantil","subtitle":"Personagens e cores alegres","category":"Temáticas","label":"Uma lembrança especial","desc":"Registro de uma criação infantil da Wanelle, com personagens e cores alegres. Outros estilos e temas podem ser solicitados.","photos":["torta-infantil-nova-foto-frontal"],"images":["https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/wanelle-infantil-nova.webp"]},{"id":"boteco","name":"Torta Tema Boteco","subtitle":"Branco, dourado e decoração personalizada","category":"Temáticas","label":"Uma celebração especial","desc":"Torta personalizada com acabamento em branco e dourado e decoração temática de boteco. Uma inspiração visual; sabores, tamanho e valores definidos no orçamento.","photos":["boteco-frontal-nova","boteco-segundo-angulo-nova"],"images":["https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/wanelle-boteco-principal.webp","https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/wanelle-boteco-detalhe.webp"]},{"id":"administracao","name":"Torta de Formatura Administração","subtitle":"Formatura em azul e branco","category":"Temáticas","label":"Para celebrar a conquista","desc":"Torta de formatura com detalhes azuis e brancos e acabamento artesanal. Imagens apenas como referência visual, sem preço ou receita previamente definidos.","photos":["administracao-frontal","administracao-perspectiva"],"images":["https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/wanelle-formatura-administracao-frontal.webp","https://raw.githubusercontent.com/leleca7/wanelle-studio/205dc669db9a73155e979da2399f33e5639887b1/assets/media/wanelle-formatura-administracao-perspectiva.webp"]}];
-const WHATSAPP = '5571993125721';
-const $ = s => document.querySelector(s);
-const escapeHTML = value => String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const origin = new URLSearchParams(window.location.search).get('utm_source') || new URLSearchParams(window.location.search).get('origem') || '';
-let cart=[];try{const raw=JSON.parse(localStorage.getItem('wanelle-encomenda-v2')||'[]');if(Array.isArray(raw))cart=raw.filter(it=>PRODUCTS.some(p=>p.id===it.id)&&Number.isInteger(it.qty)&&it.qty>0&&it.qty<=12)}catch(e){}let activeFilter='Todas';let activeModal=null;let activeImage=0;let heroIndex=0;let heroTimer=null;let toastTimer=null;let lastFocus=null;
-window.WANELLE_SITE_CART=()=>cart;
-const heroChoices=['chocolate','morango','abacaxi'];
-const waUrl=msg=>'https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(msg);
-function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2800)}
-function productById(id){return PRODUCTS.find(p=>p.id===id)}
-function renderCatalog(){const s=$('#search').value.trim().toLocaleLowerCase('pt-BR');const items=PRODUCTS.filter(p=>(activeFilter==='Todas'||p.category===activeFilter)&&(`${p.name} ${p.subtitle} ${p.category}`).toLocaleLowerCase('pt-BR').includes(s));$('#catalog-grid').innerHTML=items.map((p,i)=>`<article class="product product-${p.id}"><div class="product-media" data-detail="${p.id}" role="button" tabindex="0" aria-label="Ver galeria de ${escapeHTML(p.name)}"><img class="product-cover" src="${p.images[0]}" alt="${escapeHTML(p.name)} preparada pela Wanelle" loading="lazy" />${p.images[1]?`<img class="product-hover" src="${p.images[1]}" alt="" loading="lazy" />`:''}<span class="product-tag">${escapeHTML(p.label)}</span><span class="product-photo-icon" aria-hidden="true">↗</span></div><div class="product-bottom"><span class="product-cat">${escapeHTML(p.category)} • CRIAÇÃO REAL</span><h3>${escapeHTML(p.name)}</h3><p>${escapeHTML(p.subtitle)}</p><div class="product-line"><button type="button" data-detail="${p.id}">Ver as fotos <span aria-hidden="true">↗</span></button><button type="button" class="circle-plus" title="Salvar como inspiração" data-add="${p.id}" aria-label="Salvar ${escapeHTML(p.name)} como inspiração">♡</button></div></div></article>`).join('');$('#no-results').hidden=items.length!==0}
-function updateFilters(){document.querySelectorAll('.filter').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.category===activeFilter)))}
-$('#filters').addEventListener('click',e=>{const b=e.target.closest('[data-category]');if(!b)return;activeFilter=b.dataset.category;updateFilters();renderCatalog()});
-$('#search').addEventListener('input',renderCatalog);
-$('#catalog-grid').addEventListener('click',e=>{const add=e.target.closest('[data-add]');if(add){addToCart(add.dataset.add);return}const detail=e.target.closest('[data-detail]');if(detail)openProduct(detail.dataset.detail)});
-$('#catalog-grid').addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('.product-media')){e.preventDefault();openProduct(e.target.dataset.detail)}});
-function showBackdrop(){let ov=$('#overlay');ov.hidden=false;requestAnimationFrame(()=>ov.classList.add('visible'));document.body.classList.add('locked')}
-function hideBackdrop(){let ov=$('#overlay');ov.classList.remove('visible');document.body.classList.remove('locked');setTimeout(()=>{if(!ov.classList.contains('visible'))ov.hidden=true},260)}
-function openProduct(id){closeDrawer(false);const p=productById(id);if(!p)return;lastFocus=document.activeElement;activeModal=p;activeImage=0;$('#modal-title').textContent=p.name;$('#modal-category').textContent=p.category;$('#modal-desc').textContent=p.desc;$('#modal-add').onclick=()=>{addToCart(p.id);closeProduct();openDrawer()};changeModalImage(0);$('#product-modal').hidden=false;showBackdrop();requestAnimationFrame(()=>$('#product-modal').classList.add('open'));$('#modal-close').focus()}
-function changeModalImage(i){if(!activeModal)return;activeImage=(i+activeModal.images.length)%activeModal.images.length;$('#modal-photo').src=activeModal.images[activeImage];$('#modal-photo').alt=`${activeModal.name}, foto ${activeImage+1} de ${activeModal.images.length}`;$('#modal-thumbs').innerHTML=activeModal.images.map((src,j)=>`<button type="button" aria-label="Ver foto ${j+1}" aria-pressed="${j===activeImage}" data-modal-photo="${j}"><img src="${src}" alt="" /></button>`).join('')}
-$('#modal-thumbs').onclick=e=>{const b=e.target.closest('[data-modal-photo]');if(b)changeModalImage(Number(b.dataset.modalPhoto))};$('#modal-prev').onclick=()=>changeModalImage(activeImage-1);$('#modal-next').onclick=()=>changeModalImage(activeImage+1);
-function closeProduct(restore=true){if($('#product-modal').hidden)return;$('#product-modal').classList.remove('open');setTimeout(()=>{$('#product-modal').hidden=true;activeModal=null},250);hideBackdrop();if(restore&&lastFocus?.focus)lastFocus.focus()}
-$('#modal-close').onclick=()=>closeProduct();
-function addToCart(id){const found=cart.find(item=>item.id===id);if(found)found.qty=Math.min(12,found.qty+1);else cart.push({id,qty:1});updateCart();toast('Inspiração salva para seu orçamento ♡')}
-function updateCart(){try{localStorage.setItem('wanelle-encomenda-v2',JSON.stringify(cart))}catch(e){}$('#bag-num').textContent=cart.reduce((a,b)=>a+b.qty,0);$('#cart-items').innerHTML=cart.length?cart.map(item=>{const p=productById(item.id);return `<div class="cart-item"><img src="${p.images[0]}" alt=""/><div style="flex:1;min-width:0"><div class="cart-name">${escapeHTML(p.name)}</div><div class="cart-kind">${escapeHTML(p.subtitle)}</div><div class="cart-action"><button type="button" data-minus="${p.id}" aria-label="Diminuir quantidade">−</button><span>${item.qty}</span><button type="button" data-plus="${p.id}" aria-label="Aumentar quantidade">+</button><button class="delete" type="button" data-remove="${p.id}">Remover</button></div></div></div>`}).join(''):'<div class="empty-cart">Sua seleção ainda está vazia.<br>Escolha uma criação para se inspirar ou descreva uma ideia nova ♡</div>';$('#clear-cart').hidden=cart.length===0}
-$('#cart-items').addEventListener('click',e=>{let b=e.target.closest('button');if(!b)return;const id=b.dataset.plus||b.dataset.minus||b.dataset.remove;const item=cart.find(it=>it.id===id);if(!item)return;if(b.dataset.plus)item.qty=Math.min(12,item.qty+1);if(b.dataset.minus)item.qty--;if(b.dataset.remove||item.qty<=0)cart=cart.filter(it=>it!==item);updateCart()});
-$('#clear-cart').onclick=()=>{cart=[];updateCart();toast('Sua seleção foi limpa')};
-function openDrawer(){closeProduct(false);lastFocus=document.activeElement;$('#drawer').hidden=false;showBackdrop();requestAnimationFrame(()=>$('#drawer').classList.add('open'));$('#drawer-close').focus()}
-function closeDrawer(restore=true){if($('#drawer').hidden)return;$('#drawer').classList.remove('open');setTimeout(()=>{$('#drawer').hidden=true},300);hideBackdrop();if(restore&&lastFocus?.focus)lastFocus.focus()}
-$('#drawer-close').onclick=()=>closeDrawer();$('#open-bag').onclick=openDrawer;
-['header-order','hero-order','story-order','banner-order'].forEach(id=>$('#'+id).onclick=openDrawer);
-$('#overlay').onclick=()=>{if(!$('#drawer').hidden)closeDrawer();if(!$('#product-modal').hidden)closeProduct()};
-window.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('#drawer').hidden)closeDrawer();else if(!$('#product-modal').hidden)closeProduct()}if(!$('#product-modal').hidden&&e.key==='ArrowLeft')changeModalImage(activeImage-1);if(!$('#product-modal').hidden&&e.key==='ArrowRight')changeModalImage(activeImage+1)});
-$('#client-method').addEventListener('change',e=>{$('#delivery-address').hidden=e.target.value!=='Consultar entrega';$('#client-neighborhood').required=e.target.value==='Consultar entrega'});
-const now=new Date();const today=new Date(now.getTime()-now.getTimezoneOffset()*60000).toISOString().slice(0,10);$('#client-date').min=today;
-// O cadastro estruturado do pedido é implementado em assets/site-intake.js.
-$('#floating-wa').onclick=()=>window.open(waUrl('Olá, Wanelle! Gostaria de conhecer as opções de tortas e fazer um orçamento. '+(origin?`(Origem: ${origin})`:'')),'_blank','noopener');
-function setHero(index){heroIndex=(index+heroChoices.length)%heroChoices.length;const p=productById(heroChoices[heroIndex]);const img=$('#hero-photo');img.style.opacity=.15;setTimeout(()=>{img.src=p.images[0];img.alt=p.name+' da Wanelle';$('#hero-name').textContent=p.name;img.style.opacity=1},180);document.querySelectorAll('.slide-dot').forEach((dot,i)=>dot.setAttribute('aria-current',String(i===heroIndex)))}
-function startHero(){clearInterval(heroTimer);if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches)heroTimer=setInterval(()=>setHero(heroIndex+1),5200)}
-$('#slide-controls').innerHTML=heroChoices.map((id,i)=>`<button class="slide-dot" type="button" data-hero="${i}" aria-label="Ver ${productById(id).name}" aria-current="${i===heroIndex}"></button>`).join('');$('#slide-controls').onclick=e=>{const b=e.target.closest('[data-hero]');if(b){setHero(Number(b.dataset.hero));startHero()}};startHero();
-$('#mobile-menu-toggle').onclick=()=>{const m=$('#mobile-menu');m.classList.toggle('open');$('#mobile-menu-toggle').setAttribute('aria-expanded',String(m.classList.contains('open')))};document.querySelectorAll('#mobile-menu a').forEach(a=>a.onclick=()=>{$('#mobile-menu').classList.remove('open');$('#mobile-menu-toggle').setAttribute('aria-expanded','false')});
-if('IntersectionObserver'in window){const ob=new IntersectionObserver(entries=>{entries.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in-view');ob.unobserve(en.target)}})},{threshold:.12});document.querySelectorAll('.fade-in').forEach(el=>ob.observe(el))}else document.querySelectorAll('.fade-in').forEach(el=>el.classList.add('in-view'));
-renderCatalog();updateCart();
+(function(){
+  /* divisores de cobertura escorrendo */
+  function drips(el,seed){
+    var W=1200,base=26,x=W,d="M0 0H"+W+"V"+base,s=seed*7+3;
+    function rnd(){s=(s*9301+49297)%233280;return s/233280}
+    while(x>40){
+      var gap=40+rnd()*90,h=14+rnd()*8,len=18+rnd()*(rnd()>.6?44:22);
+      x-=gap;var c=x;
+      d+="L"+(c+h+8)+" "+base+"C"+(c+h)+" "+(base+len*.5)+" "+(c+h*.8)+" "+(base+len)+" "+c+" "+(base+len)+"C"+(c-h*.8)+" "+(base+len)+" "+(c-h)+" "+(base+len*.5)+" "+(c-h-8)+" "+base;
+      x-=h;
+    }
+    d+="L0 "+base+"Z";
+    el.innerHTML='<svg viewBox="0 0 '+W+' 84" preserveAspectRatio="none" aria-hidden="true"><path d="'+d+'"/></svg>';
+  }
+  document.querySelectorAll(".drip").forEach(function(el,i){drips(el,i+1)});
+
+  /* faixa */
+  var t=document.getElementById("track"),line="<span>Feito à mão <b>✳</b> Amor em cada fatia <b>✳</b> Tão único quanto você <b>✳</b></span>";
+  t.innerHTML=line.repeat(8);
+
+  /* menu mobile */
+  var mb=document.getElementById("menuBtn"),mm=document.getElementById("mobileMenu");
+  mb.addEventListener("click",function(){var on=mm.classList.toggle("on");mb.setAttribute("aria-expanded",on)});
+  mm.addEventListener("click",function(e){if(e.target.tagName==="A"){mm.classList.remove("on");mb.setAttribute("aria-expanded","false")}});
+
+  /* filtros */
+  var chips=document.querySelectorAll(".chip"),cards=document.querySelectorAll(".card");
+  function filter(f){
+    chips.forEach(function(c){c.setAttribute("aria-pressed",c.dataset.f===f)});
+    cards.forEach(function(c){c.hidden=!(f==="Todas"||c.dataset.cat===f)});
+  }
+  chips.forEach(function(c){c.addEventListener("click",function(){filter(c.dataset.f)})});
+  document.querySelectorAll("[data-filter-link]").forEach(function(a){a.addEventListener("click",function(){filter(a.dataset.filterLink)})});
+
+  /* pedido */
+  var saved=[],savedEl=document.getElementById("saved"),countEl=document.getElementById("cartCount");
+  var drawer=document.getElementById("drawer"),overlay=document.getElementById("overlay"),toast=document.getElementById("toast");
+  function say(m){toast.textContent=m;toast.classList.add("on");clearTimeout(say.t);say.t=setTimeout(function(){toast.classList.remove("on")},2200)}
+  function render(){
+    countEl.textContent=saved.length;
+    savedEl.innerHTML=saved.length?saved.map(function(n){return"<span>♡ "+n+"</span>"}).join(""):"<em>Nenhuma inspiração salva ainda. Toque no ♡ das fotos para escolher.</em>";
+    document.querySelectorAll(".save").forEach(function(b){var on=saved.indexOf(b.dataset.name)>-1;b.setAttribute("aria-pressed",on);b.textContent=on?"♥":"♡"});
+  }
+  document.querySelectorAll(".save").forEach(function(b){b.addEventListener("click",function(){
+    var n=b.dataset.name,i=saved.indexOf(n);
+    if(i>-1){saved.splice(i,1)}else{saved.push(n);say("Salvo no seu pedido ♡")}
+    render();
+  })});
+  function open(){drawer.classList.add("on");overlay.classList.add("on");drawer.setAttribute("aria-hidden","false");document.getElementById("nome").focus({preventScroll:true})}
+  function close(){drawer.classList.remove("on");overlay.classList.remove("on");drawer.setAttribute("aria-hidden","true")}
+  document.querySelectorAll("[data-open-order]").forEach(function(b){b.addEventListener("click",open)});
+  document.getElementById("cartBtn").addEventListener("click",open);
+  document.getElementById("closeBtn").addEventListener("click",close);
+  overlay.addEventListener("click",close);
+  document.addEventListener("keydown",function(e){if(e.key==="Escape")close()});
+  document.getElementById("orderForm").addEventListener("submit",function(e){
+    e.preventDefault();
+    var v=function(id){return document.getElementById(id).value.trim()};
+    var L=["Oi, Wanelle! Quero fazer um orçamento de torta ♡","","Nome: "+v("nome")];
+    if(v("data"))L.push("Data da festa: "+v("data").split("-").reverse().join("/"));
+    if(v("pessoas"))L.push("Pessoas: "+v("pessoas"));
+    if(v("sabor"))L.push("Sabor: "+v("sabor"));
+    if(v("recheio"))L.push("Recheio: "+v("recheio"));
+    L.push("Entrega: "+v("entrega"));
+    if(saved.length)L.push("Inspirações: "+saved.join(", "));
+    if(v("ideias"))L.push("Ideias: "+v("ideias"));
+    window.open("https://wa.me/5571993125721?text="+encodeURIComponent(L.join("\n")),"_blank","noopener");
+  });
+  render();
+})();
 </script>
-</body></html>
+</body>
+</html>
