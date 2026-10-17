@@ -17,7 +17,8 @@
     'Torta de formatura Administração': 'administracao',
     'Torta tema boteco': 'boteco',
     'Torta de kiwi e uvas': 'kiwi',
-    'Torta temática de super-herói': 'heroi'
+    'Torta temática de super-herói': 'heroi',
+    'Torta temática Barbie': 'barbie'
   };
   const val = id => String($(id)?.value || '').trim();
   const digits = id => val(id).replace(/\D/g, '');
