@@ -14,7 +14,7 @@ body{background:radial-gradient(circle at 92% 10%,#f8d5df 0,transparent 37%),lin
 <body><header><a href="/" aria-label="Wanelle - início"><img src="/assets/media/foto-d1a021079f73c4.png" alt="Logo Wanelle" style="width:172px;max-width:45vw;height:auto"></a><a href="/">← Voltar ao site</a></header>
 <main><span class="step">WANELLE • PEDIDOS DIRETOS</span><h1>Seu momento merece um doce especial.</h1>
 <p class="lead">Solicite um orçamento de torta e acompanhe os bolos no pote em desenvolvimento. Os detalhes são confirmados diretamente com nossa equipe pelo WhatsApp.</p>
-<nav class="tabs" aria-label="Escolha o atendimento"><button type="button" data-tab="potes" aria-selected="true">Bolos no pote • novidades</button><button type="button" data-tab="tortas" aria-selected="false">Montar minha torta</button><button type="button" data-tab="pontos" aria-selected="false">Onde encontrar</button></nav>
+<nav class="tabs" aria-label="Escolha o atendimento"><button type="button" data-tab="potes" aria-selected="true">Bolos no pote • em testes</button><button type="button" data-tab="tortas" aria-selected="false">Montar minha torta</button><button type="button" data-tab="pontos" aria-selected="false">Onde encontrar</button></nav>
 <section class="panel" id="potes"><h2>Bolos no pote • em testes</h2><p>Estamos desenvolvendo nossos primeiros sabores. Conte quais você gostaria de provar e receba informações pelo WhatsApp. <strong>Ainda não estamos recebendo pedidos nem fazendo reservas desses potes.</strong></p>
 <div id="pote-list" class="cards"></div><div id="cart-area" hidden><h3>Minha lista de interesse</h3><div id="cart-summary" class="summary" aria-live="polite"></div>
 <div class="grid"><div><label for="p-name">Seu nome</label><input id="p-name" autocomplete="name" maxlength="120"></div><div><label for="p-phone">Seu WhatsApp</label><input id="p-phone" inputmode="tel" autocomplete="tel" maxlength="22"></div>
@@ -66,8 +66,13 @@ POT_PRODUCTS.filter(p=>p.interestOnly).forEach(p=>{
  const card=document.createElement('article');card.className='card';
  const h=document.createElement('h3');h.textContent=p.name;card.append(h);
  const info=document.createElement('p');info.textContent='Em desenvolvimento • sem preço ou reserva';card.append(info);
+ const group=document.createElement('div');group.className='product-quantity';
  const btn=document.createElement('button');btn.className='btn';btn.type='button';btn.textContent='Tenho interesse +';
- btn.onclick=()=>{cart[p.id]=Math.min(20,(cart[p.id]||0)+1);drawCart()};card.append(btn);catalog.append(card);
+ const minus=document.createElement('button');minus.type='button';minus.textContent='−';minus.disabled=true;minus.setAttribute('aria-label','Remover interesse em '+p.name);
+ function updateControls(){const n=cart[p.id]||0;btn.textContent=n?'Tenho interesse ('+n+') ✓':'Tenho interesse +';minus.disabled=n===0}
+ btn.onclick=()=>{cart[p.id]=Math.min(20,(cart[p.id]||0)+1);updateControls();drawCart()};
+ minus.onclick=()=>{cart[p.id]=Math.max(0,(cart[p.id]||0)-1);updateControls();drawCart()};
+ group.append(btn,minus);card.append(group);catalog.append(card);
 });
 function drawCart(){const selected=POT_PRODUCTS.filter(p=>cart[p.id]>0);el('cart-area').hidden=!selected.length;
  el('cart-summary').textContent=selected.map(p=>cart[p.id]+' × '+p.name).join('\n')+'\nPré-lançamento: sem reserva, estoque, preço ou prazo confirmado';}
