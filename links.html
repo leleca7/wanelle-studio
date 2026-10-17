@@ -97,9 +97,6 @@ h1{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size
     <a class="btn b4" data-site="#bolos-de-pote" href="#">
       <span class="t"><strong>Bolos no pote ♡</strong><small>Conheça os sabores da Wanelle</small></span><span class="go">↗</span>
     </a>
-    <a class="btn b5" id="lk-google" href="#" target="_blank" rel="noopener" hidden>
-      <span class="t"><strong>Avaliações no Google</strong><small>Veja o que dizem nossos clientes</small></span><span class="go">★</span>
-    </a>
   </nav>
 
   <footer class="foot">
@@ -112,8 +109,7 @@ h1{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size
 /* ====== EDITE AQUI ====== */
 var CONFIG = {
   site: "",            // vazio = usa o site onde esta página está publicada
-  whatsapp: "5571993125721",
-  googleUrl: ""        // cole aqui o link do Perfil da Empresa no Google (ex.: https://g.page/...); vazio = o botão fica escondido
+  whatsapp: "5571993125721"
 };
 /* ======================== */
 (function(){
@@ -124,7 +120,6 @@ var CONFIG = {
   });
   var wa = function(t){ return "https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent(t); };
   document.getElementById("lk-whats").href = wa("Oi, Wanelle! Vim pelo Instagram e quero pedir um orçamento de torta ♡");
-  if (CONFIG.googleUrl) { var g = document.getElementById("lk-google"); g.href = CONFIG.googleUrl; g.hidden = false; }
 
   // logo: se a imagem falhar, mostra a inicial
   var li = document.querySelector(".logo img");
