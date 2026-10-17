@@ -57,7 +57,7 @@ h2 em,h1 em{font-style:normal;color:var(--wine)}
 .nav ul{display:flex;gap:26px;list-style:none;font-weight:800;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
 .nav ul a:hover{color:var(--crimson)}
 .logo{justify-self:center;display:flex;align-items:center;gap:10px;font-family:var(--display);font-size:1.5rem;line-height:.85;text-transform:uppercase;color:var(--crimson);text-align:center}
-.logo img{height:44px;width:44px;object-fit:contain;border-radius:50%}
+.logo img{height:52px;width:auto;max-width:158px;object-fit:contain;border-radius:0}
 .nav-r{justify-self:end;display:flex;align-items:center;gap:10px}
 .cart{display:flex;align-items:center;gap:6px;padding:10px 16px;border-radius:999px;background:var(--pink);font-weight:800;color:var(--crimson)}
 .menu-btn{display:none;font-size:1.4rem;width:44px;height:44px;border-radius:50%;background:var(--pink);color:var(--crimson)}
@@ -196,7 +196,7 @@ details p{padding:0 24px 22px;max-width:60ch}
 /* footer */
 footer{background:var(--wine);color:#fff;padding:70px 0 40px}
 .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px}
-footer .logo{color:#fff;justify-self:start;margin-bottom:16px}
+footer .logo{color:var(--crimson);justify-self:start;margin-bottom:16px;display:inline-flex;background:var(--cream);padding:10px 14px;border-radius:16px}
 footer h4{font-family:var(--display);font-weight:400;font-size:1.4rem;text-transform:uppercase;color:var(--pink);margin-bottom:12px}
 footer ul{list-style:none;display:grid;gap:8px}
 footer a:hover{color:var(--pink)}
@@ -268,7 +268,6 @@ form input:focus,form select:focus,form textarea:focus{outline:none;border-color
     </ul>
     <a class="logo" href="#inicio" aria-label="Wanelle Tortas, início">
       <img decoding="async" src="assets/media/foto-d1a021079f73c4.png" alt="">
-      <span>Wanelle<br>Tortas</span>
     </a>
     <div class="nav-r">
       <button class="cart" id="cartBtn" type="button" aria-label="Abrir meu pedido">♡ <span id="cartCount">0</span> <span class="t">Meu pedido</span></button>
@@ -487,7 +486,7 @@ form input:focus,form select:focus,form textarea:focus{outline:none;border-color
   <div class="wrap">
     <div class="foot-grid">
       <div>
-        <a class="logo" href="#inicio"><img decoding="async" src="assets/media/foto-d1a021079f73c4.png" alt=""><span>Wanelle<br>Tortas</span></a>
+        <a class="logo" href="#inicio" aria-label="Wanelle Tortas, voltar ao início"><img decoding="async" src="assets/media/foto-d1a021079f73c4.png" alt=""></a>
         <p style="max-width:38ch">Feita à mão, com carinho e ingredientes selecionados para tornar cada momento ainda mais especial.</p>
       </div>
       <div>
