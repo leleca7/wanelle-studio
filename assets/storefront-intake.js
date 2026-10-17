@@ -18,7 +18,14 @@
     'Torta tema boteco': 'boteco',
     'Torta de kiwi e uvas': 'kiwi',
     'Torta temática de super-herói': 'heroi',
-    'Torta temática Barbie': 'barbie'
+    'Torta temática Barbie': 'barbie',
+    'Torta de dois andares rosa e chocolate': 'acervo-rosa-dois-andares',
+    'Torta de chocolate com raspas em outra decoração': 'acervo-choc-raspas',
+    'Torta de morango com decoração de aniversário': 'acervo-morango-aniversario',
+    'Torta temática fundo do mar': 'acervo-fundo-mar',
+    'Torta temática Moranguinho em dois andares': 'acervo-moranguinho-dois',
+    'Torta com laço rosa e preto': 'acervo-laco-rosa',
+    'Torta branca de aniversário com morangos': 'acervo-morango-nove'
   };
   const val = id => String($(id)?.value || '').trim();
   const digits = id => val(id).replace(/\D/g, '');
@@ -77,7 +84,7 @@
       $('pessoas').focus();
       return;
     }
-    const savedNames = (window.WANELLE_SITE_SELECTION?.() || []).filter(name => !!referenceIds[name]);
+    const savedNames = (window.WANELLE_SITE_SELECTION?.() || []).filter(name => typeof name === 'string' && name.length <= 150);
     const size = Number(val('tamanho'));
     const data = {
       customer: val('nome'),
@@ -85,14 +92,14 @@
       eventDate: date,
       occasion: val('ocasiao'),
       servings,
-      items: savedNames.length ? savedNames.map(name => ({ referenceId: referenceIds[name], recipeId: '', qty: 1 })) : [{ referenceId: '', recipeId: '', qty: 1 }],
+      items: savedNames.length ? savedNames.map(name => ({ referenceId: referenceIds[name] || name.slice(0, 50), recipeId: '', qty: 1 })) : [{ referenceId: '', recipeId: '', qty: 1 }],
       method: val('entrega'),
       neighborhood: val('bairro'),
       custom: true,
       flavor: val('sabor'),
       filling: val('recheio'),
       decoration: val('ideias'),
-      notes: '',
+      notes: savedNames.length ? 'Referências favoritas do catálogo: ' + savedNames.join(' | ') : '',
       fillingLayers: Number(val('camadas')) || 2,
       decorationLevel: val('decoracaoNivel'),
       sizeCm: [18,20,25].includes(size) ? size : null,
