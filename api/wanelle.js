@@ -52,7 +52,9 @@ async function resetStorage(sql){
  await sql`CREATE TABLE IF NOT EXISTS public.wanelle_password_recovery (id integer PRIMARY KEY DEFAULT 1 CHECK (id=1), password_hash text, reset_hash text, reset_expires timestamptz, requested_at timestamptz, changed_at timestamptz)`;
 }
 async function effectivePassword(sql){
- const rows=await sql`SELECT password_hash FROM public.wanelle_password_recovery WHERE id=1`;
+ let rows;
+ try { rows=await sql`SELECT password_hash FROM public.wanelle_password_recovery WHERE id=1`; }
+ catch(err){ if(err.code!=='42P01')throw err; await resetStorage(sql); rows=await sql`SELECT password_hash FROM public.wanelle_password_recovery WHERE id=1`; }
  return rows[0]?.password_hash||process.env.WANELLE_ADMIN_PASSWORD_HASH||'';
 }
 async function requestReset(sql,req,body){
