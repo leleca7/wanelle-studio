@@ -13,7 +13,7 @@ body{background:radial-gradient(circle at 92% 10%,#f8d5df 0,transparent 37%),lin
 </head>
 <body><header><a href="/" aria-label="Wanelle - início"><img src="/assets/media/foto-d1a021079f73c4.png" alt="Logo Wanelle" style="width:172px;max-width:45vw;height:auto"></a><a href="/">← Voltar ao site</a></header>
 <main><span class="step">WANELLE • PEDIDOS DIRETOS</span><h1>Seu momento merece um doce especial.</h1>
-<p class="lead">Encomende sua torta sem dúvidas e veja os bolos no pote disponíveis. Nosso atendimento confirma todos os detalhes pelo WhatsApp.</p>
+<p class="lead">Solicite um orçamento de torta e acompanhe os bolos no pote em desenvolvimento. Os detalhes são confirmados diretamente com nossa equipe pelo WhatsApp.</p>
 <nav class="tabs" aria-label="Escolha o atendimento"><button type="button" data-tab="potes" aria-selected="true">Bolos no pote • novidades</button><button type="button" data-tab="tortas" aria-selected="false">Montar minha torta</button><button type="button" data-tab="pontos" aria-selected="false">Onde encontrar</button></nav>
 <section class="panel" id="potes"><h2>Bolos no pote • em testes</h2><p>Estamos desenvolvendo nossos primeiros sabores. Conte quais você gostaria de provar e receba informações pelo WhatsApp. <strong>Ainda não estamos recebendo pedidos nem fazendo reservas desses potes.</strong></p>
 <div id="pote-list" class="cards"></div><div id="cart-area" hidden><h3>Minha lista de interesse</h3><div id="cart-summary" class="summary" aria-live="polite"></div>
@@ -42,7 +42,7 @@ body{background:radial-gradient(circle at 92% 10%,#f8d5df 0,transparent 37%),lin
 <button type="submit" class="btn primary">Solicitar orçamento no WhatsApp</button></form></section>
 <section class="panel" id="pontos" hidden><h2>Onde encontrar a Wanelle?</h2><p>Estamos negociando os primeiros pontos para o piloto. <strong>Ainda não há pontos de venda ou retirada autorizados para divulgação como ativos.</strong> Consulte os canais oficiais antes de se deslocar.</p>
 <div id="partner-list" class="cards"></div><div class="notice">A divulgação de endereços, horários, estoque e retirada ficará disponível somente após confirmação comercial dos parceiros.</div>
-<p>Para combinar uma entrega própria ou saber o local de retirada, <a id="point-contact" target="_blank" rel="noopener noreferrer">fale com a Wanelle no WhatsApp</a>.</p></section>
+<p>Para consultar as futuras possibilidades de entrega ou retirada, <a id="point-contact" target="_blank" rel="noopener noreferrer">fale com a Wanelle no WhatsApp</a>.</p></section>
 </main>
 <script>
 'use strict';
@@ -65,7 +65,7 @@ el('pote-info').textContent='Pré-lançamento: sabores em desenvolvimento. Nenhu
 POT_PRODUCTS.filter(p=>p.interestOnly).forEach(p=>{
  const card=document.createElement('article');card.className='card';
  const h=document.createElement('h3');h.textContent=p.name;card.append(h);
- const info=document.createElement('p');info.textContent='Preço sob consulta';card.append(info);
+ const info=document.createElement('p');info.textContent='Em desenvolvimento • sem preço ou reserva';card.append(info);
  const btn=document.createElement('button');btn.className='btn';btn.type='button';btn.textContent='Tenho interesse +';
  btn.onclick=()=>{cart[p.id]=Math.min(20,(cart[p.id]||0)+1);drawCart()};card.append(btn);catalog.append(card);
 });
