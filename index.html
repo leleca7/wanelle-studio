@@ -128,6 +128,7 @@ h2 em,h1 em{font-style:normal;color:var(--wine)}
 .chip{padding:12px 22px;border-radius:999px;border:2.5px solid var(--crimson);color:var(--crimson);font-weight:800;font-size:.85rem;transition:.2s}
 .chip[aria-pressed="true"],.chip:hover{background:var(--crimson);color:#fff}
 .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.gallery .card[hidden]{display:none!important}
 .card{position:relative;border-radius:var(--r);overflow:hidden;background:var(--pink);aspect-ratio:3/4;transition:transform .25s}
 .card:nth-child(3n+2){aspect-ratio:3/3.6}
 .card:hover{transform:translateY(-6px) rotate(.8deg)}
@@ -374,15 +375,20 @@ footer .internal-link{display:inline-block;margin-top:14px;font-size:.75rem;opac
       <button class="chip" type="button" aria-pressed="false" data-f="Temáticas">Temáticas</button>
     </div>
     <div class="gallery" id="gallery">
-      <figure class="card" data-cat="Clássicas"><img decoding="async" loading="lazy" src="assets/media/wanelle-chocolate-raspas-perfil.webp" alt="Torta real de chocolate com raspas"><figcaption>Chocolate com raspas <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta de chocolate com raspas" data-name="Torta de chocolate com raspas">♡</button></figcaption></figure>
-      <figure class="card" data-cat="Frutadas"><img decoding="async" loading="lazy" src="assets/media/foto-61439d86808619.webp" alt="Torta real de abacaxi com coco"><figcaption>Abacaxi com coco <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta de abacaxi com coco" data-name="Torta de abacaxi com coco">♡</button></figcaption></figure>
-      <figure class="card" data-cat="Frutadas"><img decoding="async" loading="lazy" src="assets/media/foto-0aef1dab6b0ac8.webp" alt="Torta real de morango com wafer"><figcaption>Morango com wafer <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta de morango com wafer" data-name="Torta de morango com wafer">♡</button></figcaption></figure>
-      <figure class="card" data-cat="Temáticas"><img decoding="async" loading="lazy" src="assets/media/nova-rosa-ambiente.webp" alt="Torta rosa delicada da Wanelle"><figcaption>Rosa delicada <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta rosa delicada" data-name="Torta rosa delicada">♡</button></figcaption></figure>
-      <figure class="card" data-cat="Temáticas"><img decoding="async" loading="lazy" src="assets/media/wanelle-formatura-administracao-frontal.webp" alt="Torta real de formatura em Administração"><figcaption>Formatura Administração <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta de formatura Administração" data-name="Torta de formatura Administração">♡</button></figcaption></figure>
-      <figure class="card" data-cat="Temáticas"><img decoding="async" loading="lazy" src="assets/media/wanelle-boteco-principal.webp" alt="Torta real personalizada com tema boteco"><figcaption>Tema boteco <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta tema boteco" data-name="Torta tema boteco">♡</button></figcaption></figure>
-      <figure class="card" data-cat="Frutadas"><img decoding="async" loading="lazy" src="assets/media/foto-01b232349ee752.webp" alt="Torta real de frutas com kiwi e uvas"><figcaption>Kiwi e uvas <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta de kiwi e uvas" data-name="Torta de kiwi e uvas">♡</button></figcaption></figure>
-      <figure class="card" data-cat="Clássicas"><img decoding="async" loading="lazy" src="assets/media/nova-heroi-close.webp" alt="Torta temática de super-herói"><figcaption>Super-herói <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta temática de super-herói" data-name="Torta temática de super-herói">♡</button></figcaption></figure>
+      <figure class="card" data-cat="Clássicas"><img decoding="async" loading="lazy" src="assets/media/wanelle-chocolate-raspas-perfil.webp" alt="Torta de chocolate com raspas real da Wanelle"><figcaption>Chocolate com raspas <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta de chocolate com raspas" data-name="Torta de chocolate com raspas">♡</button></figcaption></figure>
+      <figure class="card" data-cat="Frutadas"><img decoding="async" loading="lazy" src="assets/media/foto-61439d86808619.webp" alt="Torta de abacaxi com coco real da Wanelle"><figcaption>Abacaxi com coco <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta de abacaxi com coco" data-name="Torta de abacaxi com coco">♡</button></figcaption></figure>
+      <figure class="card" data-cat="Frutadas"><img decoding="async" loading="lazy" src="assets/media/foto-0aef1dab6b0ac8.webp" alt="Torta de morango com wafer real da Wanelle"><figcaption>Morango com wafer <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta de morango com wafer" data-name="Torta de morango com wafer">♡</button></figcaption></figure>
+      <figure class="card" data-cat="Temáticas"><img decoding="async" loading="lazy" src="assets/media/nova-rosa-ambiente.webp" alt="Torta rosa delicada real da Wanelle"><figcaption>Rosa delicada <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta rosa delicada" data-name="Torta rosa delicada">♡</button></figcaption></figure>
+      <figure class="card" data-cat="Temáticas"><img decoding="async" loading="lazy" src="assets/media/wanelle-formatura-administracao-frontal.webp" alt="Torta de formatura Administração real da Wanelle"><figcaption>Formatura Administração <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta de formatura Administração" data-name="Torta de formatura Administração">♡</button></figcaption></figure>
+      <figure class="card" data-cat="Temáticas"><img decoding="async" loading="lazy" src="assets/media/wanelle-boteco-principal.webp" alt="Torta tema boteco real da Wanelle"><figcaption>Tema boteco <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta tema boteco" data-name="Torta tema boteco">♡</button></figcaption></figure>
+      <figure class="card" data-cat="Frutadas" hidden><img decoding="async" loading="lazy" src="assets/media/foto-01b232349ee752.webp" alt="Torta de kiwi e uvas real da Wanelle"><figcaption>Kiwi e uvas <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta de kiwi e uvas" data-name="Torta de kiwi e uvas">♡</button></figcaption></figure>
+      <figure class="card" data-cat="Temáticas" hidden><img decoding="async" loading="lazy" src="assets/media/nova-heroi-close.webp" alt="Torta temática de super-herói real da Wanelle"><figcaption>Super-herói <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta temática de super-herói" data-name="Torta temática de super-herói">♡</button></figcaption></figure>
+      <figure class="card" data-cat="Clássicas" hidden><img decoding="async" loading="lazy" src="assets/media/nova-chocolate-frontal.webp" alt="Torta de Chocolate real da Wanelle"><figcaption>Chocolate clássico <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta de Chocolate" data-name="Torta de Chocolate">♡</button></figcaption></figure>
+      <figure class="card" data-cat="Temáticas" hidden><img decoding="async" loading="lazy" src="assets/media/wanelle-formatura-nova-frente.webp" alt="Torta de formatura real da Wanelle"><figcaption>Formatura especial <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta de formatura" data-name="Torta de formatura">♡</button></figcaption></figure>
+      <figure class="card" data-cat="Temáticas" hidden><img decoding="async" loading="lazy" src="assets/media/wanelle-infantil-nova.webp" alt="Torta infantil real da Wanelle"><figcaption>Infantil <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta infantil" data-name="Torta infantil">♡</button></figcaption></figure>
+      <figure class="card" data-cat="Temáticas" hidden><img decoding="async" loading="lazy" src="assets/media/foto-80a5346b079ec6.webp" alt="Torta temática Diário da Ellen real da Wanelle"><figcaption>Diário da Ellen <button class="save" type="button" aria-pressed="false" aria-label="Salvar Torta temática Diário da Ellen" data-name="Torta temática Diário da Ellen">♡</button></figcaption></figure>
     </div>
+    <div class="gallery-expand" style="display:flex;justify-content:center;margin-top:30px"><button class="btn btn-outline" id="gallery-more" type="button" aria-expanded="false" aria-controls="gallery">Ver mais tortas ↓</button></div>
     <div class="port-foot">
       <p>✳ Cada detalhe é feito à mão.</p>
       <button class="btn btn-crimson" type="button" data-open-order>Quero uma torta só minha ↗</button>
@@ -417,13 +423,14 @@ footer .internal-link{display:inline-block;margin-top:14px;font-size:.75rem;opac
 <section class="pote" id="bolos-de-pote">
   <div class="wrap pote-grid">
     <div>
-      <span class="eyebrow">Um mimo que vem aí</span>
-      <h2>E se a felicidade coubesse num <em>potinho?</em></h2>
-      <p class="lead">A linha de bolos de pote da Wanelle está sendo preparada com carinho. Ainda não temos catálogo nem valores: acompanhe as novidades por aqui.</p>
-      <a class="btn btn-light" href="https://wa.me/5571993125721?text=Oi%2C%20Wanelle%21%20Quero%20saber%20das%20novidades%20dos%20bolos%20de%20pote." target="_blank" rel="noopener">Quero saber quando chegar ↗</a>
+      <span class="eyebrow">Bolos no pote · Wanelle</span>
+      <h2>Um carinho em <em>camadas.</em></h2>
+      <p class="lead">Bolo no pote, do jeitinho Wanelle: para apreciar os pequenos momentos com algo doce.</p>
+      <p>Chocolate com brigadeiro · Morango com creme · Maracujá.</p>
+      <p class="fine" style="color:#ffe6ee;margin-top:18px">O formulário deste site é exclusivo para tortas por encomenda. Para informações sobre bolos no pote, consulte nossa equipe.</p>
     </div>
     <div class="soon">
-      <div><small>A gente tá preparando... ✳</small><h3>Mais um<br>docinho<br>vem aí! ♡</h3></div>
+      <div><small>Feito com carinho ♡</small><h3>Doçura<br>em cada<br>camada. ✳</h3></div>
     </div>
   </div>
   <div class="drip bottom d-cream" style="color:var(--cream)"></div>
@@ -485,7 +492,7 @@ footer .internal-link{display:inline-block;margin-top:14px;font-size:.75rem;opac
       <details><summary>Posso pedir uma torta personalizada?</summary><p>Sim! Conte seu tema e envie referências pelo WhatsApp. A possibilidade de reprodução e o orçamento dependem do tipo de decoração, ingredientes e agenda.</p></details>
       <details><summary>Onde encontro preços e tamanhos?</summary><p>Estamos finalizando as opções comerciais do catálogo. Por enquanto, consulte tamanho, recheio, valor e disponibilidade diretamente com a Wanelle.</p></details>
       <details><summary>A Wanelle faz entregas?</summary><p>Você pode solicitar entrega no formulário. O bairro, o valor e a disponibilidade de transporte serão confirmados antes do fechamento do pedido.</p></details>
-      <details><summary>Já posso encomendar bolo de pote?</summary><p>A linha de bolos no pote ainda está em testes. Por enquanto, não estamos recebendo reservas nem divulgando estoque.</p></details>
+      <details><summary>Já posso encomendar bolo de pote?</summary><p>Os bolos no pote fazem parte da Wanelle. Para conhecer os sabores e consultar disponibilidade, fale com a equipe. O formulário do site é reservado às tortas por encomenda.</p></details>
     </div>
   </div>
 </section>
@@ -588,14 +595,23 @@ footer .internal-link{display:inline-block;margin-top:14px;font-size:.75rem;opac
   mb.addEventListener("click",function(){var on=mm.classList.toggle("on");mb.setAttribute("aria-expanded",on)});
   mm.addEventListener("click",function(e){if(e.target.tagName==="A"){mm.classList.remove("on");mb.setAttribute("aria-expanded","false")}});
 
-  /* filtros */
-  var chips=document.querySelectorAll(".chip"),cards=document.querySelectorAll(".card");
+  /* Vitrine enxuta: seis criações selecionadas, restante ao clicar em Ver mais. */
+  var chips=document.querySelectorAll(".chip"),cards=[].slice.call(document.querySelectorAll("#gallery .card"));
+  var showAllGallery=false,activeCategory="Todas",moreButton=document.getElementById("gallery-more");
   function filter(f){
-    chips.forEach(function(c){c.setAttribute("aria-pressed",c.dataset.f===f)});
-    cards.forEach(function(c){c.hidden=!(f==="Todas"||c.dataset.cat===f)});
+    activeCategory=f;
+    chips.forEach(function(c){c.setAttribute("aria-pressed",String(c.dataset.f===f))});
+    var matched=cards.filter(function(c){return f==="Todas"||c.dataset.cat===f});
+    matched.forEach(function(c,i){c.hidden=(!showAllGallery&&i>=6)});
+    cards.forEach(function(c){if(matched.indexOf(c)===-1)c.hidden=true});
+    moreButton.hidden=matched.length<=6;
+    moreButton.textContent=showAllGallery?"Ver menos tortas ↑":"Ver mais tortas ↓";
+    moreButton.setAttribute("aria-expanded",String(showAllGallery));
   }
+  moreButton.addEventListener("click",function(){showAllGallery=!showAllGallery;filter(activeCategory)});
   chips.forEach(function(c){c.addEventListener("click",function(){filter(c.dataset.f)})});
   document.querySelectorAll("[data-filter-link]").forEach(function(a){a.addEventListener("click",function(){filter(a.dataset.filterLink)})});
+  filter("Todas");
 
   /* pedido */
   var saved=[];try{var previous=JSON.parse(localStorage.getItem("wanelle-inspiracoes-v1")||"[]");if(Array.isArray(previous))saved=previous.filter(function(x){return typeof x==="string"&&x.length<120}).slice(0,8)}catch(e){}
