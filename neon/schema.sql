@@ -38,3 +38,13 @@ CREATE TABLE IF NOT EXISTS public.wanelle_public_limits (
   updated_at timestamptz NOT NULL DEFAULT now()
 );
 CREATE INDEX IF NOT EXISTS wanelle_public_limits_updated_idx ON public.wanelle_public_limits(updated_at);
+
+-- Recuperação administrativa com token de uso único e hash seguro da senha.
+CREATE TABLE IF NOT EXISTS public.wanelle_password_recovery (
+ id integer PRIMARY KEY DEFAULT 1 CHECK (id=1),
+ password_hash text,
+ reset_hash text,
+ reset_expires timestamptz,
+ requested_at timestamptz,
+ changed_at timestamptz
+);

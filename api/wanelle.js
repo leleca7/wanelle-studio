@@ -5,6 +5,7 @@ const { neon } = require('@neondatabase/serverless');
 const MAX_BODY_BYTES = 100_000;
 const COOKIE = '__Host-wanelle_session';
 const COOKIE_TTL = 12 * 60 * 60;
+const RESET_MINUTES = 20;
 const ALL_STAGES = new Set(['novo','orcado','confirmado','producao','pronto','entregue']);
 const SECTIONS = new Set(['ingredients','recipes','settings']);
 function apiError(status, message) { const err = new Error(message); err.status = status; return err; }
@@ -14,7 +15,7 @@ function cookieValue(req) { const cookie=String(req.headers.cookie || '');const 
 function b64url(text) { return Buffer.from(text).toString('base64url'); }
 function hmac(text) { return crypto.createHmac('sha256',process.env.WANELLE_SESSION_SECRET).update(text).digest('base64url'); }
 function compare(a,b) { const x=Buffer.from(String(a)),y=Buffer.from(String(b));return x.length===y.length && crypto.timingSafeEqual(x,y); }
-function mint(email){const payload=b64url(JSON.stringify({email,exp:Date.now()+COOKIE_TTL*1000}));return payload+'.'+hmac(payload);}
+function mint(email){const payload=b64url(JSON.stringify({email,exp:Date.now()+COOKIE_TTL*1000,iat:Date.now()}));return payload+'.'+hmac(payload);}
 function authenticate(req) {
   if(!process.env.WANELLE_SESSION_SECRET) return null;
   const token=cookieValue(req);const idx=token.lastIndexOf('.');if(idx<1) return null;
@@ -45,14 +46,54 @@ function publicOrder(form){
     sizeCm:size&&size>=10&&size<=50?size:null,laborMode:'auto',stageMinutes:{},extraMaterialsCost:0,
     otherOrderCost:0,provisionalApproved:false,actualRecorded:false,actualStageMinutes:{},actualExtraCost:0};
 }
-async function authorized(sql,req){if(!authenticate(req))throw apiError(401,'Faça login para acessar o painel.');}
+async function authorized(sql,req){const user=authenticate(req);if(!user)throw apiError(401,'Faça login para acessar o painel.');await resetStorage(sql);const rows=await sql`SELECT changed_at FROM public.wanelle_password_recovery WHERE id=1`;if(rows[0]?.changed_at&&(!user.iat||user.iat<=new Date(rows[0].changed_at).getTime()))throw apiError(401,'Sessão encerrada após alteração da senha. Faça login novamente.');}
+
+async function resetStorage(sql){
+ await sql`CREATE TABLE IF NOT EXISTS public.wanelle_password_recovery (id integer PRIMARY KEY DEFAULT 1 CHECK (id=1), password_hash text, reset_hash text, reset_expires timestamptz, requested_at timestamptz, changed_at timestamptz)`;
+}
+async function effectivePassword(sql){
+ const rows=await sql`SELECT password_hash FROM public.wanelle_password_recovery WHERE id=1`;
+ return rows[0]?.password_hash||process.env.WANELLE_ADMIN_PASSWORD_HASH||'';
+}
+async function requestReset(sql,req,body){
+ const email=clean(body.email,200).toLowerCase(),configured=process.env.WANELLE_ADMIN_EMAIL?.toLowerCase();
+ const response={message:'Se este e-mail estiver cadastrado, você receberá um link para redefinir sua senha.'};
+ if(!email||!email.includes('@'))throw apiError(400,'Informe um e-mail válido.');
+ if(email!==configured)return response;
+ if(!process.env.RESEND_API_KEY||!process.env.WANELLE_RESET_FROM_EMAIL)throw apiError(503,'Envio de e-mail ainda não configurado. Contate o administrador do site.');
+ await resetStorage(sql);
+ const existing=await sql`SELECT requested_at FROM public.wanelle_password_recovery WHERE id=1`;
+ if(existing[0]?.requested_at&&Date.now()-new Date(existing[0].requested_at).getTime()<120000)return response;
+ const token=crypto.randomBytes(32).toString('hex');
+ const tokenHash=crypto.createHash('sha256').update(token).digest('hex');
+ const host=String(req.headers['x-forwarded-host']||req.headers.host||'');
+ if(!/^[a-z0-9.-]+(?::\d+)?$/i.test(host))throw apiError(400,'Domínio inválido.');
+ const proto='https';
+ const link=proto+'://'+host+'/redefinir-senha.html?token='+encodeURIComponent(token);
+ const responseEmail=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:'Bearer '+process.env.RESEND_API_KEY,'Content-Type':'application/json'},body:JSON.stringify({from:process.env.WANELLE_RESET_FROM_EMAIL,to:[configured],subject:'Wanelle Studio • Redefinição de senha',text:'Você solicitou uma troca de senha. Abra este link nos próximos 20 minutos: '+link+'\\nSe não foi você, ignore esta mensagem.'})});
+ if(!responseEmail.ok)throw apiError(503,'Não foi possível enviar o e-mail. Tente novamente mais tarde.');
+ await sql`INSERT INTO public.wanelle_password_recovery(id,reset_hash,reset_expires,requested_at) VALUES(1,${tokenHash},now()+interval '20 minutes',now()) ON CONFLICT(id) DO UPDATE SET reset_hash=excluded.reset_hash,reset_expires=excluded.reset_expires,requested_at=excluded.requested_at`;
+ return response;
+}
+async function finishReset(sql,body){
+ const token=clean(body.token,120),password=String(body.password||'');
+ if(!/^[a-f0-9]{64}$/.test(token)||password.length<14||password.length>128)throw apiError(400,'Link inválido ou senha fora do padrão (14 a 128 caracteres).');
+ await resetStorage(sql);
+ const tokenHash=crypto.createHash('sha256').update(token).digest('hex');
+ const salt=crypto.randomBytes(24).toString('hex');
+ const digest=crypto.scryptSync(password,salt,64).toString('hex');
+ const rows=await sql`UPDATE public.wanelle_password_recovery SET password_hash=${salt+':'+digest},reset_hash=null,reset_expires=null,changed_at=now() WHERE id=1 AND reset_hash=${tokenHash} AND reset_expires>now() RETURNING id`;
+ if(!rows.length)throw apiError(400,'Link expirado ou já utilizado. Solicite outro.');
+ return {ok:true};
+}
+
 async function login(sql,req,res,body){
   const email=clean(body.email,200).toLowerCase(),pw=String(body.password||'');
   const ip=clean(req.headers['x-forwarded-for']?.split(',')[0]||req.socket?.remoteAddress||'',100);
   const key=crypto.createHash('sha256').update(email+'|'+ip).digest('hex');
   const rows=await sql`SELECT failures,first_attempt_at,locked_until FROM public.wanelle_login_attempts WHERE key_hash=${key}`;
   if(rows[0]?.locked_until && new Date(rows[0].locked_until).getTime()>Date.now())throw apiError(429,'Muitas tentativas. Tente novamente mais tarde.');
-  const hash=process.env.WANELLE_ADMIN_PASSWORD_HASH||'';const [salt,expected]=hash.split(':');
+  const hash=await effectivePassword(sql);const [salt,expected]=hash.split(':');
   if(!salt||!expected||!process.env.WANELLE_SESSION_SECRET||!process.env.WANELLE_ADMIN_EMAIL)throw apiError(503,'Acesso administrativo ainda não configurado.');
   let valid=false;
   try {valid=email===process.env.WANELLE_ADMIN_EMAIL.toLowerCase() && compare(crypto.scryptSync(pw,salt,64).toString('hex'),expected);} catch {}
@@ -78,9 +119,10 @@ module.exports = async (req,res) => {
     const sql=neon(databaseUrl);
     const action=clean(req.query.action,40);
     const body=req.method==='POST'?dataBody(req):null;
-    if(req.method==='GET'&&action==='health')return json(res,200,{status:'ok',database:'configured',adminReady:Boolean(process.env.WANELLE_ADMIN_PASSWORD_HASH&&process.env.WANELLE_ADMIN_EMAIL&&process.env.WANELLE_SESSION_SECRET),intakeReady:Boolean(process.env.WANELLE_ADMIN_PASSWORD_HASH&&process.env.WANELLE_ADMIN_EMAIL&&process.env.WANELLE_SESSION_SECRET)});
+    if(req.method==='GET'&&action==='health'){const pass=await effectivePassword(sql);const adminReady=Boolean(pass&&pass.includes(':')&&process.env.WANELLE_ADMIN_EMAIL&&process.env.WANELLE_SESSION_SECRET);return json(res,200,{status:'ok',database:'configured',adminReady,intakeReady:adminReady&&process.env.WANELLE_ENABLE_ONLINE_INTAKE==='true',emailResetReady:Boolean(process.env.RESEND_API_KEY&&process.env.WANELLE_RESET_FROM_EMAIL)});}
     if(req.method==='POST'&&action==='submit'){
-      if(!process.env.WANELLE_ADMIN_PASSWORD_HASH||!process.env.WANELLE_ADMIN_EMAIL||!process.env.WANELLE_SESSION_SECRET)
+      const activeHash=await effectivePassword(sql);
+      if(!activeHash||!process.env.WANELLE_ADMIN_EMAIL||!process.env.WANELLE_SESSION_SECRET||process.env.WANELLE_ENABLE_ONLINE_INTAKE!=='true')
         throw apiError(503,'Atendimento automático ainda em preparação. Use o WhatsApp.');
       if(body.website||body.privacyAccepted!==true)throw apiError(400,'Confirme os dados para contato.');
       const started=Number(body.clientStartedAt);
@@ -96,11 +138,13 @@ module.exports = async (req,res) => {
       await sql`INSERT INTO public.wanelle_orders (id,payload,created_at,updated_at) VALUES (${order.id},${JSON.stringify(order)}::jsonb,now(),now())`;
       return json(res,201,{id:order.id,customer:order.customer});
     }
+    if(req.method==='POST'&&action==='request-password-reset')return json(res,200,await requestReset(sql,req,body));
+    if(req.method==='POST'&&action==='reset-password')return json(res,200,await finishReset(sql,body));
     if(req.method==='POST'&&action==='login')return json(res,200,await login(sql,req,res,body));
     if(req.method==='POST'&&action==='logout'){
       res.setHeader('Set-Cookie',COOKIE+'=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0');return json(res,200,{ok:true});
     }
-    if(req.method==='GET'&&action==='session')return json(res,200,{user:authenticate(req)?{email:authenticate(req).email}:null});
+    if(req.method==='GET'&&action==='session'){try{await authorized(sql,req);return json(res,200,{user:{email:authenticate(req).email}});}catch{return json(res,200,{user:null});}}
     await authorized(sql,req);
     if(req.method==='GET'&&action==='bootstrap'){
       const [s,o,q]=await Promise.all([sql`SELECT section,payload FROM public.wanelle_app_data`,sql`SELECT payload FROM public.wanelle_orders ORDER BY created_at DESC LIMIT 3000`,sql`SELECT payload FROM public.wanelle_market_quotes ORDER BY id`]);

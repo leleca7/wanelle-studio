@@ -433,6 +433,18 @@ document.addEventListener('change',async e=>{
 });
 document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('.kanban-card')){e.preventDefault();orderModal(e.target.dataset.order);}});
 $('#toggle-menu').onclick=()=>$('#sidebar').classList.toggle('open');
+$('#forgot-password').onclick=async()=>{
+ const email=$('#login-email').value.trim();
+ const output=$('#reset-notice');
+ if(!email||!email.includes('@')){output.textContent='Informe seu e-mail cadastrado acima.';return;}
+ output.textContent='Solicitando instruções de acesso...';
+ try{
+  const response=await fetch('/api/wanelle?action=request-password-reset',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify({email})});
+  const data=await response.json();
+  if(!response.ok)throw Error(data.error||'Envio temporariamente indisponível.');
+  output.textContent=data.message||'Se o e-mail estiver cadastrado, você receberá um link.';
+ }catch(error){output.textContent=error.message||'Serviço de recuperação indisponível.';}
+};
 $('#logout').onclick=async()=>{await C.logout();S=null;await load();};
 if(!C.live&&!C.demoAllowed){$('#main').innerHTML='<div class="empty">Painel bloqueado: conecte o Neon pelo Vercel para disponibilizar o sistema online com autenticação.</div>';$('#mode-chip').textContent='Conexão necessária';}
 else load();
