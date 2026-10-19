@@ -1,0 +1,29 @@
+name: "Nova funcionalidade"
+description: "Planejar uma feature do problema ao deploy"
+title: "[feat] "
+body:
+  - type: textarea
+    id: why
+    attributes:
+      label: "Usuário, objetivo e caso de uso"
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: "Comportamento, estados e permissões"
+      description: "Inclua fluxos de erro, loading, privacidade e segurança."
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: "Critérios de aceitação e métricas"
+    validations:
+      required: true
+  - type: textarea
+    id: rollout
+    attributes:
+      label: "Testes, feature flag e rollback"
+    validations:
+      required: false
