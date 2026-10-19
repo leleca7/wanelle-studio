@@ -1,0 +1,28 @@
+name: "Melhoria / refatoração"
+description: "Evoluir experiência, performance, qualidade e segurança"
+title: "[melhoria] "
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: "Contexto e problema"
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: "Proposta e limites"
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: "Critérios de aceitação / testes"
+    validations:
+      required: true
+  - type: textarea
+    id: risks
+    attributes:
+      label: "Riscos, dependências, rollback"
+    validations:
+      required: false
