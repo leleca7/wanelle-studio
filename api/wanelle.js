@@ -100,10 +100,22 @@ async function login(sql,req,res,body){
   const key=crypto.createHash('sha256').update(email+'|'+ip).digest('hex');
   const rows=await sql`SELECT failures,first_attempt_at,locked_until FROM public.wanelle_login_attempts WHERE key_hash=${key}`;
   if(rows[0]?.locked_until && new Date(rows[0].locked_until).getTime()>Date.now())throw apiError(429,'Muitas tentativas. Tente novamente mais tarde.');
+  const storedRows=await sql`SELECT password_hash FROM public.wanelle_password_recovery WHERE id=1`;
+  const storedHash=storedRows[0]?.password_hash||'';
   const hash=await effectivePassword(sql);const [salt,expected]=hash.split(':');
-  if(!salt||!expected||!process.env.WANELLE_SESSION_SECRET||!process.env.WANELLE_ADMIN_EMAIL)throw apiError(503,'Acesso administrativo ainda não configurado.');
+  if((!storedHash&&!process.env.WANELLE_ADMIN_INITIAL_PASSWORD&&!process.env.WANELLE_ADMIN_PASSWORD_HASH)||!process.env.WANELLE_SESSION_SECRET||!process.env.WANELLE_ADMIN_EMAIL)throw apiError(503,'Acesso administrativo ainda não configurado.');
   let valid=false;
-  try {valid=email===process.env.WANELLE_ADMIN_EMAIL.toLowerCase() && compare(crypto.scryptSync(pw,salt,64).toString('hex'),expected);} catch {}
+  try {
+    const emailMatches=email===process.env.WANELLE_ADMIN_EMAIL.toLowerCase();
+    if(emailMatches&&storedHash&&salt&&expected) valid=compare(crypto.scryptSync(pw,salt,64).toString('hex'),expected);
+    else if(emailMatches&&!storedHash&&process.env.WANELLE_ADMIN_INITIAL_PASSWORD&&compare(pw,process.env.WANELLE_ADMIN_INITIAL_PASSWORD)) {
+      const firstSalt=crypto.randomBytes(24).toString('hex');
+      const firstDigest=crypto.scryptSync(pw,firstSalt,64).toString('hex');
+      await sql`INSERT INTO public.wanelle_password_recovery(id,password_hash) VALUES(1,${firstSalt+':'+firstDigest}) ON CONFLICT(id) DO UPDATE SET password_hash=excluded.password_hash WHERE public.wanelle_password_recovery.password_hash IS NULL`;
+      const confirmed=await sql`SELECT password_hash FROM public.wanelle_password_recovery WHERE id=1`;
+      valid=Boolean(confirmed[0]?.password_hash===firstSalt+':'+firstDigest);
+    }
+  } catch {}
   if(!valid){
     await sql`INSERT INTO public.wanelle_login_attempts (key_hash,failures,first_attempt_at,locked_until)
       VALUES (${key},1,now(),null) ON CONFLICT (key_hash) DO UPDATE SET
@@ -126,7 +138,7 @@ module.exports = async (req,res) => {
     const sql=neon(databaseUrl);
     const action=clean(req.query.action,40);
     const body=req.method==='POST'?dataBody(req):null;
-    if(req.method==='GET'&&action==='health'){const pass=await effectivePassword(sql);const adminReady=Boolean(pass&&pass.includes(':')&&process.env.WANELLE_ADMIN_EMAIL&&process.env.WANELLE_SESSION_SECRET);let databaseTarget='unverified';try{const marker=await sql`SELECT marker FROM public.wanelle_environment_marker WHERE marker='wanelle-preview-test-20261019' LIMIT 1`;if(marker.length)databaseTarget='wanelle-preview-test';}catch{}return json(res,200,{status:'ok',database:'connected',databaseTarget,adminReady,intakeReady:adminReady&&process.env.WANELLE_ENABLE_ONLINE_INTAKE==='true',emailResetReady:Boolean(process.env.RESEND_API_KEY&&process.env.WANELLE_RESET_FROM_EMAIL)});}
+    if(req.method==='GET'&&action==='health'){const pass=await effectivePassword(sql);const adminReady=Boolean(((pass&&pass.includes(':'))||process.env.WANELLE_ADMIN_INITIAL_PASSWORD)&&process.env.WANELLE_ADMIN_EMAIL&&process.env.WANELLE_SESSION_SECRET);let databaseTarget='unverified';try{const marker=await sql`SELECT marker FROM public.wanelle_environment_marker WHERE marker='wanelle-preview-test-20261019' LIMIT 1`;if(marker.length)databaseTarget='wanelle-preview-test';}catch{}return json(res,200,{status:'ok',database:'connected',databaseTarget,adminReady,intakeReady:adminReady&&process.env.WANELLE_ENABLE_ONLINE_INTAKE==='true',emailResetReady:Boolean(process.env.RESEND_API_KEY&&process.env.WANELLE_RESET_FROM_EMAIL)});}
     if(req.method==='POST'&&action==='submit'){
       const activeHash=await effectivePassword(sql);
       if(!activeHash||!process.env.WANELLE_ADMIN_EMAIL||!process.env.WANELLE_SESSION_SECRET||process.env.WANELLE_ENABLE_ONLINE_INTAKE!=='true')
