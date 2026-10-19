@@ -126,7 +126,7 @@ module.exports = async (req,res) => {
     const sql=neon(databaseUrl);
     const action=clean(req.query.action,40);
     const body=req.method==='POST'?dataBody(req):null;
-    if(req.method==='GET'&&action==='health'){const pass=await effectivePassword(sql);const adminReady=Boolean(pass&&pass.includes(':')&&process.env.WANELLE_ADMIN_EMAIL&&process.env.WANELLE_SESSION_SECRET);return json(res,200,{status:'ok',database:'configured',adminReady,intakeReady:adminReady&&process.env.WANELLE_ENABLE_ONLINE_INTAKE==='true',emailResetReady:Boolean(process.env.RESEND_API_KEY&&process.env.WANELLE_RESET_FROM_EMAIL)});}
+    if(req.method==='GET'&&action==='health'){const pass=await effectivePassword(sql);const adminReady=Boolean(pass&&pass.includes(':')&&process.env.WANELLE_ADMIN_EMAIL&&process.env.WANELLE_SESSION_SECRET);let databaseTarget='unverified';try{const marker=await sql`SELECT marker FROM public.wanelle_environment_marker WHERE marker='wanelle-preview-test-20261019' LIMIT 1`;if(marker.length)databaseTarget='wanelle-preview-test';}catch{}return json(res,200,{status:'ok',database:'connected',databaseTarget,adminReady,intakeReady:adminReady&&process.env.WANELLE_ENABLE_ONLINE_INTAKE==='true',emailResetReady:Boolean(process.env.RESEND_API_KEY&&process.env.WANELLE_RESET_FROM_EMAIL)});}
     if(req.method==='POST'&&action==='submit'){
       const activeHash=await effectivePassword(sql);
       if(!activeHash||!process.env.WANELLE_ADMIN_EMAIL||!process.env.WANELLE_SESSION_SECRET||process.env.WANELLE_ENABLE_ONLINE_INTAKE!=='true')
