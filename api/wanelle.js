@@ -98,6 +98,7 @@ async function login(sql,req,res,body){
   const email=clean(body.email,200).toLowerCase(),pw=String(body.password||'');
   const ip=clean(req.headers['x-forwarded-for']?.split(',')[0]||req.socket?.remoteAddress||'',100);
   const key=crypto.createHash('sha256').update(email+'|'+ip).digest('hex');
+  await resetStorage(sql);
   const rows=await sql`SELECT failures,first_attempt_at,locked_until FROM public.wanelle_login_attempts WHERE key_hash=${key}`;
   if(rows[0]?.locked_until && new Date(rows[0].locked_until).getTime()>Date.now())throw apiError(429,'Muitas tentativas. Tente novamente mais tarde.');
   const storedRows=await sql`SELECT password_hash FROM public.wanelle_password_recovery WHERE id=1`;
