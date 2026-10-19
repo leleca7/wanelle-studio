@@ -68,10 +68,18 @@ async function requestReset(sql,req,body){
  if(existing[0]?.requested_at&&Date.now()-new Date(existing[0].requested_at).getTime()<120000)return response;
  const token=crypto.randomBytes(32).toString('hex');
  const tokenHash=crypto.createHash('sha256').update(token).digest('hex');
- const link='https://wanelle-site.vercel.app/redefinir-senha.html?token='+encodeURIComponent(token);
- const responseEmail=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:'Bearer '+process.env.RESEND_API_KEY,'Content-Type':'application/json'},body:JSON.stringify({from:process.env.WANELLE_RESET_FROM_EMAIL,to:[configured],subject:'Wanelle Studio • Redefinição de senha',text:'Você solicitou uma troca de senha. Abra este link nos próximos 20 minutos: '+link+'\\nSe não foi você, ignore esta mensagem.'})});
- if(!responseEmail.ok)throw apiError(503,'Não foi possível enviar o e-mail. Tente novamente mais tarde.');
+ const host=String(req.headers['x-forwarded-host']||req.headers.host||'').split(',')[0].trim().toLowerCase();
+ const allowedHost=host==='wanelle-site.vercel.app'||/^wanelle-site-[a-z0-9-]+-blinkojobs\\.vercel\\.app$/.test(host);
+ const configuredBase=String(process.env.WANELLE_PUBLIC_URL||'').trim().replace(/\\/$/,'');
+ const baseUrl=configuredBase||('https://'+(allowedHost?host:'wanelle-site.vercel.app'));
+ if(!/^https:\\/\\//.test(baseUrl))throw apiError(503,'Endereço de recuperação não configurado corretamente.');
  await sql`INSERT INTO public.wanelle_password_recovery(id,reset_hash,reset_expires,requested_at) VALUES(1,${tokenHash},now()+interval '20 minutes',now()) ON CONFLICT(id) DO UPDATE SET reset_hash=excluded.reset_hash,reset_expires=excluded.reset_expires,requested_at=excluded.requested_at`;
+ const link=baseUrl+'/redefinir-senha.html?token='+encodeURIComponent(token);
+ const responseEmail=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:'Bearer '+process.env.RESEND_API_KEY,'Content-Type':'application/json'},body:JSON.stringify({from:process.env.WANELLE_RESET_FROM_EMAIL,to:[configured],subject:'Wanelle Studio — Redefinição de senha',text:'Você solicitou uma troca de senha. Abra este link nos próximos 20 minutos: '+link+'\\nSe não foi você, ignore esta mensagem.'})});
+ if(!responseEmail.ok){
+   await sql`UPDATE public.wanelle_password_recovery SET reset_hash=null,reset_expires=null WHERE id=1 AND reset_hash=${tokenHash}`;
+   throw apiError(503,'Não foi possível enviar o e-mail. Tente novamente mais tarde.');
+ }
  return response;
 }
 async function finishReset(sql,body){
