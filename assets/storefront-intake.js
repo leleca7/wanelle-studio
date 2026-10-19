@@ -109,7 +109,7 @@
       clientStartedAt: startedAt
     };
     const message = [
-      'Olá, Wanelle! Gostaria de um orçamento de torta ',
+      'Olá, Wanelle! Gostaria de um orçamento de torta',
       'Nome: ' + data.customer,
       'WhatsApp: ' + data.phone,
       'Data desejada: ' + dateBR(date),
@@ -138,7 +138,7 @@
     try {
       const saved = await core.publicSubmit(data);
       form.hidden = true;
-      show('Solicitação registrada ',
+      show('Solicitação registrada',
         'Código ' + saved.id + '. A equipe vai conferir sua agenda, os custos e a disponibilidade. O orçamento ainda não foi aprovado nem confirmado.',
         'Continuar pelo WhatsApp ↗',
         whats('Olá, Wanelle! Enviei a solicitação ' + saved.id + ' pelo site. Sou ' + data.customer + '. Podemos continuar meu orçamento?'));
