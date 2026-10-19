@@ -1,0 +1,34 @@
+name: Wanelle CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main, "chore/**", "fix/**", "feat/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Testes automatizados
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Instalar dependências
+        run: npm install --no-audit --no-fund
+      - name: Verificar sintaxe JavaScript
+        run: |
+          node --check api/wanelle.js
+          node --check assets/wanelle-core.js
+          node --check assets/storefront-intake.js
+          node --check assets/wanelle-admin.js
+      - name: Executar testes do projeto
+        run: npm test
