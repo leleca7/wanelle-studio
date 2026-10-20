@@ -1,0 +1,96 @@
+name: Hotfix public artifact validation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/**'
+      - 'index.html'
+      - 'admin.html'
+      - 'config.js'
+      - 'assets/**'
+      - 'api/**'
+      - 'vercel.json'
+      - 'package.json'
+      - 'teste_*.cjs'
+      - '.github/workflows/hotfix-validation.yml'
+  push:
+    branches: [hotfix/ocultar-documentos-comerciais-20261019]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout PR source
+        uses: actions/checkout@v4
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Runtime versions
+        run: |
+          node --version
+          npm --version
+      - name: Existing automated tests
+        run: npm test
+      - name: Regression test for public allowlist
+        run: node scripts/test-public-site.cjs
+      - name: Build public artifact
+        run: node scripts/build-public-site.cjs
+      - name: Verify all local HTML and JavaScript asset references
+        run: node scripts/test-public-references.cjs
+      - name: Syntax check shipped JavaScript
+        run: |
+          node --check public/config.js
+          node --check public/assets/wanelle-core.js
+          node --check public/assets/wanelle-admin.js
+          node --check public/assets/storefront-intake.js
+      - name: Recursively audit final artifact
+        run: |
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const path = require('node:path');
+          const root = 'public';
+          const allowedRoot = new Set(['index.html','admin.html','config.js']);
+          const allowedAssets = new Set(['assets/admin.css','assets/wanelle-core.js','assets/wanelle-admin.js','assets/storefront-intake.js']);
+          const allowedExt = new Set(['.png','.jpg','.jpeg','.webp','.avif','.gif','.svg']);
+          const files = [];
+          function walk(dir, rel='') {
+            for (const e of fs.readdirSync(dir,{withFileTypes:true})) {
+              const r = rel ? path.posix.join(rel,e.name) : e.name;
+              if (e.name.startsWith('.') || e.isSymbolicLink()) throw Error('Hidden/symlink entry: '+r);
+              const p = path.join(dir,e.name);
+              if(e.isDirectory()) walk(p,r);
+              else if(e.isFile()) files.push(r);
+              else throw Error('Special entry: '+r);
+            }
+          }
+          walk(root);
+          for(const f of files) {
+            const ok = allowedRoot.has(f) || allowedAssets.has(f) ||
+              (f.startsWith('assets/media/') && allowedExt.has(path.posix.extname(f).toLowerCase()));
+            if(!ok) throw Error('Not allowlisted: '+f);
+          }
+          const forbidden = [
+            'assets/market-prices.json','assets/market-prices.js',
+            'PESQUISA_DE_PRECOS.md','CUSTOS_DE_PRODUCAO_2026.md',
+            'neon/cotacoes_ifood_2026-10-14.json','api/wanelle.js',
+            '.env','.env.example','package.json','package-lock.json'
+          ];
+          for(const f of forbidden) if(files.includes(f)) throw Error('Forbidden artifact path: '+f);
+          if(files.some(f=>f.startsWith('api/')||f.startsWith('neon/')||/\.(md|markdown|cjs|mjs|map)$/i.test(f))) throw Error('Internal/API/docs/source-map content found');
+          console.log('PASS recursive allowlist audit:',files.length,'files');
+          console.log(files.sort().join('\n'));
+          NODE
+      - name: Preserve artifact as CI evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: wanelle-hotfix-public-artifact
+          path: public/
+          if-no-files-found: error
+          retention-days: 7
