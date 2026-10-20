@@ -10,8 +10,9 @@ const headerMap=Object.fromEntries(headers.flatMap(x=>x.headers.map(h=>[h.key,h.
 const authGate=api.indexOf('await authorized(sql,req);');
 assert.ok(authGate>api.indexOf("action==='login'"),'login must be handled before the shared admin authorization gate');
 for(const route of ["action==='bootstrap'","action==='section'","action==='order'","action==='delete'"])assert.ok(api.indexOf(route)>authGate,route+' must be behind the shared authorization gate');
-assert.match(api,/revoked_before=clock_timestamp\(\)/,'logout must revoke server-side sessions');
-assert.match(api,/SELECT changed_at,revoked_before FROM public\.wanelle_password_recovery/,'authorization must check server-side revocation');
+assert.match(api,/session_generation=public\.wanelle_password_recovery\.session_generation\+1/,'logout must increment server-side session generation');
+assert.match(api,/SELECT changed_at,session_generation FROM public\.wanelle_password_recovery/,'authorization must check server-side session generation');
+assert.match(api,/if\(!origin\)return false/,'POST requests must reject missing Origin to reduce CSRF risk');
 assert.match(api,/HttpOnly; Secure; SameSite=Strict/,'session cookie flags must remain hardened');
 assert.match(api,/locked_until/,'login throttling must remain');
 assert.match(api,/body\.privacyAccepted!==true/,'public intake must require privacy acknowledgement');
