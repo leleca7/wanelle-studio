@@ -77,3 +77,12 @@ O proprietário aprovou **Opção B — Branco Elegante**. Foi adicionado `scrip
 ### Status atualizado
 
 **Parcialmente implementado; não pronto para publicação definitiva.** A geração de derivados com marca-d’água incorporada, remoção de metadados e exclusão das fontes do diretório público já está codificada e foi executada na CI. A validação final do commit mais recente, a inspeção visual real, o tratamento do histórico Git público, a revalidação dos documentos comerciais em produção e os testes dinâmicos da API continuam pendentes.
+
+
+### Resultado final desta rodada
+
+- CI passou para o commit final de documentação `7ef62d91f3df6166323cfb93cdb290bca6de6e2c`, incluindo os testes existentes e a geração/verificação dos derivados: https://github.com/leleca7/wanelle-studio/actions/runs/39351610699
+- A Vercel confirmou como READY o Preview `https://wanelle-site-nnwiz3a0u-blinkojobs.vercel.app/` para o commit `b606f0fa4e6605dcdf8bcb2c8ec29dfd099845fd`. Os logs confirmam 41 fotos com marca-d’água incorporada, 1 ativo de identidade reencodado, 0 caminhos de origem em `assets/media/` na saída pública e redução agregada de aproximadamente 25%.
+- A nova versão do Preview que inclui também a atualização do sitemap e os textos corrigidos da página de demonstração não pôde ser criada nesta sessão: a API de deploy da Vercel retornou limite de 100 deploys gratuitos por dia (recurso limitado por 24 horas). Não alterei plano/billing nem tentei contornar o limite.
+- A página de demonstração publicada no deployment anterior pode manter rótulos da comparação anterior; para revisar o resultado real das fotografias protegidas, abra a página inicial do Preview. O HTML atualizado da demonstração está no branch/PR, mas aguarda novo deploy.
+- A confirmação visual manual continua pendente: a ferramenta disponível não conseguiu acessar o domínio Preview para renderizar desktop/mobile. A saída gerada e as verificações automatizadas passaram, mas isso não substitui inspeção visual real.
