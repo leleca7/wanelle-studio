@@ -1,0 +1,44 @@
+# Auditoria de segurança, SEO, privacidade e prontidão — Wanelle
+**Data:** 20/10/2026  
+**Escopo:** branch `chore/kit-governanca-wanelle-20261019`, Preview Vercel e verificações públicas no domínio oficial.  
+**Decisão:** **NÃO PRONTO para publicação definitiva**. Não houve merge, deploy de produção nem alteração no banco de produção.
+
+## Resumo executivo
+Correções aplicadas na branch de teste: revogação de sessão no servidor por geração, verificação de Origin obrigatória em POST, proteção CSP/cabeçalhos, metadados SEO, dados estruturados sem endereço/preços/avaliações inventados, robots/sitemap, política de privacidade inicial, remoção de documentos comerciais da árvore atual da branch e testes de regressão.
+
+**Bloqueador crítico observado na produção atual:** verificações HTTP diretas retornaram 200 para `/assets/market-prices.json`, `/assets/market-prices.js`, `/PESQUISA_DE_PRECOS.md`, `/CUSTOS_DE_PRODUCAO_2026.md` e `/neon/cotacoes_ifood_2026-10-14.json`. A branch de Preview já remove esses arquivos e o JSON retornou 404 no Preview. Como não foi autorizado deploy definitivo e o repositório é público, os arquivos ainda estão acessíveis na produção atual e no histórico Git público. Remover da árvore atual não apaga o histórico.
+
+## Matriz de achados
+
+| Área / gravidade | Evidência e arquivos | Correção na branch | Teste e resultado | Estado / pendência |
+|---|---|---|---|---|
+| **Crítica — documentos comerciais públicos** | No domínio oficial, os arquivos de cotações/custos foram lidos por HTTP 200; fontes: `assets/market-prices.json`, `assets/market-prices.js`, `PESQUISA_DE_PRECOS.md`, `CUSTOS_DE_PRODUCAO_2026.md`, `neon/cotacoes_ifood_2026-10-14.json`. | Removidos da árvore atual da branch de Preview; referência ao script público removida do `admin.html`. A tela administrativa obtém cotações do endpoint autenticado. | Produção: HTTP 200 confirmado nos 5 caminhos. Preview: `/assets/market-prices.json` retornou 404. | **Aberto em produção.** Requer aprovação para publicar a correção e decisão sobre visibilidade do repositório/saneamento do histórico público. |
+| **Alta — logout não revogava cópias de sessão** | `api/wanelle.js`, `authenticate`, `authorized`, ação `logout`. Cookie era apagado só no navegador; uma cópia podia continuar válida. | Geração de sessão persistida no banco; logout incrementa geração; cada chamada administrativa compara a geração. Cookie mantém `HttpOnly; Secure; SameSite=Strict`. | Teste estrutural automatizado e CI: sucesso. | Correção no Preview; falta teste dinâmico com duas sessões/cookie copiado e sessão expirada. |
+| **Alta — risco CSRF / POST sem Origin** | `api/wanelle.js`, `sameOrigin`. A ausência de Origin era aceita. | POST sem Origin é rejeitado; host/origem precisam corresponder. | CI e teste estrutural: sucesso. | Falta teste HTTP dinâmico em navegador. |
+| **Alta — XSS armazenado no portfólio local** | `index.html`: valores do `localStorage` eram inseridos via `innerHTML` sem escape. | Escapamento HTML antes da inserção. | Teste de regressão estrutural e CI: sucesso. | Teste dinâmico no navegador não executado. |
+| **Média — enumeração do e-mail administrativo no reset** | `api/wanelle.js`, `requestReset`: com Resend desabilitado, e-mail diferente retornava 200 e e-mail administrativo retornava 503. | Verificação de Resend ocorre antes de comparar o e-mail; qualquer e-mail recebe a mesma resposta quando a integração está desabilitada. A UI explica que recuperação está adiada. | Teste de regressão estrutural e CI: sucesso. | Fluxo real de recuperação não testado; Resend continua intencionalmente desabilitado. |
+| **Média — cabeçalhos de segurança/CSP ausentes ou incompletos** | `vercel.json`. | CSP, `Permissions-Policy`, `X-Content-Type-Options`, `Referrer-Policy` e `X-Frame-Options: DENY`. CSP mantém `unsafe-inline` por compatibilidade com os scripts/estilos atuais. | Cabeçalhos observados no Preview; CI: sucesso. | CSP mais forte com nonce/hash permanece melhoria recomendada; teste visual de regressão não executado. |
+| **Média — SEO técnico incompleto** | `index.html`, ausência anterior de `robots.txt`/`sitemap.xml`. | Title/description, canonical, Open Graph, Twitter card, Schema.org `Bakery` sem endereço, telefone, preço ou avaliações inventados; robots e sitemap só incluem páginas públicas. | Preview: homepage, robots e sitemap responderam HTTP 200; CI: sucesso. | Search Console e Rich Results Test não executados; exigem verificação de propriedade/validação externa. |
+| **Média — indexação de áreas restritas/Preview** | `admin.html`, `redefinir-senha.html`, `index.html`, cabeçalhos Vercel. | `noindex` nas páginas de administração/recuperação e meta dinâmica `noindex` fora do host oficial; Preview Vercel também retorna `X-Robots-Tag: noindex`. | Preview: `admin.html` e política de privacidade responderam HTTP 200 com `X-Robots-Tag: noindex`. | Indexação não é controle de acesso; a proteção real depende da API autenticada. |
+| **Média — privacidade/LGPD** | Formulário `assets/storefront-intake.js`; campos e consentimento validados em `api/wanelle.js`. | Criada `privacidade.html` descrevendo campos, finalidades, Vercel/Neon, cookies e direitos; consentimento explícito continua exigido no servidor. | Página de política abriu no Preview; CI: sucesso. | Política inicial exige confirmação do responsável sobre retenção real, canal de atendimento e processo de exclusão antes de publicar. |
+| **Alta — controle de acesso API** | `api/wanelle.js`: bootstrap, seções, pedidos e exclusão passam pela barreira compartilhada `authorized`. | Mantida barreira no servidor; testes estruturais verificam posição das rotas depois da autenticação. | CI: sucesso. O endpoint protegido não pôde ser exercitado dinamicamente por esta sessão de ferramenta. | **Não declarado comprovado ponta a ponta.** Faltam tentativas HTTP autenticadas/não autenticadas para leitura, gravação, alteração e exclusão. |
+| **Alta — segredos no código** | Busca por padrões comuns no índice de código do GitHub: `postgresql://`, `sk_live_`, `BEGIN PRIVATE KEY`, `WANELLE_SESSION_SECRET`. | Nenhuma credencial adicionada; `.env.example` usa placeholders. | Busca indexada sem correspondências nos padrões consultados. | Não equivale a secret scanning completo; não cobre todo histórico, artefatos, logs, forks ou valores fora dos padrões. |
+| **Média — pedidos e anti-spam** | `api/wanelle.js`: honeypot, aceite de privacidade, tempo mínimo e limite por IP/hora; intake desabilitado. | Mantido o bloqueio de pedidos públicos até concluir validação. Falhas de gravação no fluxo público informam que a solicitação não foi registrada. | Health Preview: `intakeReady:false`; nenhum pedido real usado. | Teste fictício de ponta a ponta, CRUD, backup/restauração e recuperação de integridade não executados. |
+| **Média — UX, acessibilidade, desempenho** | `index.html`, CSS inline e galeria. | Nenhuma mudança visual ampla para evitar regressões sem teste visual. | Inspeção de código e respostas HTTP apenas. | Testes em celular/computador, teclado/leitor de tela, imagens, WhatsApp, métricas Core Web Vitals e rede falha ainda pendentes. |
+
+## Testes automatizados
+- Workflow GitHub Actions para o commit final da branch: **success** — [execução CI](https://github.com/leleca7/wanelle-studio/actions/runs/39350135402).
+- Inclui testes de fluxo existentes, sintaxe da API e novas verificações estruturais de segurança/SEO.
+- Esses testes são regressões estáticas; não substituem testes dinâmicos de sessão, browser, banco e CRUD.
+
+## Limitações e decisões pendentes
+1. Não publicar nem habilitar intake público até remover os documentos expostos da produção e concluir testes de autenticação.
+2. A branch atual remove os arquivos comerciais, mas o repositório é público e o histórico Git ainda pode conter esses documentos. A correção completa de distribuição exige decisão autorizada sobre visibilidade do repositório e eventual saneamento do histórico; não foi executada automaticamente.
+3. Confirmar prazo de retenção, canal de atendimento a titulares e processo de exclusão para finalizar a política LGPD.
+4. Executar teste integrado no Neon isolado: login válido/inválido, sessão expirada, logout com cookie antigo, CRUD autorizado, CRUD sem sessão, backup/restauração e integridade.
+5. Testar visualmente desktop/celular, galeria, links/WhatsApp, acessibilidade, desempenho e comportamento com rede indisponível.
+6. Configurar Search Console e validar Schema.org/Rich Results depois de aprovar a publicação.
+7. Resend permanece adiado. Nenhuma credencial de produção foi alterada.
+
+## Decisão final
+**NÃO PRONTO PARA PUBLICAÇÃO DEFINITIVA.** O PR está aberto para revisão, as correções de Preview e testes automatizados passaram, mas a exposição de documentos comerciais no site oficial, o histórico público e os testes integrados ainda são bloqueadores. Não foi feito merge nem deploy de produção.
