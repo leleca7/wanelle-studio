@@ -1,5 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://wanelle-site.vercel.app/</loc></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://wanelle-site.vercel.app/</loc>
+    <image:image><image:loc>https://wanelle-site.vercel.app/assets/portfolio-protegido/nova-chocolate-frontal.webp</image:loc><image:title>Torta real de chocolate da Wanelle</image:title></image:image>
+    <image:image><image:loc>https://wanelle-site.vercel.app/assets/portfolio-protegido/nova-abacaxi-frontal.webp</image:loc><image:title>Torta real de abacaxi com coco da Wanelle</image:title></image:image>
+    <image:image><image:loc>https://wanelle-site.vercel.app/assets/portfolio-protegido/foto-c01ef23f279de8.webp</image:loc><image:title>Torta real de morango com wafer da Wanelle</image:title></image:image>
+    <image:image><image:loc>https://wanelle-site.vercel.app/assets/portfolio-protegido/wanelle-chocolate-raspas-frontal.webp</image:loc><image:title>Torta real de chocolate com raspas</image:title></image:image>
+    <image:image><image:loc>https://wanelle-site.vercel.app/assets/portfolio-protegido/foto-f999ef06c816e0.webp</image:loc><image:title>Torta real com kiwi e uvas</image:title></image:image>
+    <image:image><image:loc>https://wanelle-site.vercel.app/assets/portfolio-protegido/nova-heroi-ambiente.webp</image:loc><image:title>Torta temática de super-herói da Wanelle</image:title></image:image>
+    <image:image><image:loc>https://wanelle-site.vercel.app/assets/portfolio-protegido/wanelle-chocolate-raspas-perfil.webp</image:loc><image:title>Torta de chocolate com raspas real da Wanelle</image:title></image:image>
+    <image:image><image:loc>https://wanelle-site.vercel.app/assets/portfolio-protegido/foto-61439d86808619.webp</image:loc><image:title>Torta de abacaxi com coco real da Wanelle</image:title></image:image>
+    <image:image><image:loc>https://wanelle-site.vercel.app/assets/portfolio-protegido/foto-0aef1dab6b0ac8.webp</image:loc><image:title>Torta de morango com wafer real da Wanelle</image:title></image:image>
+    <image:image><image:loc>https://wanelle-site.vercel.app/assets/portfolio-protegido/nova-rosa-ambiente.webp</image:loc><image:title>Torta rosa delicada real da Wanelle</image:title></image:image>
+    <image:image><image:loc>https://wanelle-site.vercel.app/assets/portfolio-protegido/wanelle-formatura-administracao-frontal.webp</image:loc><image:title>Torta de formatura Administração real da Wanelle</image:title></image:image>
+    <image:image><image:loc>https://wanelle-site.vercel.app/assets/portfolio-protegido/wanelle-boteco-principal.webp</image:loc><image:title>Torta tema boteco real da Wanelle</image:title></image:image>
+    <image:image><image:loc>https://wanelle-site.vercel.app/assets/portfolio-protegido/foto-01b232349ee752.webp</image:loc><image:title>Torta de kiwi e uvas real da Wanelle</image:title></image:image>
+    <image:image><image:loc>https://wanelle-site.vercel.app/assets/portfolio-protegido/wanelle-barbie-real.webp</image:loc><image:title>Torta temática Barbie produzida pela Wanelle</image:title></image:image>
+    <image:image><image:loc>https://wanelle-site.vercel.app/assets/portfolio-protegido/nova-heroi-close.webp</image:loc><image:title>Torta temática de super-herói real da Wanelle</image:title></image:image>
+    <image:image><image:loc>https://wanelle-site.vercel.app/assets/portfolio-protegido/wanelle-formatura-nova-frente.webp</image:loc><image:title>Torta de formatura real da Wanelle</image:title></image:image>
+    <image:image><image:loc>https://wanelle-site.vercel.app/assets/portfolio-protegido/wanelle-infantil-nova.webp</image:loc><image:title>Torta infantil real da Wanelle</image:title></image:image>
+    <image:image><image:loc>https://wanelle-site.vercel.app/assets/portfolio-protegido/wanelle-dois-andares-rosa-e-chocolate.webp</image:loc><image:title>Torta de dois andares rosa e chocolate produzida pela Wanelle</image:title></image:image>
+    <image:image><image:loc>https://wanelle-site.vercel.app/assets/portfolio-protegido/wanelle-chocolate-com-raspas-novas.webp</image:loc><image:title>Torta de chocolate com raspas em outra decoração produzida pela Wanelle</image:title></image:image>
+    <image:image><image:loc>https://wanelle-site.vercel.app/assets/portfolio-protegido/wanelle-morango-parabens.webp</image:loc><image:title>Torta de morango com decoração de aniversário produzida pela Wanelle</image:title></image:image>
+    <image:image><image:loc>https://wanelle-site.vercel.app/assets/portfolio-protegido/wanelle-fundo-do-mar.webp</image:loc><image:title>Torta temática fundo do mar produzida pela Wanelle</image:title></image:image>
+    <image:image><image:loc>https://wanelle-site.vercel.app/assets/portfolio-protegido/wanelle-moranguinho-dois-andares.webp</image:loc><image:title>Torta temática Moranguinho em dois andares produzida pela Wanelle</image:title></image:image>
+    <image:image><image:loc>https://wanelle-site.vercel.app/assets/portfolio-protegido/wanelle-laco-rosa-e-preto.webp</image:loc><image:title>Torta com laço rosa e preto produzida pela Wanelle</image:title></image:image>
+    <image:image><image:loc>https://wanelle-site.vercel.app/assets/portfolio-protegido/wanelle-aniversario-morangos.webp</image:loc><image:title>Torta branca de aniversário com morangos produzida pela Wanelle</image:title></image:image>
+    <image:image><image:loc>https://wanelle-site.vercel.app/assets/portfolio-protegido/nova-rosa-close.webp</image:loc><image:title>Torta rosa e branca da Wanelle</image:title></image:image>
+  </url>
   <url><loc>https://wanelle-site.vercel.app/privacidade.html</loc></url>
 </urlset>
