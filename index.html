@@ -272,6 +272,9 @@ footer .internal-link{display:inline-block;margin-top:14px;font-size:.75rem;opac
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
+
+/* Proteção leve das imagens do portfólio; não bloqueia zoom, toque nem leitores de tela. */
+#gallery img, .ph img { -webkit-user-drag:none; user-select:none; -webkit-user-select:none; -webkit-touch-callout:none; }
 </style>
 <script>if(location.hostname!=='wanelle-site.vercel.app'){var robots=document.createElement('meta');robots.name='robots';robots.content='noindex,nofollow,noarchive';document.head.appendChild(robots);}</script>
 </head>
@@ -630,6 +633,17 @@ footer .internal-link{display:inline-block;margin-top:14px;font-size:.75rem;opac
   chips.forEach(function(c){c.addEventListener("click",function(){filter(c.dataset.f)})});
   document.querySelectorAll("[data-filter-link]").forEach(function(a){a.addEventListener("click",function(){filter(a.dataset.filterLink)})});
   filter("Todas");
+
+  /* Desencoraja salvamento casual das fotos públicas sem interferir em links ou controles. */
+  document.querySelectorAll("#gallery img, .ph img").forEach(function(img){
+    img.setAttribute("draggable","false");
+    img.addEventListener("dragstart",function(e){e.preventDefault()});
+    img.addEventListener("contextmenu",function(e){
+      /* O bloqueio é restrito à foto, não ao restante da página ou aos controles acessíveis. */
+      e.preventDefault();
+    });
+  });
+
 
   /* pedido */
   var saved=[];try{var previous=JSON.parse(localStorage.getItem("wanelle-inspiracoes-v1")||"[]");if(Array.isArray(previous))saved=previous.filter(function(x){return typeof x==="string"&&x.length<120}).slice(0,8)}catch(e){}
