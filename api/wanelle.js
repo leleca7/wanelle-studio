@@ -23,7 +23,7 @@ function authenticate(req) {
   if(!compare(signature,hmac(payload)))return null;
   try {const obj=JSON.parse(Buffer.from(payload,'base64url').toString('utf8'));if(obj.exp<Date.now() || obj.email!==process.env.WANELLE_ADMIN_EMAIL?.toLowerCase())return null;return obj;}catch{return null;}
 }
-function sameOrigin(req){const origin=req.headers.origin;if(!origin)return true;try{const host=req.headers['x-forwarded-host'] || req.headers.host;return new URL(String(origin)).host===String(host);}catch{return false;}}
+function sameOrigin(req){const origin=req.headers.origin;if(!origin)return false;try{const host=req.headers['x-forwarded-host'] || req.headers.host;return new URL(String(origin)).host===String(host);}catch{return false;}}
 function dataBody(req){const s=typeof req.body==='string'?req.body:JSON.stringify(req.body||{});if(Buffer.byteLength(s)>MAX_BODY_BYTES)throw apiError(413,'Solicitação muito grande.');try{return typeof req.body==='string'?JSON.parse(req.body):req.body||{};}catch{throw apiError(400,'JSON inválido.');}}
 function dateBR(date){return /^\d{4}-\d\d-\d\d$/.test(date)&&!Number.isNaN(new Date(date+'T12:00:00Z').valueOf());}
 function minDate(){return new Intl.DateTimeFormat('sv-SE',{timeZone:'America/Bahia',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());}
@@ -163,8 +163,12 @@ module.exports = async (req,res) => {
     if(req.method==='POST'&&action==='reset-password')return json(res,200,await finishReset(sql,body));
     if(req.method==='POST'&&action==='login')return json(res,200,await login(sql,req,res,body));
     if(req.method==='POST'&&action==='logout'){
-      await resetStorage(sql);
-      await sql`INSERT INTO public.wanelle_password_recovery(id,session_generation) VALUES(1,1) ON CONFLICT(id) DO UPDATE SET session_generation=public.wanelle_password_recovery.session_generation+1`;
+      if(authenticate(req)){
+        try {
+          await authorized(sql,req);
+          await sql`INSERT INTO public.wanelle_password_recovery(id,session_generation) VALUES(1,1) ON CONFLICT(id) DO UPDATE SET session_generation=public.wanelle_password_recovery.session_generation+1`;
+        } catch(err) { if(err.status!==401) throw err; }
+      }
       res.setHeader('Set-Cookie',COOKIE+'=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0');return json(res,200,{ok:true});
     }
     if(req.method==='GET'&&action==='session'){try{await authorized(sql,req);return json(res,200,{user:{email:authenticate(req).email}});}catch{return json(res,200,{user:null});}}
