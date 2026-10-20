@@ -33,5 +33,5 @@ assert.ok(!fs.existsSync('assets/market-prices.js'),'market quotes must not ship
 const resetConfig=api.indexOf("if(!process.env.RESEND_API_KEY||!process.env.WANELLE_RESET_FROM_EMAIL)");
 const resetEmailCompare=api.indexOf('if(email!==configured)return response;');
 assert.ok(resetConfig>0&&resetConfig<resetEmailCompare,'disabled email reset must not reveal whether the supplied address is the admin account');
-assert.match(index,/escapeHtml\\(n\\)/,'user-controlled localStorage values must be escaped before HTML insertion');
+assert.ok(index.includes('escapeHtml(n)'),'user-controlled localStorage values must be escaped before HTML insertion');
 console.log('Security/SEO regression checks passed (static checks only; live integration testing is still required).');
