@@ -46,10 +46,11 @@ function publicOrder(form){
     sizeCm:size&&size>=10&&size<=50?size:null,laborMode:'auto',stageMinutes:{},extraMaterialsCost:0,
     otherOrderCost:0,provisionalApproved:false,actualRecorded:false,actualStageMinutes:{},actualExtraCost:0};
 }
-async function authorized(sql,req){const user=authenticate(req);if(!user)throw apiError(401,'Faça login para acessar o painel.');await resetStorage(sql);const rows=await sql`SELECT changed_at FROM public.wanelle_password_recovery WHERE id=1`;if(rows[0]?.changed_at&&(!user.iat||user.iat<=new Date(rows[0].changed_at).getTime()))throw apiError(401,'Sessão encerrada após alteração da senha. Faça login novamente.');}
+async function authorized(sql,req){const user=authenticate(req);if(!user)throw apiError(401,'Faça login para acessar o painel.');await resetStorage(sql);const rows=await sql`SELECT changed_at,revoked_before FROM public.wanelle_password_recovery WHERE id=1`;const cutoff=Math.max(rows[0]?.changed_at?new Date(rows[0].changed_at).getTime():0,rows[0]?.revoked_before?new Date(rows[0].revoked_before).getTime():0);if(cutoff&&(!user.iat||user.iat<=cutoff))throw apiError(401,'Sessão revogada. Faça login novamente.');}
 
 async function resetStorage(sql){
- await sql`CREATE TABLE IF NOT EXISTS public.wanelle_password_recovery (id integer PRIMARY KEY DEFAULT 1 CHECK (id=1), password_hash text, reset_hash text, reset_expires timestamptz, requested_at timestamptz, changed_at timestamptz)`;
+ await sql`CREATE TABLE IF NOT EXISTS public.wanelle_password_recovery (id integer PRIMARY KEY DEFAULT 1 CHECK (id=1), password_hash text, reset_hash text, reset_expires timestamptz, requested_at timestamptz, changed_at timestamptz, revoked_before timestamptz)`;
+ await sql`ALTER TABLE public.wanelle_password_recovery ADD COLUMN IF NOT EXISTS revoked_before timestamptz`;
 }
 async function effectivePassword(sql){
  let rows;
