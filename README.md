@@ -45,6 +45,14 @@ Para não subestimar gastos entre a pesquisa e a compra, o painel usa por padrã
 
 Ver política e exemplos em [`POLITICA_PRECOS_WANELLE.md`](POLITICA_PRECOS_WANELLE.md).
 
+## Acesso administrativo e ambiente de Preview
+
+- O painel administrativo não deve ser divulgado por um link na vitrine pública. A equipe abre `/admin.html` diretamente e informa o e-mail autorizado e a senha.
+- A sessão usa cookie `HttpOnly`, `Secure` e `SameSite=Strict`, com validade limitada; ao sair, o cookie é invalidado. Uma sessão já aberta pode permanecer válida até expirar ou até o logout.
+- O ambiente de teste usa o banco isolado `wanelle-preview-test`. Não use dados reais de clientes nos testes.
+- A redefinição de senha por e-mail está **adiada**: não configure nem exija Resend nesta etapa. O botão deve informar que a recuperação por e-mail ainda não está habilitada, sem impedir o login normal. Quando for retomada, configurar Resend e remetente autorizado será uma tarefa separada.
+- Não habilite pedidos online públicos até concluir e validar os testes de autenticação e de pedidos fictícios no Preview.
+
 ## Configurar Vercel e Neon
 
 1. Importe **`leleca7/wanelle-studio`** no Vercel, usando **Framework Preset: Other** e `Root Directory: /`.
