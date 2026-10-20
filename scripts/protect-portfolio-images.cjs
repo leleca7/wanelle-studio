@@ -91,6 +91,37 @@ async function main() {
     maxEdge: MAX_EDGE, webpQuality: QUALITY, metadataStrippedByReencoding: true
   };
   fs.writeFileSync(path.join(outputDir, 'build-report.json'), JSON.stringify(report, null, 2));
+
+  // Deploy only the explicit public surface, not docs, tests, scripts, package files or source photos.
+  const publicDir = path.join(root, 'public');
+  fs.rmSync(publicDir, { recursive: true, force: true });
+  fs.mkdirSync(publicDir, { recursive: true });
+  const staticFiles = ['index.html', 'admin.html', 'redefinir-senha.html', 'privacidade.html', 'links.html', 'marca-dagua-preview.html', 'robots.txt', 'sitemap.xml', 'config.js'];
+  for (const name of staticFiles) {
+    const from = path.join(root, name);
+    if (fs.existsSync(from) && fs.statSync(from).isFile()) fs.copyFileSync(from, path.join(publicDir, name));
+  }
+  fs.cpSync(path.join(root, 'assets'), path.join(publicDir, 'assets'), {
+    recursive: true,
+    filter: source => !source.includes(path.join('assets', 'media'))
+  });
+  const deployedSources = [];
+  function walk(dir) {
+    for (const name of fs.readdirSync(dir)) {
+      const full = path.join(dir, name);
+      if (fs.statSync(full).isDirectory()) walk(full);
+      else deployedSources.push(path.relative(publicDir, full).replace(/\\\\/g, '/'));
+    }
+  }
+  walk(publicDir);
+  if (deployedSources.some(name => name.startsWith('assets/media/'))) {
+    throw new Error('Source media directory leaked into public output.');
+  }
+  report.publicOutputFiles = deployedSources.length;
+  report.sourcePhotoPathsInPublicOutput = 0;
+  fs.writeFileSync(path.join(outputDir, 'build-report.json'), JSON.stringify(report, null, 2));
+  // Copy the final report after adding the public-output verification.
+  fs.copyFileSync(path.join(outputDir, 'build-report.json'), path.join(publicDir, 'assets', 'portfolio-protegido', 'build-report.json'));
   console.log('Portfolio protection build: ' + JSON.stringify(report));
 }
 main().catch(err => { console.error('Portfolio protection failed:', err.message); process.exit(1); });
