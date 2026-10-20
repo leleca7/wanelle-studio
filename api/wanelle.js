@@ -15,7 +15,7 @@ function cookieValue(req) { const cookie=String(req.headers.cookie || '');const 
 function b64url(text) { return Buffer.from(text).toString('base64url'); }
 function hmac(text) { return crypto.createHmac('sha256',process.env.WANELLE_SESSION_SECRET).update(text).digest('base64url'); }
 function compare(a,b) { const x=Buffer.from(String(a)),y=Buffer.from(String(b));return x.length===y.length && crypto.timingSafeEqual(x,y); }
-function mint(email){const payload=b64url(JSON.stringify({email,exp:Date.now()+COOKIE_TTL*1000,iat:Date.now()}));return payload+'.'+hmac(payload);}
+function mint(email,generation=0){const payload=b64url(JSON.stringify({email,generation:Number(generation)||0,exp:Date.now()+COOKIE_TTL*1000,iat:Date.now()}));return payload+'.'+hmac(payload);}
 function authenticate(req) {
   if(!process.env.WANELLE_SESSION_SECRET) return null;
   const token=cookieValue(req);const idx=token.lastIndexOf('.');if(idx<1) return null;
@@ -46,11 +46,11 @@ function publicOrder(form){
     sizeCm:size&&size>=10&&size<=50?size:null,laborMode:'auto',stageMinutes:{},extraMaterialsCost:0,
     otherOrderCost:0,provisionalApproved:false,actualRecorded:false,actualStageMinutes:{},actualExtraCost:0};
 }
-async function authorized(sql,req){const user=authenticate(req);if(!user)throw apiError(401,'Faça login para acessar o painel.');await resetStorage(sql);const rows=await sql`SELECT changed_at,revoked_before FROM public.wanelle_password_recovery WHERE id=1`;const cutoff=Math.max(rows[0]?.changed_at?new Date(rows[0].changed_at).getTime():0,rows[0]?.revoked_before?new Date(rows[0].revoked_before).getTime():0);if(cutoff&&(!user.iat||user.iat<=cutoff))throw apiError(401,'Sessão revogada. Faça login novamente.');}
+async function authorized(sql,req){const user=authenticate(req);if(!user)throw apiError(401,'Faça login para acessar o painel.');await resetStorage(sql);const rows=await sql`SELECT changed_at,session_generation FROM public.wanelle_password_recovery WHERE id=1`;const cutoff=rows[0]?.changed_at?new Date(rows[0].changed_at).getTime():0;if(cutoff&&(!user.iat||user.iat<=cutoff))throw apiError(401,'Sessão revogada após alteração da senha. Faça login novamente.');if(Number(user.generation||0)!==Number(rows[0]?.session_generation||0))throw apiError(401,'Sessão revogada. Faça login novamente.');}
 
 async function resetStorage(sql){
- await sql`CREATE TABLE IF NOT EXISTS public.wanelle_password_recovery (id integer PRIMARY KEY DEFAULT 1 CHECK (id=1), password_hash text, reset_hash text, reset_expires timestamptz, requested_at timestamptz, changed_at timestamptz, revoked_before timestamptz)`;
- await sql`ALTER TABLE public.wanelle_password_recovery ADD COLUMN IF NOT EXISTS revoked_before timestamptz`;
+ await sql`CREATE TABLE IF NOT EXISTS public.wanelle_password_recovery (id integer PRIMARY KEY DEFAULT 1 CHECK (id=1), password_hash text, reset_hash text, reset_expires timestamptz, requested_at timestamptz, changed_at timestamptz, session_generation bigint NOT NULL DEFAULT 0)`;
+ await sql`ALTER TABLE public.wanelle_password_recovery ADD COLUMN IF NOT EXISTS session_generation bigint NOT NULL DEFAULT 0`;
 }
 async function effectivePassword(sql){
  let rows;
@@ -127,7 +127,7 @@ async function login(sql,req,res,body){
     throw apiError(401,'E-mail ou senha incorretos.');
   }
   await sql`DELETE FROM public.wanelle_login_attempts WHERE key_hash=${key}`;
-  res.setHeader('Set-Cookie',COOKIE+'='+mint(email)+'; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age='+COOKIE_TTL);
+  res.setHeader('Set-Cookie',COOKIE+'='+mint(email,storedRows[0]?.session_generation||0)+'; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age='+COOKIE_TTL);
   return {user:{email}};
 }
 module.exports = async (req,res) => {
