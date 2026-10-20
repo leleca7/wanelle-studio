@@ -66,11 +66,18 @@ async function main() {
       const svg = watermarkSvg(rendered.info.width, rendered.info.height, brightness >= 178);
       await sharp(rendered.data).composite([{ input: svg, blend: 'over' }])
         .webp({ quality: QUALITY, effort: 5, smartSubsample: true }).toFile(dest);
+      const verified = await sharp(dest).metadata();
+      if (verified.exif || verified.iptc || verified.xmp || verified.location) {
+        throw new Error('Personal metadata remained in derivative: ' + path.basename(dest));
+      }
+      if (verified.format !== 'webp' || !verified.width || !verified.height) {
+        throw new Error('Invalid protected WebP derivative: ' + path.basename(dest));
+      }
       photos++;
     }
     totalAfter += fs.statSync(dest).size;
   }
-  for (const htmlName of ['index.html', 'marca-dagua-preview.html']) {
+  for (const htmlName of ['index.html', 'admin.html', 'redefinir-senha.html', 'privacidade.html', 'links.html', 'marca-dagua-preview.html']) {
     const file = path.join(root, htmlName);
     if (!fs.existsSync(file)) continue;
     let html = fs.readFileSync(file, 'utf8');
