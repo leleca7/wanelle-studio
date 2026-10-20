@@ -53,6 +53,14 @@ Ver política e exemplos em [`POLITICA_PRECOS_WANELLE.md`](POLITICA_PRECOS_WANEL
 - A redefinição de senha por e-mail está **adiada**: não configure nem exija Resend nesta etapa. O botão deve informar que a recuperação por e-mail ainda não está habilitada, sem impedir o login normal. Quando for retomada, configurar Resend e remetente autorizado será uma tarefa separada.
 - Não habilite pedidos online públicos até concluir e validar os testes de autenticação e de pedidos fictícios no Preview.
 
+## Auditoria de segurança e publicação
+
+- O painel (`/admin.html`) e a página de redefinição são `noindex`; isso é controle de indexação, não controle de acesso. Os endpoints administrativos precisam validar sessão no servidor.
+- Logout revoga sessões emitidas anteriormente no servidor, não apenas apaga o cookie local.
+- A pesquisa de preços, custos, fichas e documentos internos deve ficar em armazenamento privado e ser entregue somente pela API autenticada. Arquivos que já estiveram num repositório público podem continuar acessíveis no histórico Git; removê-los da árvore atual não apaga esse histórico.
+- A CSP é uma camada de defesa adicional. Como o site ainda contém scripts e estilos inline, a política mantém `unsafe-inline` para scripts/estilos; a migração para nonce/hash CSP permanece uma melhoria de segurança.
+- A política de privacidade precisa ser revisada pelo responsável antes da publicação, incluindo prazos reais de retenção e canal de exercício de direitos.
+
 ## Configurar Vercel e Neon
 
 1. Importe **`leleca7/wanelle-studio`** no Vercel, usando **Framework Preset: Other** e `Root Directory: /`.
