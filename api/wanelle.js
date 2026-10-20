@@ -102,7 +102,7 @@ async function login(sql,req,res,body){
   await resetStorage(sql);
   const rows=await sql`SELECT failures,first_attempt_at,locked_until FROM public.wanelle_login_attempts WHERE key_hash=${key}`;
   if(rows[0]?.locked_until && new Date(rows[0].locked_until).getTime()>Date.now())throw apiError(429,'Muitas tentativas. Tente novamente mais tarde.');
-  const storedRows=await sql`SELECT password_hash FROM public.wanelle_password_recovery WHERE id=1`;
+  const storedRows=await sql`SELECT password_hash,session_generation FROM public.wanelle_password_recovery WHERE id=1`;
   const storedHash=storedRows[0]?.password_hash||'';
   const hash=await effectivePassword(sql);const [salt,expected]=hash.split(':');
   if((!storedHash&&!process.env.WANELLE_ADMIN_INITIAL_PASSWORD&&!process.env.WANELLE_ADMIN_PASSWORD_HASH)||!process.env.WANELLE_SESSION_SECRET||!process.env.WANELLE_ADMIN_EMAIL)throw apiError(503,'Acesso administrativo ainda não configurado.');
@@ -163,6 +163,8 @@ module.exports = async (req,res) => {
     if(req.method==='POST'&&action==='reset-password')return json(res,200,await finishReset(sql,body));
     if(req.method==='POST'&&action==='login')return json(res,200,await login(sql,req,res,body));
     if(req.method==='POST'&&action==='logout'){
+      await resetStorage(sql);
+      await sql`INSERT INTO public.wanelle_password_recovery(id,session_generation) VALUES(1,1) ON CONFLICT(id) DO UPDATE SET session_generation=public.wanelle_password_recovery.session_generation+1`;
       res.setHeader('Set-Cookie',COOKIE+'=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0');return json(res,200,{ok:true});
     }
     if(req.method==='GET'&&action==='session'){try{await authorized(sql,req);return json(res,200,{user:{email:authenticate(req).email}});}catch{return json(res,200,{user:null});}}
