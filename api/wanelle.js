@@ -62,8 +62,9 @@ async function requestReset(sql,req,body){
  const email=clean(body.email,200).toLowerCase(),configured=process.env.WANELLE_ADMIN_EMAIL?.toLowerCase();
  const response={message:'Se este e-mail estiver cadastrado, você receberá um link para redefinir sua senha.'};
  if(!email||!email.includes('@'))throw apiError(400,'Informe um e-mail válido.');
- if(email!==configured)return response;
+ // A recuperação desabilitada responde igual para qualquer e-mail, sem permitir descobrir a conta administrativa.
  if(!process.env.RESEND_API_KEY||!process.env.WANELLE_RESET_FROM_EMAIL)throw apiError(503,'Envio de e-mail ainda não configurado. Contate o administrador do site.');
+ if(email!==configured)return response;
  await resetStorage(sql);
  const existing=await sql`SELECT requested_at FROM public.wanelle_password_recovery WHERE id=1`;
  if(existing[0]?.requested_at&&Date.now()-new Date(existing[0].requested_at).getTime()<120000)return response;
