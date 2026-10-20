@@ -441,7 +441,10 @@ $('#forgot-password').onclick=async()=>{
  try{
   const response=await fetch('/api/wanelle?action=request-password-reset',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify({email})});
   const data=await response.json();
-  if(!response.ok)throw Error(data.error||'Envio temporariamente indisponível.');
+  if(!response.ok){
+   if(response.status===503){output.textContent='A recuperação por e-mail ainda não está habilitada. A integração de envio será configurada em uma etapa futura; o login normal continua separado disso.';return;}
+   throw Error(data.error||'Envio temporariamente indisponível.');
+  }
   output.textContent=data.message||'Se o e-mail estiver cadastrado, você receberá um link.';
  }catch(error){output.textContent=error.message||'Serviço de recuperação indisponível.';}
 };
