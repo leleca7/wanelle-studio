@@ -635,12 +635,13 @@ footer .internal-link{display:inline-block;margin-top:14px;font-size:.75rem;opac
   var saved=[];try{var previous=JSON.parse(localStorage.getItem("wanelle-inspiracoes-v1")||"[]");if(Array.isArray(previous))saved=previous.filter(function(x){return typeof x==="string"&&x.length<120}).slice(0,8)}catch(e){}
   window.WANELLE_SITE_SELECTION=function(){return saved.slice()};
   var savedEl=document.getElementById("saved"),countEl=document.getElementById("cartCount");
+  function escapeHtml(value){return String(value).replace(/[&<>"\']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","\'":"&#39;"}[c]})}
   var drawer=document.getElementById("drawer"),overlay=document.getElementById("overlay"),toast=document.getElementById("toast");
   function say(m){toast.textContent=m;toast.classList.add("on");clearTimeout(say.t);say.t=setTimeout(function(){toast.classList.remove("on")},2200)}
   function render(){
     countEl.textContent=saved.length;
     try{localStorage.setItem("wanelle-inspiracoes-v1",JSON.stringify(saved))}catch(e){}
-    savedEl.innerHTML=saved.length?saved.map(function(n){return"<span>"+n+"</span>"}).join(""):"<em>Nenhuma inspiração salva ainda. Use o botão Adicionar em uma foto para escolher.</em>";
+    savedEl.innerHTML=saved.length?saved.map(function(n){return"<span>"+escapeHtml(n)+"</span>"}).join(""):"<em>Nenhuma inspiração salva ainda. Use o botão Adicionar em uma foto para escolher.</em>";
     document.querySelectorAll(".save").forEach(function(b){var on=saved.indexOf(b.dataset.name)>-1;b.setAttribute("aria-pressed",on);b.textContent=on?"✓":"+"});
   }
   document.querySelectorAll(".save").forEach(function(b){b.addEventListener("click",function(){
