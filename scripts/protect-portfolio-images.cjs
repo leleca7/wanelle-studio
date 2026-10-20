@@ -87,12 +87,10 @@ async function main() {
     }
     fs.writeFileSync(file, html);
   }
-  // Delete sources from the ephemeral deployment workspace only; Git history is not changed.
-  for (const name of files) fs.unlinkSync(path.join(sourceDir, name));
-  if (!fs.readdirSync(sourceDir).length) fs.rmdirSync(sourceDir);
+  // Keep every source image untouched in the workspace; the public copy excludes assets/media.
   const report = {
     photosWatermarked: photos, logoAssetsReencoded: logos,
-    sourceFilesRemovedFromDeploymentWorkspace: files.length,
+    sourceFilesExcludedFromPublicOutput: files.length,
     originalBytes: totalBefore, protectedBytes: totalAfter,
     sizeReductionPercent: totalBefore ? Math.round((1 - totalAfter / totalBefore) * 1000) / 10 : 0,
     maxEdge: MAX_EDGE, webpQuality: QUALITY, metadataStrippedByReencoding: true
@@ -123,6 +121,16 @@ async function main() {
   walk(publicDir);
   if (deployedSources.some(name => name.startsWith('assets/media/'))) {
     throw new Error('Source media directory leaked into public output.');
+  }
+  for (const htmlName of staticFiles.filter(name => name.endsWith('.html'))) {
+    const htmlPath = path.join(publicDir, htmlName);
+    if (!fs.existsSync(htmlPath)) continue;
+    const html = fs.readFileSync(htmlPath, 'utf8');
+    if (html.includes('assets/media/')) throw new Error('Public HTML still references source media: ' + htmlName);
+    for (const match of html.matchAll(/(?:src|href)=["'](assets\/[^"'?#]+)/g)) {
+      const assetPath = path.join(publicDir, match[1]);
+      if (!fs.existsSync(assetPath)) throw new Error('Missing public asset reference: ' + match[1] + ' in ' + htmlName);
+    }
   }
   report.publicOutputFiles = deployedSources.length;
   report.sourcePhotoPathsInPublicOutput = 0;
