@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /redefinir-senha.html
+Disallow: /api/
+Disallow: /assets/market-prices
+Disallow: /neon/
+Disallow: /docs/
+Disallow: /PESQUISA_
+Disallow: /CUSTOS_DE_PRODUCAO
+Disallow: /LEVANTAMENTO_ORAL
+Disallow: /POLITICA_PRECOS
+Disallow: /FLUXO_DE_VENDAS
+Sitemap: https://wanelle-site.vercel.app/sitemap.xml
