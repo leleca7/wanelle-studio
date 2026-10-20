@@ -58,43 +58,8 @@ function ingredients(){
 }
 
 function market(){
- const catalog=window.WANELLE_MARKET||{quotes:[]};
- const rows=catalog.quotes;
- const official=rows.filter(x=>x.level==='official');
- const alternatives=rows.filter(x=>x.level==='alternative');
- const reported=rows.filter(x=>x.level==='user_reported');
- const noQuote=S.ingredients.filter(i=>!i.priceSource);
- const today=day();
- function tile(q){
-   const ing=q.ingredientId&&S.ingredients.find(i=>i.id===q.ingredientId);
-   const applied=ing?.priceSource?.quoteId===q.id;
-   const expired=q.validUntil&&q.validUntil<today;
-   const notReady=q.confidence==='ambiguous';
-   const label=q.level==='official'?'Atakarejo oficial':q.level==='user_reported'?'iFood • anotado':'Alternativa Salvador';
-   const safeUrl=typeof q.source==='string'&&/^https:\/\//.test(q.source);
-   const weight=Number(q.packageQty)>0&&q.unit==='g'?` • ${fmt(q.price*1000/q.packageQty)} / kg`:'';
-   return `<article class="market-tile">
-      <div class="market-title"><b>${esc(q.product)}</b><span class="market-tag ${esc(q.level)}">${label}</span></div>
-      <div class="market-details"><strong class="market-value">${fmt(q.price)}</strong><span>${q.packageQty} ${esc(q.unit)}${weight}</span></div>
-      <div class="small-muted">Proteção para orçamento: <b>${fmt(C.safePackagePrice({packagePrice:q.price},S.settings))}</b> pela embalagem, com ${C.n(S.settings.ingredientPriceBufferPct)}% de folga e arredondamento para cima. Não é cotação do mercado.</div>
-      <div class="small-muted">${esc(q.store)} • ${q.level==='user_reported'?'Anotado em ':'Consultado em '}${C.dateBR(q.checkedAt)}${q.validUntil?' • Oferta até '+C.dateBR(q.validUntil):''}</div>
-      ${q.note?`<p class="small-muted">${esc(q.note)}</p>`:''}
-      ${q.level==='user_reported'?'<div class="market-warning">Anotação do iFood — conferir produto e carrinho antes de aplicar.</div>':''}
-      ${expired?'<div class="market-warning">Oferta vencida — confirmar novo preço antes de usar</div>':''}
-      <div class="market-buttons">${safeUrl?`<a class="btn btn-sm" href="${esc(q.source)}" target="_blank" rel="noopener noreferrer">Ver fonte ↗</a>`:'<span class="small-muted">Fonte: anotação feita durante pesquisa no iFood</span>'}
-      ${applied?'<span class="market-used">✓ Aplicado nesta ficha</span>':notReady?'<span class="market-warning">Marca, variante ou embalagem pendente — não aplicar</span>':`<button class="btn btn-sm ${q.level==='official'?'btn-primary':''}" data-action="apply-quote" data-id="${esc(q.id)}">${ing?'Usar na ficha ↗':'Cadastrar insumo ↗'}</button>`}</div>
-   </article>`;
- }
- const sections=[['farinha','Farinha de trigo'],['margarina','Margarina'],['chocolate','Chocolate e cacau']].map(([cat,label])=>{
-   const list=reported.filter(q=>q.category===cat);
-   return `<details class="panel" style="margin-top:14px" ${cat==='farinha'?'open':''}><summary style="cursor:pointer;font-weight:800;padding:8px">${label} — ${list.length} cotações</summary><div class="market-grid" style="margin-top:16px">${list.map(tile).join('')}</div></details>`;
- }).join('');
- return divTitle('Valores pesquisados em Salvador','Preço observado e preço protegido são diferentes. A proteção absorve variações de preço; não substitui cotação válida nem margem de lucro.',`<button class="btn btn-muted" data-view="ingredients">Ver ingredientes ↗</button>`)
- + `<div class="market-banner"><b>Mercado preferencial: Atakarejo — Boca do Rio ♡</b><p>As 67 cotações novas foram ANOTADAS durante a pesquisa no iFood em 14/10/2026. Não comprovam o preço na loja Boca do Rio, nem a disponibilidade do produto. Frete informado: Atakarejo aproximadamente R$ 21–21,50 por compra; Assaí possivelmente grátis acima de R$ 50 (verificar CEP e condição no carrinho). Ratear o frete da compra; nunca atribuir automaticamente todo o frete a uma só torta.</p></div>`
- + `<div class="market-stats"><article><b>${reported.length}</b><span>Novas cotações relatadas do iFood</span></article><article><b>${official.length+alternatives.length}</b><span>Valores pesquisados anteriormente</span></article><article><b>${noQuote.length}</b><span>Ingredientes sem custo aplicado</span></article></div>`
- + `<h3 class="market-heading">Pesquisa do iFood • 14/10/2026</h3>${sections}`
- + `<details class="panel" style="margin-top:22px"><summary style="cursor:pointer;font-weight:800;padding:8px">Cotações anteriores — Atakarejo (encarte) e Atacadão (${official.length+alternatives.length})</summary><h3 class="market-heading">Atakarejo • encarte Bahia</h3><div class="market-grid">${official.map(tile).join('')}</div><h3 class="market-heading">Outros mercados Salvador</h3><div class="market-grid">${alternatives.map(tile).join('')}</div></details>`
- + `<section class="panel" style="margin-top:22px"><div class="panel-title"><h3>Antes de fechar o orçamento</h3></div><p class="small-muted">Ainda faltam preços de abacaxi, coco, ovos, leite condensado, açúcar usado na receita, chantilly, embalagens e custos de água/energia específicos. Não misture farinha com e sem fermento; não troque percentuais de cacau sem ajustar a receita. Até cadastrar quantidades e horas reais, R$ 160 é uma proposta comercial, não garantia de lucro.</p></section>`;
+ return divTitle('Pesquisa comercial protegida','As cotações detalhadas ficam fora dos arquivos públicos do site e não são carregadas neste painel. Isso não altera suas receitas, ingredientes ou regras de custos.')
+ + `<section class="panel" style="margin-top:18px"><div class="panel-title"><h3>Pesquisa indisponível nesta versão</h3></div><p class="small-muted">Para evitar a publicação de preços, fontes, observações comerciais e anotações de fornecedores, os dados da pesquisa foram retirados do pacote público. Nenhuma cotação foi apagada do histórico de trabalho. Você ainda pode atualizar custos reais manualmente na seção <b>Ingredientes</b> e revisar as regras na seção <b>Custos & preços</b>.</p><div class="quick-links"><button class="btn btn-primary" data-view="ingredients">Abrir ingredientes ↗</button><button class="btn btn-muted" data-view="settings">Revisar custos & preços ↗</button></div></section>`;
 }
 function day(offset=0){const d=new Date();d.setDate(d.getDate()+offset);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
 function production(){
