@@ -1,0 +1,46 @@
+[
+  {
+    "title": "chore: inventariar stack, fluxos e Vercel",
+    "body": "Auditar runtime, framework, dependências, rotas, CI atual, integrações e Vercel sem exibir segredos. Entrega: mapa de arquitetura e baseline de experiência e segurança.\n\n### Critérios de aceitação\n- [ ] Plano/risco e evidência no PR\n- [ ] Testes proporcionais ao risco executados\n- [ ] Revisão de segurança, privacidade e rollback\n- [ ] Preview/monitoramento conforme aplicável"
+  },
+  {
+    "title": "security: auditoria de autenticação, autorização e segredos",
+    "body": "Revisar controle por recurso e por tenant, variáveis, CSP/CORS/CSRF, LGPD, webhooks, rate limit, logs e rollback. Corrigir vulnerabilidades detectadas em PRs menores.\n\n### Critérios de aceitação\n- [ ] Plano/risco e evidência no PR\n- [ ] Testes proporcionais ao risco executados\n- [ ] Revisão de segurança, privacidade e rollback\n- [ ] Preview/monitoramento conforme aplicável"
+  },
+  {
+    "title": "ui: auditoria de design, motion e acessibilidade",
+    "body": "Auditar com Design Motion Principles; corrigir contraste, foco, responsividade e reduced motion. Evidência antes/depois com testes.\n\n### Critérios de aceitação\n- [ ] Plano/risco e evidência no PR\n- [ ] Testes proporcionais ao risco executados\n- [ ] Revisão de segurança, privacidade e rollback\n- [ ] Preview/monitoramento conforme aplicável"
+  },
+  {
+    "title": "perf: loading states, skeletons e lazy loading seletivo",
+    "body": "Mapear carregamentos reais; tratar loading/erro/vazio/sucesso, usar skeleton e lazy loading onde benéficos e medir Core Web Vitals sem prejudicar LCP.\n\n### Critérios de aceitação\n- [ ] Plano/risco e evidência no PR\n- [ ] Testes proporcionais ao risco executados\n- [ ] Revisão de segurança, privacidade e rollback\n- [ ] Preview/monitoramento conforme aplicável"
+  },
+  {
+    "title": "quality: configurar Biome e Knip sem regressões",
+    "body": "Identificar stack e comandos; introduzir lint, formatação e auditoria de código morto compatíveis, progressivamente, com CI verde.\n\n### Critérios de aceitação\n- [ ] Plano/risco e evidência no PR\n- [ ] Testes proporcionais ao risco executados\n- [ ] Revisão de segurança, privacidade e rollback\n- [ ] Preview/monitoramento conforme aplicável"
+  },
+  {
+    "title": "test: unitários, integração, Playwright e cobertura",
+    "body": "Testar fluxos críticos e contracts; integrar Playwright e Codecov conforme framework e estratégia de cobertura, sem mascarar falhas.\n\n### Critérios de aceitação\n- [ ] Plano/risco e evidência no PR\n- [ ] Testes proporcionais ao risco executados\n- [ ] Revisão de segurança, privacidade e rollback\n- [ ] Preview/monitoramento conforme aplicável"
+  },
+  {
+    "title": "observability: OpenTelemetry e avaliação Datadog/New Relic",
+    "body": "Instrumentar logs, métricas, traces e alertas sem PII. Validar provedores disponíveis, custos e dados chegando ao destino selecionado.\n\n### Critérios de aceitação\n- [ ] Plano/risco e evidência no PR\n- [ ] Testes proporcionais ao risco executados\n- [ ] Revisão de segurança, privacidade e rollback\n- [ ] Preview/monitoramento conforme aplicável"
+  },
+  {
+    "title": "release: padronizar preview, PR e rollback da Vercel",
+    "body": "Definir checks necessários, revisões, avaliação do preview, estratégia de merge, monitoramento pós-deploy e rollback documentado.\n\n### Critérios de aceitação\n- [ ] Plano/risco e evidência no PR\n- [ ] Testes proporcionais ao risco executados\n- [ ] Revisão de segurança, privacidade e rollback\n- [ ] Preview/monitoramento conforme aplicável"
+  },
+  {
+    "title": "security: concluir avaliação anti-spam e adequação LGPD",
+    "body": "Verificar a coleta pública de encomendas, limitações de volume, proteção anti-spam, transparência de privacidade e retenção de dados. Não divulgar como concluído sem evidências.\n\n### Critérios de aceitação\n- [ ] Riscos e evidências de teste registrados\n- [ ] Privacidade e rollback avaliados\n- [ ] Revisão em PR"
+  },
+  {
+    "title": "test: validar compra/encomenda até status no painel",
+    "body": "Executar testes com dados fictícios para API, banco Neon, recebimento no frontend, login admin, atualização e consulta do pedido em ambiente autorizado.\n\n### Critérios de aceitação\n- [ ] Riscos e evidências de teste registrados\n- [ ] Privacidade e rollback avaliados\n- [ ] Revisão em PR"
+  },
+  {
+    "title": "quality: auditar cálculo de receitas e reserva de preços",
+    "body": "Garantir que cotações não sejam tratadas como custos confirmados; testar margens, arredondamento e separação entre previsão de custo e preço final.\n\n### Critérios de aceitação\n- [ ] Riscos e evidências de teste registrados\n- [ ] Privacidade e rollback avaliados\n- [ ] Revisão em PR"
+  }
+]

@@ -12,6 +12,8 @@ Site interativo para clientes e painel de encomendas da **Wanelle Tortas**, inte
 
 ## Catálogo e orçamentos
 
+A política de privacidade inicial está em [`privacidade.html`](privacidade.html). Ela ainda exige confirmação pelo responsável dos prazos de retenção e do canal operacional para pedidos de direitos antes da publicação.
+
 As fotografias são **apenas inspirações**; nenhuma criação antiga tem preço/receita fictícios. O cliente solicita orçamento, e a confeiteira cadastra uma ficha técnica real: ingredientes, quantidades, tempo de trabalho, camadas, embalagem, água, luz, gás, despesas e lucro.
 
 A referência inicial confirmada é **torta simples de abacaxi com coco**. Tamanhos da própria confeiteira:
@@ -27,7 +29,7 @@ Os dados NÃO determinam o custo sozinhos. Falta cadastrar a receita real, os pr
 
 ## Pesquisa de preços do iFood (14/10/2026)
 
-Foram registrados **67 valores narrados pelo responsável** (Assaí, Atacadão, Atakarejo, Mercantil e Hiperideal), além das **12 referências anteriores**. As anotações originais organizadas estão em `neon/cotacoes_ifood_2026-10-14.json` e `assets/market-prices.json`. Os 67 preços também estão em `wanelle_market_quotes` no Neon e são carregados na aba **Pesquisa de mercado** após o login. Nenhuma cotação é aplicada automaticamente às fichas técnicas.
+Foram registrados **67 valores narrados pelo responsável** (Assaí, Atacadão, Atakarejo, Mercantil e Hiperideal), além das **12 referências anteriores**. As cotações comerciais detalhadas foram removidas da árvore pública; devem ser mantidas apenas em armazenamento privado e disponibilizadas pela API autenticada. Os 67 preços também estão em `wanelle_market_quotes` no Neon e são carregados na aba **Pesquisa de mercado** após o login. Nenhuma cotação é aplicada automaticamente às fichas técnicas.
 
 - Verificar embalagem, marca, tipo de farinha (com/sem fermento), teor de cacau, datas e eventuais descontos por quantidade. Entradas contraditórias ou incertas foram marcadas como pendentes de confirmação e não podem ser aplicadas na interface.
 - Frete informado no iFood: Atakarejo aproximadamente **R$ 21–21,50** por pedido e Assaí possivelmente grátis acima de **R$ 50**; dependem do carrinho, endereço e promoção. Não atribuir uma taxa inteira a cada bolo indiscriminadamente.
@@ -44,6 +46,22 @@ Para não subestimar gastos entre a pesquisa e a compra, o painel usa por padrã
 - Os preços por grama mantêm precisão no cálculo; o arredondamento é aplicado **na embalagem**.
 
 Ver política e exemplos em [`POLITICA_PRECOS_WANELLE.md`](POLITICA_PRECOS_WANELLE.md).
+
+## Acesso administrativo e ambiente de Preview
+
+- O painel administrativo não deve ser divulgado por um link na vitrine pública. A equipe abre `/admin.html` diretamente e informa o e-mail autorizado e a senha.
+- A sessão usa cookie `HttpOnly`, `Secure` e `SameSite=Strict`, com validade limitada; ao sair, o cookie é invalidado. Uma sessão já aberta pode permanecer válida até expirar ou até o logout.
+- O ambiente de teste usa o banco isolado `wanelle-preview-test`. Não use dados reais de clientes nos testes.
+- A redefinição de senha por e-mail está **adiada**: não configure nem exija Resend nesta etapa. O botão deve informar que a recuperação por e-mail ainda não está habilitada, sem impedir o login normal. Quando for retomada, configurar Resend e remetente autorizado será uma tarefa separada.
+- Não habilite pedidos online públicos até concluir e validar os testes de autenticação e de pedidos fictícios no Preview.
+
+## Auditoria de segurança e publicação
+
+- O painel (`/admin.html`) e a página de redefinição são `noindex`; isso é controle de indexação, não controle de acesso. Os endpoints administrativos precisam validar sessão no servidor.
+- Logout revoga sessões emitidas anteriormente no servidor, não apenas apaga o cookie local.
+- A pesquisa de preços, custos, fichas e documentos internos deve ficar em armazenamento privado e ser entregue somente pela API autenticada. Arquivos que já estiveram num repositório público podem continuar acessíveis no histórico Git; removê-los da árvore atual não apaga esse histórico.
+- A CSP é uma camada de defesa adicional. Como o site ainda contém scripts e estilos inline, a política mantém `unsafe-inline` para scripts/estilos; a migração para nonce/hash CSP permanece uma melhoria de segurança.
+- A política de privacidade precisa ser revisada pelo responsável antes da publicação, incluindo prazos reais de retenção e canal de exercício de direitos.
 
 ## Configurar Vercel e Neon
 

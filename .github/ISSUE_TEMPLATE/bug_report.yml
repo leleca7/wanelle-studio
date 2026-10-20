@@ -1,0 +1,36 @@
+name: "Correção de bug"
+description: "Registrar erro com reprodução e aceite"
+title: "[bug] "
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: "O que acontece?"
+      description: "Descreva o comportamento observado sem dados pessoais ou chaves."
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: "Como reproduzir?"
+      description: "Passos, ambiente e resultado esperado."
+    validations:
+      required: true
+  - type: textarea
+    id: criteria
+    attributes:
+      label: "Critérios de aceitação"
+      description: "Inclua testes, não regressão e impacto esperado."
+    validations:
+      required: true
+  - type: dropdown
+    id: impact
+    attributes:
+      label: "Impacto"
+      options:
+        - "Crítico — produção / segurança"
+        - "Alto — fluxo essencial"
+        - "Médio — impacto parcial"
+        - "Baixo — acabamento"
+    validations:
+      required: true

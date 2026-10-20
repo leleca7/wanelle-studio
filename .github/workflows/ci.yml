@@ -1,0 +1,38 @@
+name: Wanelle CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main, "chore/**", "fix/**", "feat/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Testes automatizados
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Instalar dependências
+        run: npm install --no-audit --no-fund
+      - name: Verificar sintaxe JavaScript
+        run: |
+          node --check api/wanelle.js
+          node --check assets/wanelle-core.js
+          node --check assets/storefront-intake.js
+          node --check assets/wanelle-admin.js
+      - name: Executar testes do projeto
+        run: npm test
+      - name: Gerar e validar fotografias públicas protegidas
+        run: |
+          npm run build
+          node -e "const fs=require('fs'); const p='public/assets/portfolio-protegido/build-report.json'; const r=JSON.parse(fs.readFileSync(p,'utf8')); if(!r.photosWatermarked || !r.sourceFilesExcludedFromPublicOutput || r.sourcePhotoPathsInPublicOutput!==0) process.exit(1); console.log('Imagens protegidas:',r.photosWatermarked,'; bytes antes/depois:',r.originalBytes,'/',r.protectedBytes,'; redução:',r.sizeReductionPercent+'%');"
