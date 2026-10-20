@@ -35,4 +35,4 @@ jobs:
       - name: Gerar e validar fotografias públicas protegidas
         run: |
           npm run build
-          node -e "const fs=require('fs'); const p='public/assets/portfolio-protegido/build-report.json'; const r=JSON.parse(fs.readFileSync(p,'utf8')); if(!r.photosWatermarked || !r.sourceFilesRemovedFromDeploymentWorkspace || r.sourcePhotoPathsInPublicOutput!==0) process.exit(1); console.log('Imagens protegidas:',r.photosWatermarked,'; bytes antes/depois:',r.originalBytes,'/',r.protectedBytes,'; redução:',r.sizeReductionPercent+'%');"
+          node -e "const fs=require('fs'); const p='public/assets/portfolio-protegido/build-report.json'; const r=JSON.parse(fs.readFileSync(p,'utf8')); if(!r.photosWatermarked || !r.sourceFilesExcludedFromPublicOutput || r.sourcePhotoPathsInPublicOutput!==0) process.exit(1); console.log('Imagens protegidas:',r.photosWatermarked,'; bytes antes/depois:',r.originalBytes,'/',r.protectedBytes,'; redução:',r.sizeReductionPercent+'%');"
