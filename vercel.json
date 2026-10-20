@@ -1,5 +1,5 @@
 {
-  "buildCommand": "node scripts/build-public-site.cjs",
+  "buildCommand": "node scripts/test-public-site.cjs && node scripts/build-public-site.cjs",
   "outputDirectory": "public",
   "headers": [
     {
