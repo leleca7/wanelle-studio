@@ -46,3 +46,34 @@
 4. Obter aprovação do proprietário para uma das três opções antes de aplicar a marca em lote.
 5. Executar testes HTTP dinâmicos de autenticação/autorização/sessão e testes visuais reais desktop/mobile.
 6. Manter intake público e recuperação por e-mail desabilitados até que os testes e configurações pendentes sejam concluídos.
+
+
+---
+
+## Atualização após aprovação da Opção B — 20/10/2026
+
+### Pipeline de fotografias implementado na branch
+
+O proprietário aprovou **Opção B — Branco Elegante**. Foi adicionado `scripts/protect-portfolio-images.cjs` usando Sharp, chamado pelo build de Preview.
+
+- Processa as imagens fonte presentes em `assets/media/`; o build observado encontrou **41 fotografias** e **1 imagem de identidade/logomarca**.
+- Gera derivados públicos em WebP com qualidade 84, esforço 5 e dimensão máxima de 1800 px, sem ampliar imagens menores.
+- Incorpora a marca `WANELLE TORTAS ©` ao raster final, com texto branco, sombra suave e linha fina. Analisa luminância aproximada da região inferior central e muda a cor para vinho quando o fundo é muito claro.
+- Re-encoda os derivados sem preservar EXIF/IPTC/XMP; o build valida que esses campos não permaneçam nos WebPs gerados.
+- O script **não modifica nem apaga os arquivos fonte do workspace**. A pasta `assets/media/` é excluída do diretório público de saída; o deploy usa uma lista explícita de páginas e ativos, em vez de publicar toda a raiz do repositório.
+- O primeiro log de build concluiu a geração de 41 WebPs + 1 ativo de identidade, reduzindo o total desses ativos de 4.108.735 para 3.083.304 bytes (**25,0% de redução agregada**). A execução terminou com falha na etapa final da CI porque o workflow ainda conferia o nome antigo de um campo do relatório; o campo foi corrigido no commit `b606f0fa4e6605dcdf8bcb2c8ec29dfd099845fd`. A confirmação de CI verde para o commit final ainda é necessária.
+- Foram acrescentadas verificações para que HTML público não referencie `assets/media/` e para que cada recurso `assets/...` referenciado exista no diretório de saída.
+- O sitemap agora inclui referências de imagem às 25 fotografias encontradas na galeria principal, com URLs dos derivados protegidos. As imagens mantêm atributos alt descritivos no HTML.
+- A prévia foi atualizada para apresentar a Opção B incorporada em três fotografias reais: chocolate, abacaxi com coco e morango com wafer. Nenhuma imagem foi recriada por IA.
+
+### Limites e riscos ainda existentes
+
+- **GitHub público:** os originais permanecem na árvore do repositório público e no histórico. O build impede que `assets/media/` seja incluída na saída estática do site, mas isso não impede o download direto pelo GitHub. Não alterei a visibilidade do repositório nem reescrevi histórico sem autorização explícita. A proteção completa exige decisão de privacidade e uma migração segura dos originais.
+- **Produção:** nenhum merge ou deploy foi feito. As rotas de documentos comerciais no site oficial continuam sendo um bloqueio conhecido do relatório anterior; não foi possível revalidar os status HTTP nesta sessão.
+- **Deploy e navegador:** o build de imagem foi executado na CI e gerou os derivados, mas ainda falta confirmar CI verde do último commit e um deployment Preview READY que inclua esse commit. A ferramenta de navegador/fetch não conseguiu acessar o domínio de Preview, então não houve inspeção visual real desktop/mobile nem medição de Core Web Vitals.
+- **API e autenticação:** não foi possível executar chamadas HTTP reais para login válido/inválido, logout, cópia/revogação de sessão, expiração, autorização de leitura/escrita, CSRF ou CRUD. Os testes automatizados existentes são principalmente unitários/estruturais.
+- **Banco de testes:** a consulta somente leitura confirmou o marcador `wanelle-preview-test-20261019` e um único pedido com ID `TEST-ONLY-20261019-001`, com payload JSON e timestamps. Isso comprova presença de registro de teste no Neon isolado, mas **não prova que o endpoint de pedidos ou a autenticação estejam funcionando de ponta a ponta**. Nenhum dado de produção foi consultado ou alterado.
+
+### Status atualizado
+
+**Parcialmente implementado; não pronto para publicação definitiva.** A geração de derivados com marca-d’água incorporada, remoção de metadados e exclusão das fontes do diretório público já está codificada e foi executada na CI. A validação final do commit mais recente, a inspeção visual real, o tratamento do histórico Git público, a revalidação dos documentos comerciais em produção e os testes dinâmicos da API continuam pendentes.
