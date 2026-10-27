@@ -61,8 +61,21 @@ async function requestReset(sql,req,body){
  const email=clean(body.email,200).toLowerCase(),configured=process.env.WANELLE_ADMIN_EMAIL?.toLowerCase();
  const response={message:'Se este e-mail estiver cadastrado, você receberá um link para redefinir sua senha.'};
  if(!email||!email.includes('@'))throw apiError(400,'Informe um e-mail válido.');
+ // Não diferencie email conhecido de desconhecido nas respostas públicas.
  if(email!==configured)return response;
- if(!process.env.RESEND_API_KEY||!process.env.WANELLE_RESET_FROM_EMAIL)throw apiError(503,'Envio de e-mail ainda não configurado. Contate o administrador do site.');
+ if(!process.env.RESEND_API_KEY||!process.env.WANELLE_RESET_FROM_EMAIL) return response;
+ // Limite por período tanto geral quanto por origem; sem divulgar endereço cadastrado.
+ const secret=process.env.WANELLE_SESSION_SECRET;
+ if(!secret) return response;
+ const ip=clean(req.headers['x-real-ip']||req.socket?.remoteAddress||'sem-ip',100);
+ const hour=Math.floor(Date.now()/3600000);
+ for(const [label,limit] of [['reset-global',30],['reset-ip:'+ip,5]]){
+   const key=crypto.createHmac('sha256',secret).update(label+'|'+hour).digest('hex');
+   const rows=await sql`INSERT INTO public.wanelle_public_limits (key_hash,hits,updated_at)
+     VALUES (${key},1,now()) ON CONFLICT(key_hash) DO UPDATE
+     SET hits=public.wanelle_public_limits.hits+1, updated_at=now() RETURNING hits`;
+   if(Number(rows[0]?.hits)>limit) return response;
+ }
  await resetStorage(sql);
  const existing=await sql`SELECT requested_at FROM public.wanelle_password_recovery WHERE id=1`;
  if(existing[0]?.requested_at&&Date.now()-new Date(existing[0].requested_at).getTime()<120000)return response;
@@ -118,7 +131,7 @@ module.exports = async (req,res) => {
     const sql=neon(databaseUrl);
     const action=clean(req.query.action,40);
     const body=req.method==='POST'?dataBody(req):null;
-    if(req.method==='GET'&&action==='health'){const pass=await effectivePassword(sql);const adminReady=Boolean(pass&&pass.includes(':')&&process.env.WANELLE_ADMIN_EMAIL&&process.env.WANELLE_SESSION_SECRET);return json(res,200,{status:'ok',database:'configured',adminReady,intakeReady:adminReady&&process.env.WANELLE_ENABLE_ONLINE_INTAKE==='true',emailResetReady:Boolean(process.env.RESEND_API_KEY&&process.env.WANELLE_RESET_FROM_EMAIL)});}
+    if(req.method==='GET'&&action==='health'){const pass=await effectivePassword(sql);const adminReady=Boolean(pass&&pass.includes(':')&&process.env.WANELLE_ADMIN_EMAIL&&process.env.WANELLE_SESSION_SECRET);return json(res,200,{status:'ok',intakeReady:adminReady&&process.env.WANELLE_ENABLE_ONLINE_INTAKE==='true'});}
     if(req.method==='POST'&&action==='submit'){
       const activeHash=await effectivePassword(sql);
       if(!activeHash||!process.env.WANELLE_ADMIN_EMAIL||!process.env.WANELLE_SESSION_SECRET||process.env.WANELLE_ENABLE_ONLINE_INTAKE!=='true')
@@ -169,7 +182,7 @@ module.exports = async (req,res) => {
     throw apiError(404,'Rota não encontrada.');
   }catch(err){
     const status=Number(err.status)||500;
-    if(status>=500)console.error('Wanelle API error:',err.code||err.message);
+    if(status>=500)console.error('Wanelle API server error code:',String(err.code||'internal').slice(0,40));
     return json(res,status,{error:status>=500?'Serviço indisponível. Tente novamente em instantes.':err.message});
   }
 };
