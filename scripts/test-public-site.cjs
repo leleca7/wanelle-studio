@@ -57,7 +57,7 @@ try {
 
   const files = walk(output);
   const expected = [
-    'index.html', 'admin.html', 'config.js',
+    'index.html', 'admin.html', 'redefinir-senha.html', 'links.html', 'config.js',
     'assets/admin.css', 'assets/wanelle-core.js',
     'assets/wanelle-admin.js', 'assets/storefront-intake.js'
   ];
@@ -80,6 +80,10 @@ try {
   assert(!files.some(rel => /\.(md|markdown|cjs|mjs|map)$/i.test(rel)), 'Documento, ferramenta ou source map no artefato.');
   assert(!files.includes('assets/market-prices.js'), 'Painel não deve carregar pesquisa comercial pública.');
 
+  const resetHtml = fs.readFileSync(path.join(output, 'redefinir-senha.html'), 'utf8');
+  assert(resetHtml.includes('/api/wanelle?action=reset-password'), 'A página de recuperação perdeu o endpoint esperado.');
+  const linksHtml = fs.readFileSync(path.join(output, 'links.html'), 'utf8');
+  assert(linksHtml.includes('Wanelle'), 'Página de links não foi preservada.');
   const adminHtml = fs.readFileSync(path.join(output, 'admin.html'), 'utf8');
   assert(!adminHtml.includes('assets/market-prices.js'), 'admin.html ainda referencia o script comercial removido.');
   const adminJs = fs.readFileSync(path.join(output, 'assets/wanelle-admin.js'), 'utf8');
