@@ -23,8 +23,28 @@ function authenticate(req) {
   if(!compare(signature,hmac(payload)))return null;
   try {const obj=JSON.parse(Buffer.from(payload,'base64url').toString('utf8'));if(obj.exp<Date.now() || obj.email!==process.env.WANELLE_ADMIN_EMAIL?.toLowerCase())return null;return obj;}catch{return null;}
 }
-function sameOrigin(req){const origin=req.headers.origin;if(!origin)return true;try{const host=req.headers['x-forwarded-host'] || req.headers.host;return new URL(String(origin)).host===String(host);}catch{return false;}}
-function dataBody(req){const s=typeof req.body==='string'?req.body:JSON.stringify(req.body||{});if(Buffer.byteLength(s)>MAX_BODY_BYTES)throw apiError(413,'Solicitação muito grande.');try{return typeof req.body==='string'?JSON.parse(req.body):req.body||{};}catch{throw apiError(400,'JSON inválido.');}}
+function sameOrigin(req){
+  // Defesa CSRF complementar a cookies SameSite e Content-Type.
+  const site=clean(req.headers['sec-fetch-site'],25).toLowerCase();
+  if(site && !['same-origin','none'].includes(site))return false;
+  const origin=req.headers.origin;
+  if(!origin)return true;
+  try{
+    const url=new URL(String(origin));
+    const host=String(req.headers['x-forwarded-host'] || req.headers.host || '');
+    const local=/^(localhost|127\.0\.0\.1)(:\d+)?$/.test(host);
+    return url.host===host && (url.protocol==='https:' || (local && url.protocol==='http:'));
+  }catch{return false;}
+}
+function dataBody(req){
+  const s=typeof req.body==='string'?req.body:JSON.stringify(req.body||{});
+  if(Buffer.byteLength(s)>MAX_BODY_BYTES)throw apiError(413,'Solicitação muito grande.');
+  let parsed;
+  try{parsed=typeof req.body==='string'?JSON.parse(req.body):req.body||{};}
+  catch{throw apiError(400,'JSON inválido.');}
+  if(!parsed||typeof parsed!=='object'||Array.isArray(parsed))throw apiError(400,'JSON deve conter um objeto.');
+  return parsed;
+}
 // Camada antiabuso distribuída: usa PostgreSQL (persistente entre instâncias serverless).
 // Complementa, mas NÃO substitui WAF/CDN; a identificação por IP depende do proxy confiável.
 function requestIp(req) {
@@ -58,7 +78,12 @@ function publicOrder(form){
   if(customer.length<2||phone.length<10||phone.length>13||!dateBR(eventDate)||eventDate<minDate()||!Number.isFinite(servings)||servings<1||servings>500)throw apiError(400,'Confira nome, WhatsApp, data e número de pessoas.');
   const rawItems=Array.isArray(form.items)?form.items:[];
   if(rawItems.length<1||rawItems.length>20)throw apiError(400,'Selecione ao menos uma referência de torta.');
-  const items=rawItems.map(x=>({referenceId:clean(x.referenceId,50),recipeId:'',qty:Math.max(1,Math.min(10,Math.round(Number(x.qty)||1)))}));
+  const items=rawItems.map(x=>{
+    if(!x||typeof x!=='object'||Array.isArray(x)||
+       (x.referenceId!=null&&typeof x.referenceId!=='string'))
+      throw apiError(400,'Confira as referências de torta selecionadas.');
+    return {referenceId:clean(x.referenceId,50),recipeId:'',qty:Math.max(1,Math.min(10,Math.round(Number(x.qty)||1)))};
+  });
   const layers=Math.max(1,Math.min(10,Math.round(Number(form.fillingLayers)||2)));
   const size=Number(form.sizeCm)||null;
   return {id:'WAN-'+crypto.randomUUID().slice(0,12).toUpperCase(),customer,phone,eventDate,
@@ -141,7 +166,11 @@ module.exports = async (req,res) => {
     const databaseUrl = process.env.DATABASE_URL || process.env.wanellestudio_DATABASE_URL;
     if(!databaseUrl)throw apiError(503,'Banco de dados ainda não configurado.');
     if(!['GET','POST'].includes(req.method))throw apiError(405,'Método não permitido.');
-    if(req.method==='POST' && !sameOrigin(req))throw apiError(403,'Origem não autorizada.');
+    if(req.method==='POST'){
+      if(!sameOrigin(req))throw apiError(403,'Origem não autorizada.');
+      if(!/^application\/json(?:\s*;|$)/i.test(String(req.headers['content-type']||'')))
+        throw apiError(415,'Envie os dados em JSON.');
+    }
     const sql=neon(databaseUrl);
     const action=clean(req.query.action,40);
     const body=req.method==='POST'?dataBody(req):null;
