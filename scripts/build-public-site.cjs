@@ -9,7 +9,7 @@ const path = require('node:path');
 
 const root = process.cwd();
 const output = path.join(root, 'public');
-const allowedRootFiles = new Set(['index.html', 'admin.html', 'config.js']);
+const allowedRootFiles = new Set(['index.html', 'admin.html', 'redefinir-senha.html', 'links.html', 'config.js']);
 const allowedAssetFiles = new Set([
   'assets/admin.css',
   'assets/wanelle-core.js',
