@@ -49,3 +49,37 @@ Não promover PR para produção até que: (a) build allowlist e navegação sej
 ## Nota sobre versão
 
 Este arquivo registra a inspeção em 26/10/2026. Antes de cada nova release, compare o commit ativo no Vercel com a branch examinada; o status pode mudar.
+
+
+## Segunda rodada — continuação autorizada (26/10/2026, horário de Salvador)
+
+Alterações realizadas APENAS na branch de revisão (nenhum merge, nenhuma alteração voluntária de produção):
+
+- \`api/wanelle.js\`: nova verificação de \`Sec-Fetch-Site\` contra requisições entre sites; \`Origin\` deve corresponder ao host e usar HTTPS (localhost de teste admite HTTP).
+- \`api/wanelle.js\`: todas as ações POST exigem \`Content-Type: application/json\`; corpos que não são objetos JSON retornam erro 400.
+- \`api/wanelle.js\`: itens de encomenda malformados (nulos, listas ou objetos em \`referenceId\`) retornam erro 400 em vez de causar exceção interna.
+- \`index.html\`: inspirações recuperadas do navegador agora usam \`textContent\` em elementos criados via DOM, sem inserir texto armazenado diretamente com \`innerHTML\`. Reduz riscos de injeção de HTML, sem mudar o visual.
+- \`scripts/test-security-requests.cjs\`: testes de regressão isolados com banco fictício para assegurar recusa de requisições inválidas e funcionamento do pedido legítimo.
+- \`package.json\`: inclui esses testes na suíte executada pelo CI.
+
+### Verificações e limites
+
+GitHub Actions no commit de entrega da rodada: consultar o histórico atual na aba Actions antes de aprovar o PR. Foram observadas execuções bem-sucedidas de \`Security baseline checks\` e \`Hotfix public artifact validation\` após a correção anterior; a rodada adicional está vinculada ao mesmo PR.
+
+Vercel: preview separado mostrou estado READY; produção examinada continuava em \`main\` SHA \`e73828b94c882ba83de26bd8840157f11448767f\`. Não houve validação integral de E2E ou dados reais.
+
+Consulta de dados de ataque no firewall da Vercel: \`anomalies: []\` no período de consulta. Isso não comprova ativação de regras. Consulta de configuração ativa retornou 404 e por isso \`WAF ATIVO\` permanece NÃO VERIFICADO. A listagem de arquivos-fonte de deployment na Vercel também não estava disponível (404), portanto não se afirma ausência comprovada de vazamentos nos artefatos de produção.
+
+### Decisão do responsável necessária
+
+O repositório no GitHub é PUBLIC e inclui documentos internos de custos e preços. A migração para privado e a eventual revisão do histórico exigem avaliação de impacto na integração GitHub–Vercel, na equipe e no compartilhamento. Não alterar a visibilidade automaticamente. Se existirem credenciais reais em commits antigos, o histórico exige investigação com ferramenta apropriada e revogação de segredos afetados. Documentos de negócio em repositório público devem ser considerados acessíveis por terceiros até que o acesso e a distribuição sejam revistos.
+
+### Riscos residuais para próxima rodada
+
+- Testes de formulário e login com navegação real em preview, sem envio de pedidos de clientes e sem brute-force.
+- Verificar conteúdo efetivamente acessível nos domínios de produção, separadamente dos arquivos versionados no GitHub.
+- Validar necessidade da política CSP e de \`Permissions-Policy\` com testes progressivos.
+- Conferir fonte confiável do IP (headers de proxy), monitoração de abuso, retenção e limpeza das linhas de rate limiting.
+- Remover DDL de criação de tabela da função de requisição após garantir migração da base e permissões mínimas do usuário do banco.
+- Reforçar autenticação de painel administrativo com MFA viável para a operação.
+- O bloqueio dos dados comerciais no build também retira a pesquisa comercial embutida do painel; restauração segura depende de disponibilizar o conteúdo ao administrador autenticado via backend em vez de JS público.
