@@ -25,6 +25,31 @@ function authenticate(req) {
 }
 function sameOrigin(req){const origin=req.headers.origin;if(!origin)return true;try{const host=req.headers['x-forwarded-host'] || req.headers.host;return new URL(String(origin)).host===String(host);}catch{return false;}}
 function dataBody(req){const s=typeof req.body==='string'?req.body:JSON.stringify(req.body||{});if(Buffer.byteLength(s)>MAX_BODY_BYTES)throw apiError(413,'Solicitação muito grande.');try{return typeof req.body==='string'?JSON.parse(req.body):req.body||{};}catch{throw apiError(400,'JSON inválido.');}}
+// Camada antiabuso distribuída: usa PostgreSQL (persistente entre instâncias serverless).
+// Complementa, mas NÃO substitui WAF/CDN; a identificação por IP depende do proxy confiável.
+function requestIp(req) {
+  const raw = req.headers['x-forwarded-for']?.split(',')[0] || req.headers['x-real-ip'] || req.socket?.remoteAddress || 'unknown';
+  return clean(raw,100);
+}
+async function enforceAbuseLimit(sql,req,route,maxAttempts,windowSeconds,lockSeconds) {
+  const key=crypto.createHash('sha256').update('route:'+route+'|ip:'+requestIp(req)).digest('hex');
+  const rows=await sql`INSERT INTO public.wanelle_login_attempts (key_hash,failures,first_attempt_at,locked_until)
+    VALUES (${key},1,now(),null)
+    ON CONFLICT(key_hash) DO UPDATE SET
+      failures=CASE WHEN public.wanelle_login_attempts.first_attempt_at < now()- (${windowSeconds} * interval '1 second') THEN 1
+        ELSE public.wanelle_login_attempts.failures+1 END,
+      first_attempt_at=CASE WHEN public.wanelle_login_attempts.first_attempt_at < now()- (${windowSeconds} * interval '1 second') THEN now()
+        ELSE public.wanelle_login_attempts.first_attempt_at END,
+      locked_until=CASE
+        WHEN public.wanelle_login_attempts.locked_until > now() THEN public.wanelle_login_attempts.locked_until
+        WHEN public.wanelle_login_attempts.first_attempt_at >= now()- (${windowSeconds} * interval '1 second')
+          AND public.wanelle_login_attempts.failures >= ${maxAttempts}
+          THEN now()+ (${lockSeconds} * interval '1 second')
+        ELSE null END
+    RETURNING locked_until`;
+  if(rows[0]?.locked_until && new Date(rows[0].locked_until).getTime()>Date.now())
+    throw apiError(429,'Muitas solicitações. Tente novamente mais tarde.');
+}
 function dateBR(date){return /^\d{4}-\d\d-\d\d$/.test(date)&&!Number.isNaN(new Date(date+'T12:00:00Z').valueOf());}
 function minDate(){return new Intl.DateTimeFormat('sv-SE',{timeZone:'America/Bahia',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());}
 function publicOrder(form){
@@ -62,7 +87,7 @@ async function requestReset(sql,req,body){
  const response={message:'Se este e-mail estiver cadastrado, você receberá um link para redefinir sua senha.'};
  if(!email||!email.includes('@'))throw apiError(400,'Informe um e-mail válido.');
  if(email!==configured)return response;
- if(!process.env.RESEND_API_KEY||!process.env.WANELLE_RESET_FROM_EMAIL)throw apiError(503,'Envio de e-mail ainda não configurado. Contate o administrador do site.');
+ if(!process.env.RESEND_API_KEY||!process.env.WANELLE_RESET_FROM_EMAIL)return response;
  await resetStorage(sql);
  const existing=await sql`SELECT requested_at FROM public.wanelle_password_recovery WHERE id=1`;
  if(existing[0]?.requested_at&&Date.now()-new Date(existing[0].requested_at).getTime()<120000)return response;
@@ -79,6 +104,8 @@ async function finishReset(sql,body){
  if(!/^[a-f0-9]{64}$/.test(token)||password.length<14||password.length>128)throw apiError(400,'Link inválido ou senha fora do padrão (14 a 128 caracteres).');
  await resetStorage(sql);
  const tokenHash=crypto.createHash('sha256').update(token).digest('hex');
+ const usable=await sql`SELECT id FROM public.wanelle_password_recovery WHERE id=1 AND reset_hash=${tokenHash} AND reset_expires>now()`;
+ if(!usable.length)throw apiError(400,'Link expirado ou já utilizado. Solicite outro.');
  const salt=crypto.randomBytes(24).toString('hex');
  const digest=crypto.scryptSync(password,salt,64).toString('hex');
  const rows=await sql`UPDATE public.wanelle_password_recovery SET password_hash=${salt+':'+digest},reset_hash=null,reset_expires=null,changed_at=now() WHERE id=1 AND reset_hash=${tokenHash} AND reset_expires>now() RETURNING id`;
@@ -137,9 +164,18 @@ module.exports = async (req,res) => {
       await sql`INSERT INTO public.wanelle_orders (id,payload,created_at,updated_at) VALUES (${order.id},${JSON.stringify(order)}::jsonb,now(),now())`;
       return json(res,201,{id:order.id,customer:order.customer});
     }
-    if(req.method==='POST'&&action==='request-password-reset')return json(res,200,await requestReset(sql,req,body));
-    if(req.method==='POST'&&action==='reset-password')return json(res,200,await finishReset(sql,body));
-    if(req.method==='POST'&&action==='login')return json(res,200,await login(sql,req,res,body));
+    if(req.method==='POST'&&action==='request-password-reset'){
+      await enforceAbuseLimit(sql,req,'request-password-reset',8,600,900);
+      return json(res,200,await requestReset(sql,req,body));
+    }
+    if(req.method==='POST'&&action==='reset-password'){
+      await enforceAbuseLimit(sql,req,'reset-password',10,600,900);
+      return json(res,200,await finishReset(sql,body));
+    }
+    if(req.method==='POST'&&action==='login'){
+      await enforceAbuseLimit(sql,req,'login',30,600,900);
+      return json(res,200,await login(sql,req,res,body));
+    }
     if(req.method==='POST'&&action==='logout'){
       res.setHeader('Set-Cookie',COOKIE+'=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0');return json(res,200,{ok:true});
     }
