@@ -1,0 +1,50 @@
+name: Security baseline checks
+
+on:
+  pull_request:
+  push:
+    branches: [main, "security/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout trusted revision
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Check Node runtime
+        run: |
+          node --version
+          node -e "if (Number(process.versions.node.split('.')[0]) < 20) process.exit(1)"
+      - name: Syntax validation (server and frontend)
+        run: |
+          node --check api/wanelle.js
+          node --check assets/wanelle-core.js
+          node --check assets/wanelle-admin.js
+          node --check assets/storefront-intake.js
+      - name: Functional regression tests
+        run: npm test
+      - name: Public artifact allowlist regression
+        run: |
+          node scripts/test-public-site.cjs
+          node scripts/build-public-site.cjs
+      - name: Assert no internal data in public bundle
+        run: |
+          node - <<'NODE'
+          const fs=require('node:fs');
+          const path=require('node:path');
+          const blocked=['AGENTS.md','.env','.env.example','api/wanelle.js','security/SECURITY_RUNNER_MASTER.md','security/WANELLE_SECURITY_REVIEW_2026-10-26.md','neon/schema.sql','CUSTOS_DE_PRODUCAO_2026.md','POLITICA_PRECOS_WANELLE.md'];
+          for(const rel of blocked){
+            if(fs.existsSync(path.join('public',rel)))throw Error('Public bundle leak: '+rel);
+          }
+          console.log('PASS: internal docs, API source and configuration excluded from public bundle.');
+          NODE
+# Next stages for manual/organization-wide implementation:
+# lockfile + dependency audit, secret scanner, SAST, DAST on staging,
+# branch protection and actual Vercel WAF/bot management verification.

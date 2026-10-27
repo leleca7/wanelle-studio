@@ -23,8 +23,53 @@ function authenticate(req) {
   if(!compare(signature,hmac(payload)))return null;
   try {const obj=JSON.parse(Buffer.from(payload,'base64url').toString('utf8'));if(obj.exp<Date.now() || obj.email!==process.env.WANELLE_ADMIN_EMAIL?.toLowerCase())return null;return obj;}catch{return null;}
 }
-function sameOrigin(req){const origin=req.headers.origin;if(!origin)return true;try{const host=req.headers['x-forwarded-host'] || req.headers.host;return new URL(String(origin)).host===String(host);}catch{return false;}}
-function dataBody(req){const s=typeof req.body==='string'?req.body:JSON.stringify(req.body||{});if(Buffer.byteLength(s)>MAX_BODY_BYTES)throw apiError(413,'Solicitação muito grande.');try{return typeof req.body==='string'?JSON.parse(req.body):req.body||{};}catch{throw apiError(400,'JSON inválido.');}}
+function sameOrigin(req){
+  // Defesa CSRF complementar a cookies SameSite e Content-Type.
+  const site=clean(req.headers['sec-fetch-site'],25).toLowerCase();
+  if(site && !['same-origin','none'].includes(site))return false;
+  const origin=req.headers.origin;
+  if(!origin)return true;
+  try{
+    const url=new URL(String(origin));
+    const host=String(req.headers['x-forwarded-host'] || req.headers.host || '');
+    const local=/^(localhost|127\.0\.0\.1)(:\d+)?$/.test(host);
+    return url.host===host && (url.protocol==='https:' || (local && url.protocol==='http:'));
+  }catch{return false;}
+}
+function dataBody(req){
+  const s=typeof req.body==='string'?req.body:JSON.stringify(req.body||{});
+  if(Buffer.byteLength(s)>MAX_BODY_BYTES)throw apiError(413,'Solicitação muito grande.');
+  let parsed;
+  try{parsed=typeof req.body==='string'?JSON.parse(req.body):req.body||{};}
+  catch{throw apiError(400,'JSON inválido.');}
+  if(!parsed||typeof parsed!=='object'||Array.isArray(parsed))throw apiError(400,'JSON deve conter um objeto.');
+  return parsed;
+}
+// Camada antiabuso distribuída: usa PostgreSQL (persistente entre instâncias serverless).
+// Complementa, mas NÃO substitui WAF/CDN; a identificação por IP depende do proxy confiável.
+function requestIp(req) {
+  const raw = req.headers['x-forwarded-for']?.split(',')[0] || req.headers['x-real-ip'] || req.socket?.remoteAddress || 'unknown';
+  return clean(raw,100);
+}
+async function enforceAbuseLimit(sql,req,route,maxAttempts,windowSeconds,lockSeconds) {
+  const key=crypto.createHash('sha256').update('route:'+route+'|ip:'+requestIp(req)).digest('hex');
+  const rows=await sql`INSERT INTO public.wanelle_login_attempts (key_hash,failures,first_attempt_at,locked_until)
+    VALUES (${key},1,now(),null)
+    ON CONFLICT(key_hash) DO UPDATE SET
+      failures=CASE WHEN public.wanelle_login_attempts.first_attempt_at < now()- (${windowSeconds} * interval '1 second') THEN 1
+        ELSE public.wanelle_login_attempts.failures+1 END,
+      first_attempt_at=CASE WHEN public.wanelle_login_attempts.first_attempt_at < now()- (${windowSeconds} * interval '1 second') THEN now()
+        ELSE public.wanelle_login_attempts.first_attempt_at END,
+      locked_until=CASE
+        WHEN public.wanelle_login_attempts.locked_until > now() THEN public.wanelle_login_attempts.locked_until
+        WHEN public.wanelle_login_attempts.first_attempt_at >= now()- (${windowSeconds} * interval '1 second')
+          AND public.wanelle_login_attempts.failures >= ${maxAttempts}
+          THEN now()+ (${lockSeconds} * interval '1 second')
+        ELSE null END
+    RETURNING locked_until`;
+  if(rows[0]?.locked_until && new Date(rows[0].locked_until).getTime()>Date.now())
+    throw apiError(429,'Muitas solicitações. Tente novamente mais tarde.');
+}
 function dateBR(date){return /^\d{4}-\d\d-\d\d$/.test(date)&&!Number.isNaN(new Date(date+'T12:00:00Z').valueOf());}
 function minDate(){return new Intl.DateTimeFormat('sv-SE',{timeZone:'America/Bahia',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());}
 function publicOrder(form){
@@ -33,7 +78,12 @@ function publicOrder(form){
   if(customer.length<2||phone.length<10||phone.length>13||!dateBR(eventDate)||eventDate<minDate()||!Number.isFinite(servings)||servings<1||servings>500)throw apiError(400,'Confira nome, WhatsApp, data e número de pessoas.');
   const rawItems=Array.isArray(form.items)?form.items:[];
   if(rawItems.length<1||rawItems.length>20)throw apiError(400,'Selecione ao menos uma referência de torta.');
-  const items=rawItems.map(x=>({referenceId:clean(x.referenceId,50),recipeId:'',qty:Math.max(1,Math.min(10,Math.round(Number(x.qty)||1)))}));
+  const items=rawItems.map(x=>{
+    if(!x||typeof x!=='object'||Array.isArray(x)||
+       (x.referenceId!=null&&typeof x.referenceId!=='string'))
+      throw apiError(400,'Confira as referências de torta selecionadas.');
+    return {referenceId:clean(x.referenceId,50),recipeId:'',qty:Math.max(1,Math.min(10,Math.round(Number(x.qty)||1)))};
+  });
   const layers=Math.max(1,Math.min(10,Math.round(Number(form.fillingLayers)||2)));
   const size=Number(form.sizeCm)||null;
   return {id:'WAN-'+crypto.randomUUID().slice(0,12).toUpperCase(),customer,phone,eventDate,
@@ -62,7 +112,7 @@ async function requestReset(sql,req,body){
  const response={message:'Se este e-mail estiver cadastrado, você receberá um link para redefinir sua senha.'};
  if(!email||!email.includes('@'))throw apiError(400,'Informe um e-mail válido.');
  if(email!==configured)return response;
- if(!process.env.RESEND_API_KEY||!process.env.WANELLE_RESET_FROM_EMAIL)throw apiError(503,'Envio de e-mail ainda não configurado. Contate o administrador do site.');
+ if(!process.env.RESEND_API_KEY||!process.env.WANELLE_RESET_FROM_EMAIL)return response;
  await resetStorage(sql);
  const existing=await sql`SELECT requested_at FROM public.wanelle_password_recovery WHERE id=1`;
  if(existing[0]?.requested_at&&Date.now()-new Date(existing[0].requested_at).getTime()<120000)return response;
@@ -79,6 +129,8 @@ async function finishReset(sql,body){
  if(!/^[a-f0-9]{64}$/.test(token)||password.length<14||password.length>128)throw apiError(400,'Link inválido ou senha fora do padrão (14 a 128 caracteres).');
  await resetStorage(sql);
  const tokenHash=crypto.createHash('sha256').update(token).digest('hex');
+ const usable=await sql`SELECT id FROM public.wanelle_password_recovery WHERE id=1 AND reset_hash=${tokenHash} AND reset_expires>now()`;
+ if(!usable.length)throw apiError(400,'Link expirado ou já utilizado. Solicite outro.');
  const salt=crypto.randomBytes(24).toString('hex');
  const digest=crypto.scryptSync(password,salt,64).toString('hex');
  const rows=await sql`UPDATE public.wanelle_password_recovery SET password_hash=${salt+':'+digest},reset_hash=null,reset_expires=null,changed_at=now() WHERE id=1 AND reset_hash=${tokenHash} AND reset_expires>now() RETURNING id`;
@@ -114,7 +166,11 @@ module.exports = async (req,res) => {
     const databaseUrl = process.env.DATABASE_URL || process.env.wanellestudio_DATABASE_URL;
     if(!databaseUrl)throw apiError(503,'Banco de dados ainda não configurado.');
     if(!['GET','POST'].includes(req.method))throw apiError(405,'Método não permitido.');
-    if(req.method==='POST' && !sameOrigin(req))throw apiError(403,'Origem não autorizada.');
+    if(req.method==='POST'){
+      if(!sameOrigin(req))throw apiError(403,'Origem não autorizada.');
+      if(!/^application\/json(?:\s*;|$)/i.test(String(req.headers['content-type']||'')))
+        throw apiError(415,'Envie os dados em JSON.');
+    }
     const sql=neon(databaseUrl);
     const action=clean(req.query.action,40);
     const body=req.method==='POST'?dataBody(req):null;
@@ -137,9 +193,18 @@ module.exports = async (req,res) => {
       await sql`INSERT INTO public.wanelle_orders (id,payload,created_at,updated_at) VALUES (${order.id},${JSON.stringify(order)}::jsonb,now(),now())`;
       return json(res,201,{id:order.id,customer:order.customer});
     }
-    if(req.method==='POST'&&action==='request-password-reset')return json(res,200,await requestReset(sql,req,body));
-    if(req.method==='POST'&&action==='reset-password')return json(res,200,await finishReset(sql,body));
-    if(req.method==='POST'&&action==='login')return json(res,200,await login(sql,req,res,body));
+    if(req.method==='POST'&&action==='request-password-reset'){
+      await enforceAbuseLimit(sql,req,'request-password-reset',8,600,900);
+      return json(res,200,await requestReset(sql,req,body));
+    }
+    if(req.method==='POST'&&action==='reset-password'){
+      await enforceAbuseLimit(sql,req,'reset-password',10,600,900);
+      return json(res,200,await finishReset(sql,body));
+    }
+    if(req.method==='POST'&&action==='login'){
+      await enforceAbuseLimit(sql,req,'login',30,600,900);
+      return json(res,200,await login(sql,req,res,body));
+    }
     if(req.method==='POST'&&action==='logout'){
       res.setHeader('Set-Cookie',COOKIE+'=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0');return json(res,200,{ok:true});
     }
