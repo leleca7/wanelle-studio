@@ -56,7 +56,7 @@ jobs:
           const fs = require('node:fs');
           const path = require('node:path');
           const root = 'public';
-          const allowedRoot = new Set(['index.html','admin.html','config.js']);
+          const allowedRoot = new Set(['index.html','admin.html','redefinir-senha.html','links.html','config.js']);
           const allowedAssets = new Set(['assets/admin.css','assets/wanelle-core.js','assets/wanelle-admin.js','assets/storefront-intake.js']);
           const allowedExt = new Set(['.png','.jpg','.jpeg','.webp','.avif','.gif','.svg']);
           const files = [];
