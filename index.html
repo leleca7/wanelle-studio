@@ -631,7 +631,19 @@ footer .internal-link{display:inline-block;margin-top:14px;font-size:.75rem;opac
   function render(){
     countEl.textContent=saved.length;
     try{localStorage.setItem("wanelle-inspiracoes-v1",JSON.stringify(saved))}catch(e){}
-    savedEl.innerHTML=saved.length?saved.map(function(n){return"<span>♡ "+n+"</span>"}).join(""):"<em>Nenhuma inspiração salva ainda. Toque no ♡ das fotos para escolher.</em>";
+    // Nunca renderizar texto de localStorage como HTML.
+    savedEl.replaceChildren();
+    if(saved.length){
+      saved.forEach(function(n){
+        var span=document.createElement("span");
+        span.textContent="♡ "+n;
+        savedEl.appendChild(span);
+      });
+    }else{
+      var empty=document.createElement("em");
+      empty.textContent="Nenhuma inspiração salva ainda. Toque no ♡ das fotos para escolher.";
+      savedEl.appendChild(empty);
+    }
     document.querySelectorAll(".save").forEach(function(b){var on=saved.indexOf(b.dataset.name)>-1;b.setAttribute("aria-pressed",on);b.textContent=on?"♥":"♡"});
   }
   document.querySelectorAll(".save").forEach(function(b){b.addEventListener("click",function(){
