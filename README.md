@@ -1,3 +1,5 @@
+> **Direção de negócios 2027 (atual):** [plano executivo no Drive](https://docs.google.com/document/d/14LWOpVZKLluCyg93hIK1hpj5oY_KynwcnADlokI5Ffw/edit) · [resumo operacional no repositório](docs/DIRECAO-OPERACIONAL-2027.md). Os arquivos históricos e as funções existentes permanecem preservados.
+
 # Wanelle Studio
 
 Site interativo para clientes e painel de encomendas da **Wanelle Tortas**, integrado ao **Neon PostgreSQL** por uma API privada do **Vercel**. Repositório: [`leleca7/wanelle-studio`](https://github.com/leleca7/wanelle-studio).
